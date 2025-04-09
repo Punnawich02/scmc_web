@@ -1,16 +1,23 @@
 import React from "react";
 import Image from "next/image";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  title?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({title}) => {
   return (
     <header className="bg-white shadow-sm py-4 px-6 w-full flex justify-between items-center">
+      <head>
+        <title>{title}</title>
+      </head>
       <div>
         <Image src="/scmc_logo.svg" alt="scmc logo" width={131} height={44} />
       </div>
       <div>
         <nav className="space-x-6">
             <a
-            href="#"
+            href="/home"
             className="text-sm hover:bg-gray-100"
             style={{
               color: "#6869AA",
@@ -24,7 +31,7 @@ const Header: React.FC = () => {
             หน้าแรก
             </a>
           <a
-            href="#"
+            href="/service"
             className="text-sm hover:bg-gray-100"
             style={{
               color: "#6869AA",

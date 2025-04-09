@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
@@ -6,7 +8,7 @@ import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 export default function Home() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen font-[family-name:var(--font-geist-sans)]">
-      <Header />
+      <Header title="Home Page" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         {/* Hero Section */}
         <section className="relative w-full max-w-7xl mx-auto">
@@ -28,7 +30,7 @@ export default function Home() {
                 fugit earum.
               </p>
               <a href="#">
-                <button className="bg-[#6869AA] text-white px-4 py-2 rounded-md hover:bg-[#6869AA]/80 text-sm sm:text-base w-max hover:cursor-pointer">
+                <button className="bg-[#6869AA] text-white px-4 py-2 rounded-md text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
                   เข้าสู่ระบบลงทะเบียนยานพาหนะ
                 </button>
               </a>
@@ -77,7 +79,7 @@ export default function Home() {
               ].map((item, index) => (
                 <button
                   key={index}
-                  className="flex flex-col items-center justify-center p-4 bg-white rounded-md shadow-sm text-center hover:bg-white/80 hover:cursor-pointer"
+                  className="flex flex-col items-center justify-center p-4 bg-white rounded-md shadow-sm text-center hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer"
                   style={{
                     textAlign: "center",
                     fontFamily: "Inter",
@@ -137,7 +139,7 @@ export default function Home() {
             ))}
           </div>
           <div className="flex justify-end">
-            <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded text-sm hover:cursor-pointer hover:bg-amber-300">
+            <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
               เพิ่มเติม +
             </button>
           </div>
@@ -160,7 +162,7 @@ export default function Home() {
               width={400}
               height={150}
               alt="CMU Mobile Map"
-              className="w-full object-contain rounded-md hover:shadow-lg hover:cursor-pointer"
+              className="w-full object-contain rounded-md hover:shadow-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
             />
           </div>
         </section>
