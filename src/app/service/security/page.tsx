@@ -7,7 +7,7 @@ import React from "react";
 const BuildingPage: React.FC = () => {
   return (
     <div>
-      <Header />
+      <Header title="งานรักษาความปลอดภัยและจราจร"/>
       <main>
         <h1>Security Page</h1>
         <p>Welcome to the Security page!</p>

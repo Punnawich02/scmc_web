@@ -7,7 +7,7 @@ import React from "react";
 const BuildingPage: React.FC = () => {
   return (
     <div>
-      <Header />
+      <Header title="สำหรับบุคลากร" />
       <main>
         <h1>Personnel Page</h1>
         <p>Welcome to the personnel page!</p>

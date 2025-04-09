@@ -1,37 +1,81 @@
 import React from "react";
 import Image from "next/image";
+import { Menu } from "lucide-react";
 
 interface HeaderProps {
   title?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({title}) => {
+const header_links = [
+  { name: "หน้าแรก", href: "/home" },
+  { name: "บริการของเรา", href: "/service" },
+  { name: "ข้อมูลกายภาพ", href: "#" },
+  { name: "เกี่ยวกับเรา", href: "#" },
+  { name: "ร่วมสร้างความยั่งยืน", href: "#" },
+];
+
+const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
-    <header className="bg-white shadow-sm py-4 px-6 w-full flex justify-between items-center">
+    <header className="bg-white shadow-sm py-4 px-6 w-full md:w-4/5 mx-auto flex flex-wrap md:flex-nowrap justify-between items-center rounded-md">
       <head>
         <title>{title}</title>
       </head>
-      <div>
+      <div className="flex justify-between items-center w-full md:w-auto">
         <Image src="/scmc_logo.svg" alt="scmc logo" width={131} height={44} />
+        <button
+          className="md:hidden text-gray-500 focus:outline-none hover:cursor-pointer"
+          aria-label="Toggle navigation"
+          onClick={() => {
+            const nav = document.getElementById("mobile-nav");
+            if (nav) {
+              nav.classList.toggle("hidden");
+            }
+          }}
+        >
+          <Menu className="w-10 h-10" color="#6869AA" />
+        </button>
+        <div
+          id="mobile-nav"
+          className="hidden fixed top-0 right-0 h-full w-2/4 bg-white shadow-lg z-50 p-6 hover:cursor-pointer"
+        >
+          <button
+            className="text-gray-500 focus:outline-none mb-4 hover:cursor-pointer hover:text-red-500"
+            aria-label="Close navigation"
+            onClick={() => {
+              const nav = document.getElementById("mobile-nav");
+              if (nav) {
+                nav.classList.add("hidden");
+              }
+            }}
+          >
+            Close
+          </button>
+          <nav className="flex flex-col space-y-4">
+            {header_links.map((link, index) => (
+              <a
+                key={index}
+                href={link.href}
+                className="text-sm hover:bg-gray-100"
+                style={{
+                  color: "#6869AA",
+                  fontFamily: "Inter",
+                  fontSize: "16px",
+                  fontStyle: "normal",
+                  fontWeight: 400,
+                  lineHeight: "normal",
+                }}
+              >
+                {link.name}
+              </a>
+            ))}
+          </nav>
+        </div>
       </div>
-      <div>
-        <nav className="space-x-6">
-            <a
-            href="/home"
-            className="text-sm hover:bg-gray-100"
-            style={{
-              color: "#6869AA",
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-            }}
-            >
-            หน้าแรก
-            </a>
+      <nav className="hidden md:flex space-x-6">
+        {header_links.map((link, index) => (
           <a
-            href="/service"
+            key={index}
+            href={link.href}
             className="text-sm hover:bg-gray-100"
             style={{
               color: "#6869AA",
@@ -42,53 +86,11 @@ const Header: React.FC<HeaderProps> = ({title}) => {
               lineHeight: "normal",
             }}
           >
-            บริการของเรา
+            {link.name}
           </a>
-          <a
-            href="#"
-            className="text-sm hover:bg-gray-100"
-            style={{
-              color: "#6869AA",
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-            }}
-          >
-            ข้อมูลกายภาพ
-          </a>
-          <a
-            href="#"
-            className="text-sm hover:bg-gray-100"
-            style={{
-              color: "#6869AA",
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-            }}
-          >
-            เกี่ยวกับเรา
-          </a>
-          <a
-            href="#"
-            className="text-sm hover:bg-gray-100"
-            style={{
-              color: "#6869AA",
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-            }}
-          >
-            ร่วมสร้างความยั่งยืน
-          </a>
-        </nav>
-      </div>
-      <div>
+        ))}
+      </nav>
+      <div className="hidden md:block">
         <span
           className="text-sm hover:bg-gray-100"
           style={{
