@@ -21,7 +21,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <title>{title}</title>
       </head>
       <div className="flex justify-between items-center w-full md:w-auto">
-        <Image src="/scmc_logo.svg" alt="scmc logo" width={131} height={44} />
+        <a href="/home" className="flex items-center">
+          <Image src="/scmc_logo.svg" alt="scmc logo" width={131} height={44} />
+        </a>
         <button
           className="md:hidden text-gray-500 focus:outline-none hover:cursor-pointer"
           aria-label="Toggle navigation"
@@ -55,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               <a
                 key={index}
                 href={link.href}
-                className="text-sm hover:bg-gray-100"
+                className="text-sm hover:bg-gray-100 hover:cursor-pointer"
                 style={{
                   color: "#6869AA",
                   fontFamily: "Inter",
@@ -90,9 +92,32 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           </a>
         ))}
       </nav>
-      <div className="hidden md:block">
+      <div
+        className="hidden md:flex items-center space-x-2 hover:cursor-pointer"
+        onClick={() => {
+          const flag = document.getElementById("language-flag");
+          const text = document.getElementById("language-text");
+          if (flag && text) {
+            if (text.innerText === "English") {
+              (flag as HTMLImageElement).src = "/th.svg";
+              text.innerText = "ไทย";
+            } else {
+              (flag as HTMLImageElement).src = "/usa.svg";
+              text.innerText = "English";
+            }
+          }
+        }}
+      >
+        <Image
+          id="language-flag"
+          src="/usa.svg"
+          alt="USA flag"
+          width={18}
+          height={18}
+        />
         <span
-          className="text-sm hover:bg-gray-100"
+          id="language-text"
+          className="text-sm"
           style={{
             color: "#6869AA",
             fontFamily: "Inter",
