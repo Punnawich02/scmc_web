@@ -1,6 +1,6 @@
 import Image from "next/image";
-import Header from "./Component/Header";
-import Footer from "./Component/Footer";
+import Header from "../Component/Header";
+import Footer from "../Component/Footer";
 import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 
 export default function Home() {
