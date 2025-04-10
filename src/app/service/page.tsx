@@ -16,45 +16,45 @@ import {
 const cardData = [
   {
     title: "บริการข้อมูล",
-    title_eng: "data",
+    link: "data",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Database className="w-16 h-16" color="#FFF" />,
+    icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "ขส.มช.",
-    title_eng: "transport",
+    link: "transport",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <BusFront className="w-16 h-16" color="#FFF" />,
+    icon: <BusFront className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "งานรักษาความปลอดภัยและจราจร",
-    title_eng: "security",
+    link: "security",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <ShieldUser className="w-16 h-16" color="#FFF" />,
+    icon: <ShieldUser className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "งานอาคารสถานที่",
-    title_eng: "building",
+    link: "building",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Building className="w-16 h-16" color="#FFF" />,
+    icon: <Building className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "สาธารณูปโภค",
-    title_eng: "utility",
+    link: "utility",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <HousePlug className="w-16 h-16" color="#FFF" />,
+    icon: <HousePlug className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "สำหรับบุคลากร",
-    title_eng: "personnel",
+    link: "personnel",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <UserRound className="w-16 h-16" color="#FFF" />,
+    icon: <UserRound className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
 ];
 
@@ -78,29 +78,31 @@ export default function Home() {
               blanditiis!
             </p>
           </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
             {/* Data Service */}
             {cardData.map((card, index) => (
-              <a href={`/service/${card.title_eng}`} key={index}>
-              <Card
-                key={index}
-                className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
-              >
-                <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
-                <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                  {card.icon}
-                </div>
-                <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                  {card.title}
-                </h2>
-                <p className="text-sm text-white text-center sm:text-left">
-                  {card.description}
-                </p>
-                </CardBody>
-              </Card>
+              <a href={`/service/${card.link}`} key={index}>
+                <Card
+                  key={index}
+                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
+                >
+                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                    <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
+                      {card.icon}
+                    </div>
+                    <div className="flex flex-col items-center sm:items-start gap-2">
+                      <h2 className="text-lg font-bold text-white text-left min-h-[3rem] md:min-h-0">
+                        {card.title}
+                      </h2>
+                      <p className="text-sm text-white text-left">
+                        {card.description}
+                      </p>
+                    </div>
+                  </CardBody>
+                </Card>
               </a>
             ))}
-            </div>
+          </div>
         </div>
       </main>
       <Footer />

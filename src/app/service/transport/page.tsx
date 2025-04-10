@@ -6,6 +6,21 @@ import Header from "@/app/Component/Header";
 import { Card, CardBody } from "@heroui/card";
 import { Clock, Map } from "lucide-react";
 
+const cardData = [
+  {
+    title: "ตารางรอบรถไฟฟ้า",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
+    icon: <Clock className="w-16 h-16" color="#FFF" strokeWidth={1.5}/>,
+  },
+  {
+    title: "แผนที่รถไฟฟ้า",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
+    icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5}/>,
+  },
+];
+
 const BuildingPage: React.FC = () => {
   return (
     <div>
@@ -28,42 +43,27 @@ const BuildingPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-center max-w-3xl mx-auto">
-          <a href="#">
-            <Card className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer">
-              <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full">
-                <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                  <Clock className="w-16 h-16" color="#FFF" />
-                </div>
-                <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                  ตารางรอบรถไฟฟ้า
-                </h2>
-                <p className="text-sm text-white text-center sm:text-left">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptatem, molestias, hic in mollitia earum maiores dolor
-                  similique accusamus debitis itaque necessitatibus eos veniam
-                  sequi porro nobis optio eveniet aliquam doloremque?
-                </p>
-              </CardBody>
-            </Card>
-          </a>
-          <a href="#">
-            <Card className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer">
-              <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full">
-                <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                  <Map className="w-16 h-16" color="#FFF" />
-                </div>
-                <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                  แผนที่รถไฟฟ้า
-                </h2>
-                <p className="text-sm text-white text-center sm:text-left">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Voluptatem, molestias, hic in mollitia earum maiores dolor
-                  similique accusamus debitis itaque necessitatibus eos veniam
-                  sequi porro nobis optio eveniet aliquam doloremque?
-                </p>
-              </CardBody>
-            </Card>
-          </a>
+          {cardData.map((card, index) => (
+            // Edit Link to point to the correct page
+            <a href={`/service/#`} key={index}>
+              <Card
+                key={index}
+                className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
+              >
+                <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                  <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
+                    {card.icon}
+                  </div>
+                  <h2 className="text-lg font-bold text-white text-center sm:text-left">
+                    {card.title}
+                  </h2>
+                  <p className="text-sm text-white text-center sm:text-left">
+                    {card.description}
+                  </p>
+                </CardBody>
+              </Card>
+            </a>
+          ))}
         </div>
       </main>
       <Footer />
