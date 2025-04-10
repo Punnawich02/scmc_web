@@ -26,7 +26,7 @@ const cardData = [
 export default function AboutPage() {
   return (
     <div className="grid min-h-screen bg-white">
-      <Header title="ข้อมูลกายภาพ" />
+      <Header title="เกี่ยวกับเรา" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
         <div>
           <div>
@@ -46,24 +46,24 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-center max-w-3xl mx-auto">
             {cardData.map((card, index) => (
               // Edit Link to point to the correct page
-                <a href={`#`} key={index}>
+              <a href={`#`} key={index}>
                 <Card
                   key={index}
                   className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
                 >
-                  <CardBody className="flex flex-col items-center gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full min-h-[300px]">
-                  <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                    {card.icon}
-                  </div>
-                  <h2 className="text-lg font-bold text-white text-center min-h-[3rem] md:min-h-0">
-                    {card.title}
-                  </h2>
-                  <p className="text-sm text-white text-center">
-                    {card.description}
-                  </p>
+                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                    <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
+                      {card.icon}
+                    </div>
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
+                      {card.title}
+                    </h2>
+                    <p className="text-sm text-white text-center sm:text-left">
+                      {card.description}
+                    </p>
                   </CardBody>
                 </Card>
-                </a>
+              </a>
             ))}
           </div>
         </div>

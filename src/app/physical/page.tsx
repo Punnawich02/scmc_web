@@ -4,12 +4,7 @@ import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
-import {
-  Map,
-  Building,
-  TreeDeciduous,
-  RadioTower
-} from "lucide-react";
+import { Map, Building, TreeDeciduous, RadioTower } from "lucide-react";
 
 const cardData = [
   {
@@ -31,7 +26,9 @@ const cardData = [
     link: "tree",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <TreeDeciduous className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    icon: (
+      <TreeDeciduous className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
+    ),
   },
   {
     title: "Facilities",
@@ -39,7 +36,7 @@ const cardData = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: <RadioTower className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  }
+  },
 ];
 
 export default function PhysicalPage() {
@@ -63,7 +60,7 @@ export default function PhysicalPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-center max-w-3xl mx-auto">
-          {cardData.map((card, index) => (
+            {cardData.map((card, index) => (
               // Edit Link to point to the correct page
               <a href={`#`} key={index}>
                 <Card
