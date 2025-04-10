@@ -34,8 +34,8 @@ const cardData = [
     icon: <TreeDeciduous className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
-    title: "Facility",
-    link: "facility",
+    title: "Facilities",
+    link: "facilities",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: <RadioTower className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
