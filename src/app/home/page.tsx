@@ -130,7 +130,7 @@ export default function HomePage() {
                   key={index}
                   className={`text-sm ml-4 pb-1 inline-block hover:cursor-pointer ${
                     index === 0
-                      ? "font-bold border-b-2 border-indigo-600"
+                      ? "font-bold border-b-2 border-indigo-600 text-black"
                       : "text-gray-400"
                   }`}
                   onClick={(e) => {
@@ -178,7 +178,7 @@ export default function HomePage() {
                     className="w-full h-40 object-cover"
                   />
                   <div className="p-3">
-                    <h4 className="text-sm font-medium mb-1">{news.title}</h4>
+                    <h4 className="text-sm font-medium mb-1 text-black">{news.title}</h4>
                     <p className="text-xs text-gray-600 mb-3 line-clamp-3">
                       {news.description}
                     </p>

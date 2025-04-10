@@ -39,7 +39,7 @@ const UtilityPage: React.FC = () => {
       <Header title="ระบบสาธารณูปโภค" />
       <main className="container mx-auto p-4 justify-center items-center w-[80%]">
         <div className="flex flex-col justify-center mb-4">
-          <h1 className="text-2xl font-bold mb-4 mt-4">ระบบสาธารณูปโภค</h1>
+          <h1 className="text-2xl font-bold mb-4 mt-4 text-black">ระบบสาธารณูปโภค</h1>
           <p className="text-gray-700 mb-4">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. In
             dignissimos a rerum facere veritatis, nam similique quisquam

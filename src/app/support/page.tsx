@@ -34,14 +34,14 @@ const cardData = [
 
 export default function SupportPage() {
   return (
-    <div className="grid min-h-screen">
+    <div className="grid min-h-screen bg-white">
       <Header title="ข้อมูลกายภาพ" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
         <div>
           <div>
             {/* Text box */}
-            <h1 className="text-2xl font-bold pb-3">ร่วมสร้างความยั่งยืน</h1>
-            <p className="text-sm">
+            <h1 className="text-2xl font-bold pb-3 text-black">ร่วมสร้างความยั่งยืน</h1>
+            <p className="text-sm text-gray-700">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
               excepturi harum error laborum nemo eaque et maxime iste repellat
               culpa fuga, unde velit mollitia praesentium. Voluptates quod
