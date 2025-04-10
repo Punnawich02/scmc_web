@@ -4,7 +4,7 @@ import Footer from "@/app/Component/Footer";
 import Header from "@/app/Component/Header";
 import React from "react";
 
-const BuildingPage: React.FC = () => {
+const DataPage: React.FC = () => {
   return (
     <div>
       <Header title="บริการข้อมูล"/>
@@ -17,4 +17,4 @@ const BuildingPage: React.FC = () => {
   );
 };
 
-export default BuildingPage;
+export default DataPage;

@@ -21,7 +21,7 @@ const cardData = [
   },
 ];
 
-const BuildingPage: React.FC = () => {
+const TransportPage: React.FC = () => {
   return (
     <div>
       <Header title="ขส.มช." />
@@ -71,4 +71,4 @@ const BuildingPage: React.FC = () => {
   );
 };
 
-export default BuildingPage;
+export default TransportPage;

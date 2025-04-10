@@ -58,7 +58,7 @@ const cardData = [
   },
 ];
 
-export default function Home() {
+export default function ServicesPage() {
   return (
     <div className="grid min-h-screen">
       <Header title="บริการของเรา" />

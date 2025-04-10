@@ -9,10 +9,21 @@ interface HeaderProps {
 const header_links = [
   { name: "หน้าแรก", href: "/home" },
   { name: "บริการของเรา", href: "/service" },
-  { name: "ข้อมูลกายภาพ", href: "#" },
-  { name: "เกี่ยวกับเรา", href: "#" },
-  { name: "ร่วมสร้างความยั่งยืน", href: "#" },
+  { name: "ข้อมูลกายภาพ", href: "/physical" },
+  { name: "เกี่ยวกับเรา", href: "/about" },
+  { name: "ร่วมสร้างความยั่งยืน", href: "/support" },
 ];
+
+// const lang = [
+//   {
+//     name: "English",
+//     flag_link: "/use.svg",
+//   },
+//   {
+//     name: "ไทย",
+//     href: "/th.svg",
+//   },
+// ];
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
@@ -92,29 +103,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           </a>
         ))}
       </nav>
-      <div
-        className="hidden md:flex items-center space-x-2 hover:cursor-pointer"
-        onClick={() => {
-          const flag = document.getElementById("language-flag");
-          const text = document.getElementById("language-text");
-          if (flag && text) {
-            if (text.innerText === "English") {
-              (flag as HTMLImageElement).src = "/th.svg";
-              text.innerText = "ไทย";
-            } else {
-              (flag as HTMLImageElement).src = "/usa.svg";
-              text.innerText = "English";
-            }
-          }
-        }}
-      >
-        <Image
-          id="language-flag"
-          src="/usa.svg"
-          alt="USA flag"
-          width={18}
-          height={18}
-        />
+      <div className="hidden md:flex items-center space-x-2 hover:cursor-pointer">
+        <Image src="/usa.svg" alt="USA flag" width={18} height={18} />
         <span
           id="language-text"
           className="text-sm"
@@ -126,9 +116,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             fontWeight: 400,
             lineHeight: "normal",
           }}
-        >
-          English
-        </span>
+        >English</span>
       </div>
     </header>
   );

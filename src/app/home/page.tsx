@@ -8,22 +8,27 @@ import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 const HighlightServices = [
   {
     icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+    link: "/service/transport",
     label: "ตารางและแผนที่รถไฟฟ้า",
   },
   {
     icon: <Cctv className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+    link: "/service/security",
     label: "ขอดูกล้องวงจรปิด",
   },
   {
     icon: <FileText className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+    link: "/service/data",
     label: "บริการข้อมูล",
   },
   {
     icon: <Waves className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+    link: "/service/utility",
     label: "สาธารณูปโภค",
   },
   {
     icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+    link: "/service/building",
     label: "ขอใช้สถานที่",
   },
 ];
@@ -52,7 +57,7 @@ const NewsData = [
   },
 ];
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen font-[family-name:var(--font-geist-sans)]">
       <Header title="หน้าหลัก" />
@@ -64,8 +69,8 @@ export default function Home() {
               <Image
                 src="/DSC06224.jpg"
                 alt="Angkaew"
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: "cover" }}
                 className="rounded-md"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-transparent flex flex-col justify-center px-6 sm:px-8">
@@ -93,17 +98,19 @@ export default function Home() {
           {/* Highlight Section */}
           <section className="pb-6">
             <div className="relative mx-auto mt-10">
-              <div className="bg-[#FAAF39D1] rounded-md py-6 px-6 shadow-lg flex justify-between items-top text-center text-purple-800 text-sm font-medium">
+              <div className="bg-[#FAAF39D1] rounded-md py-6 px-6 shadow-lg flex flex-wrap justify-center md:justify-around gap-6 text-center text-purple-800 text-sm font-medium">
                 {HighlightServices.map((service, index) => (
-                  <div
-                    key={index}
-                    className="flex flex-col items-center w-1/5 relative hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
-                  >
-                    <div className="w-20 h-20 rounded-md bg-white flex items-center justify-center">
-                      {service.icon}
+                  <a key={index} href={service.link}>
+                    <div
+                      key={index}
+                      className="flex flex-col items-center min-w-[100px] max-w-[140px] hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
+                    >
+                      <div className="w-20 h-20 rounded-md bg-white flex items-center justify-center">
+                        {service.icon}
+                      </div>
+                      <span className="text-white pt-2">{service.label}</span>
                     </div>
-                    <span className="text-white pt-2">{service.label}</span>
-                  </div>
+                  </a>
                 ))}
               </div>
 
