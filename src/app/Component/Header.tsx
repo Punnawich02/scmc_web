@@ -14,17 +14,6 @@ const header_links = [
   { name: "ร่วมสร้างความยั่งยืน", href: "/support" },
 ];
 
-// const lang = [
-//   {
-//     name: "English",
-//     flag_link: "/use.svg",
-//   },
-//   {
-//     name: "ไทย",
-//     href: "/th.svg",
-//   },
-// ];
-
 const Header: React.FC<HeaderProps> = ({ title }) => {
   return (
     <header className="bg-white shadow-sm py-4 px-6 w-full md:w-4/5 mx-auto flex flex-wrap md:flex-nowrap justify-between items-center rounded-md">
