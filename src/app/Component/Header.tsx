@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               }
             }}
           >
-            Close
+            Close 
           </button>
           <nav className="flex flex-col space-y-4">
             {header_links.map((link, index) => (
