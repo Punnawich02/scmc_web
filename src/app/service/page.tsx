@@ -84,7 +84,7 @@ export default function ServicesPage() {
               <a href={`/service/${card.link}`} key={index}>
                 <Card
                   key={index}
-                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
+                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full hidden sm:block"
                 >
                   <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
@@ -98,6 +98,25 @@ export default function ServicesPage() {
                         {card.description}
                       </p>
                     </div>
+                  </CardBody>
+                </Card>
+
+                <Card
+                  key={index}
+                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full sm:hidden flex items-center justify-center"
+                >
+                  <CardBody className="flex flex-col items-center gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                  <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
+                    {card.icon}
+                  </div>
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <h2 className="text-lg font-bold text-white min-h-[3rem] md:min-h-0">
+                    {card.title}
+                    </h2>
+                    <p className="text-sm text-white">
+                    {card.description}
+                    </p>
+                  </div>
                   </CardBody>
                 </Card>
               </a>
