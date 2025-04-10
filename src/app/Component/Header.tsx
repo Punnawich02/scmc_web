@@ -49,10 +49,10 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         </button>
         <div
           id="mobile-nav"
-          className="hidden fixed top-0 right-0 h-full w-2/4 bg-white shadow-lg z-50 p-6 hover:cursor-pointer"
+          className="hidden fixed top-0 right-0 h-full w-2/4 bg-white shadow-lg z-50 p-6"
         >
           <button
-            className="text-gray-500 focus:outline-none mb-4 hover:cursor-pointer hover:text-red-500"
+            className="text-gray-500 focus:outline-none mb-6 hover:cursor-pointer hover:text-red-500"
             aria-label="Close navigation"
             onClick={() => {
               const nav = document.getElementById("mobile-nav");
@@ -81,6 +81,23 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 {link.name}
               </a>
             ))}
+            <div className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6">
+              <Image src="/usa.svg" alt="USA flag" width={18} height={18} />
+              <span
+              id="language-text"
+              className="text-sm"
+              style={{
+                color: "#6869AA",
+                fontFamily: "Inter",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 400,
+                lineHeight: "normal",
+              }}
+              >
+              English
+              </span>
+            </div>
           </nav>
         </div>
       </div>
@@ -116,7 +133,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             fontWeight: 400,
             lineHeight: "normal",
           }}
-        >English</span>
+        >
+          English
+        </span>
       </div>
     </header>
   );
