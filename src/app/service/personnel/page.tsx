@@ -50,7 +50,7 @@ const PersonnelPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
             {cardData.map((card, index) => (
               // Edit Link to point to the correct page
-              <a href={`/service/#`} key={index}>
+              <a href={`#`} key={index}>
                 <Card
                   key={index}
                   className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"

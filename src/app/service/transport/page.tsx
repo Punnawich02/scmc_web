@@ -45,7 +45,7 @@ const TransportPage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-center max-w-3xl mx-auto">
           {cardData.map((card, index) => (
             // Edit Link to point to the correct page
-            <a href={`/service/#`} key={index}>
+            <a href={`#`} key={index}>
               <Card
                 key={index}
                 className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"

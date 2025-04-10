@@ -46,7 +46,7 @@ const BuildingPage: React.FC = () => {
           {cardData.map((card, index) => (
             
             // Edit Link to point to the correct page
-            <a href={`/service/${card.link}`} key={index}>
+            <a href={`#`} key={index}>
               <Card
                 key={index}
                 className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
