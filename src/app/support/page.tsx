@@ -4,11 +4,7 @@ import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
-import {
-    Wrench,
-    MessageSquare,
-    Shrub,
-} from "lucide-react";
+import { Wrench, MessageSquare, Shrub } from "lucide-react";
 
 const cardData = [
   {
@@ -23,7 +19,9 @@ const cardData = [
     link: "suggestion",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    icon: (
+      <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
+    ),
   },
   {
     title: "SDG and Carbon Neutrality",
@@ -54,10 +52,10 @@ export default function SupportPage() {
               blanditiis!
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-center max-w-3xl mx-auto">
-          {cardData.map((card, index) => (
-              // Edit Link to point to the correct page
-              <a href={`#`} key={index}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+            {/* Data Service */}
+            {cardData.map((card, index) => (
+              <a href={`/service/${card.link}`} key={index}>
                 <Card
                   key={index}
                   className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
@@ -66,12 +64,14 @@ export default function SupportPage() {
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                      {card.title}
-                    </h2>
-                    <p className="text-sm text-white text-center sm:text-left">
-                      {card.description}
-                    </p>
+                    <div className="flex flex-col items-center sm:items-start gap-2">
+                      <h2 className="text-lg font-bold text-white text-left min-h-[3rem] md:min-h-0">
+                        {card.title}
+                      </h2>
+                      <p className="text-sm text-white text-left">
+                        {card.description}
+                      </p>
+                    </div>
                   </CardBody>
                 </Card>
               </a>
