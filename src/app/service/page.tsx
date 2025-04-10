@@ -66,8 +66,8 @@ export default function ServicesPage() {
         <div>
           <div>
             {/* Text box */}
-            <h1 className="text-2xl font-bold pb-3">บริการของเรา</h1>
-            <p className="text-sm">
+            <h1 className="text-2xl font-bold pb-3 text-black">บริการของเรา</h1>
+            <p className="text-sm text-gray-700">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
               excepturi harum error laborum nemo eaque et maxime iste repellat
               culpa fuga, unde velit mollitia praesentium. Voluptates quod
