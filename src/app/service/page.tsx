@@ -84,39 +84,20 @@ export default function ServicesPage() {
               <a href={`/service/${card.link}`} key={index}>
                 <Card
                   key={index}
-                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full hidden sm:block"
+                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
                 >
-                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                  <CardBody className="flex flex-col items-center gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full sm:items-start">
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <div className="flex flex-col items-center sm:items-start gap-2">
-                      <h2 className="text-lg font-bold text-white text-left min-h-[3rem] md:min-h-0">
+                    <div className="flex flex-col items-center gap-2 sm:items-start">
+                      <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem] md:min-h-0">
                         {card.title}
                       </h2>
-                      <p className="text-sm text-white text-left">
+                      <p className="text-sm text-white text-center sm:text-left">
                         {card.description}
                       </p>
                     </div>
-                  </CardBody>
-                </Card>
-
-                <Card
-                  key={index}
-                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full sm:hidden flex items-center justify-center"
-                >
-                  <CardBody className="flex flex-col items-center gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
-                  <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                    {card.icon}
-                  </div>
-                  <div className="flex flex-col items-center gap-2 text-center">
-                    <h2 className="text-lg font-bold text-white min-h-[3rem] md:min-h-0">
-                    {card.title}
-                    </h2>
-                    <p className="text-sm text-white">
-                    {card.description}
-                    </p>
-                  </div>
                   </CardBody>
                 </Card>
               </a>
