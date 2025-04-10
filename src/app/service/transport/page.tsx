@@ -23,7 +23,7 @@ const cardData = [
 
 const TransportPage: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-white">
       <Header title="ขส.มช." />
       <main className="container mx-auto p-4 justify-center items-center w-[80%]">
         <div className="flex flex-col justify-center mb-4">

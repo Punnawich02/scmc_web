@@ -29,7 +29,7 @@ const cardData = [
 
 const PersonnelPage: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-white">
       <Header title="สำหรับบุคลากร" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
         <div>

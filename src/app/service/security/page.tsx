@@ -6,7 +6,7 @@ import React from "react";
 
 const SecurityPage: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-white">
       <Header title="งานรักษาความปลอดภัยและจราจร"/>
       <main>
         <h1>Security Page</h1>

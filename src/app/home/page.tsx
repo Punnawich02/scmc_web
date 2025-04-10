@@ -59,7 +59,7 @@ const NewsData = [
 
 export default function HomePage() {
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen font-[family-name:var(--font-geist-sans)]">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white">
       <Header title="หน้าหลัก" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         <div className="max-w-[80%] mx-auto">
@@ -140,14 +140,16 @@ export default function HomePage() {
                         child.classList.remove(
                           "font-bold",
                           "border-b-2",
-                          "border-indigo-600"
+                          "border-indigo-600",
+                          "text-black"
                         );
                         child.classList.add("text-gray-400", "text-sm");
                       });
                       e.currentTarget.classList.add(
                         "font-bold",
                         "border-b-2",
-                        "border-indigo-600"
+                        "border-indigo-600",
+                        "text-black"
                       );
                       e.currentTarget.classList.remove(
                         "text-gray-400",

@@ -6,7 +6,7 @@ import React from "react";
 
 const DataPage: React.FC = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-white">
       <Header title="บริการข้อมูล"/>
       <main>
         <h1>Data Page</h1>
