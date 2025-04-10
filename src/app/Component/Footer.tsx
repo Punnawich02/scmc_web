@@ -31,6 +31,7 @@ const Footer: React.FC = () => {
             style={{ border: 0 }}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+            className="rounded-md"
           ></iframe>
         </div>
       </div>

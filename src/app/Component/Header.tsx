@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               }
             }}
           >
-            Close 
+            Close
           </button>
           <nav className="flex flex-col space-y-4">
             {header_links.map((link, index) => (
@@ -73,18 +73,18 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             <div className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6">
               <Image src="/usa.svg" alt="USA flag" width={18} height={18} />
               <span
-              id="language-text"
-              className="text-sm"
-              style={{
-                color: "#6869AA",
-                fontFamily: "Inter",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 400,
-                lineHeight: "normal",
-              }}
+                id="language-text"
+                className="text-sm"
+                style={{
+                  color: "#6869AA",
+                  fontFamily: "Inter",
+                  fontSize: "16px",
+                  fontStyle: "normal",
+                  fontWeight: 400,
+                  lineHeight: "normal",
+                }}
               >
-              English
+                English
               </span>
             </div>
           </nav>

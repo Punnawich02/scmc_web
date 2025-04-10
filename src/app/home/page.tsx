@@ -74,7 +74,7 @@ export default function HomePage() {
                 className="rounded-md"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-transparent flex flex-col justify-center px-6 sm:px-8">
-                <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
+                <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4 font-prompt">
                   ลงทะเบียนสิทธิ์เข้า-ออก มช.
                 </h2>
                 <p className="text-white text-sm sm:text-base max-w-md mb-6">
@@ -114,7 +114,7 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-md shadow text-sm font-semibold">
+              <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-md shadow text-sm font-semibold ml-1">
                 Highlight
                 <br />
                 Services
