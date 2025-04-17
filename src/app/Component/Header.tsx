@@ -109,21 +109,23 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <div className="hidden lg:flex items-center space-x-6">
         <nav className="flex space-x-6 ml-2">
           {header_links.map((link, index) => (
-            <a
-              key={index}
-              href={link.href}
-              className="text-sm hover:bg-gray-100"
-              style={{
-                color: "#6869AA",
-                fontFamily: "Inter",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 400,
-                lineHeight: "normal",
-              }}
-            >
-              {link.name}
-            </a>
+        <a
+          key={index}
+          href={link.href}
+          className={`text-sm hover:bg-gray-100 ${
+            window.location.pathname === link.href ? "underline" : ""
+          }`}
+          style={{
+            color: "#6869AA",
+            fontFamily: "Inter",
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "normal",
+          }}
+        >
+          {link.name}
+        </a>
           ))}
         </nav>
       </div>
