@@ -13,12 +13,12 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-items-center">
           <div className="text-center sm:text-left">
             <h3 className="font-bold mb-4">ติดต่อเรา</h3>
-            <p className="text-sm mb-2">
+            <p className="text-xs sm:text-sm mb-2">
               ศูนย์บริหารจัดการเมืองเพื่อความยั่งยืน <br />
               อาคารสำนักงานมหาวิทยาลัย 3 ชั้น 2 <br />
               239 ถ.ห้วยแก้ว ต.สุเทพ อ.เมืองเชียงใหม่ จ.เชียงใหม่ 50200
             </p>
-            <p className="text-sm mb-2 py-4">
+            <p className="text-xs sm:text-sm mb-2 py-4">
               SCMC (ธุรการ) : 0-5394-1492 <br />
               SCMC (ลงทะเบียนยานพาหนะ) : 0-5394-1494 <br />
               ขส.มช. (รถไฟฟ้า) : 0-5394-4936 <br />
@@ -48,3 +48,4 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
+
