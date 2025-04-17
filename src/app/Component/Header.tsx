@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
   return (
     <header
-      className="bg-white shadow-sm py-4 px-6 w-full md:w-4/5 mx-auto flex flex-wrap md:flex-nowrap justify-between items-center rounded-md"
+      className="bg-white shadow-sm py-4 px-6 w-full mx-auto flex flex-wrap md:flex-nowrap justify-between items-center rounded-md"
       style={{
         position: "sticky",
         top: 0,
@@ -128,7 +128,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         </nav>
       </div>
       <div>
-        <button className="hidden lg:flex items-center space-x-2 mr-2">
+        <button className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100">
           <Image
             src="/usa.svg"
             width={20}
