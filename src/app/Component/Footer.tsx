@@ -4,7 +4,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-[#6869AA] text-white py-8 mt-auto w-[80%] rounded-md justify-self-center mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-items-center">
-        <div>
+        <div className="text-center sm:text-left">
           <h3 className="font-bold mb-4">ติดต่อเรา</h3>
           <p className="text-sm mb-2">
             ศูนย์บริหารจัดการเมืองเพื่อความยั่งยืน <br />
