@@ -37,7 +37,7 @@ export default function SupportPage() {
   return (
     <div className="grid min-h-screen bg-white">
       <Header title="ข้อมูลกายภาพ" />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
+      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto font-[Prompt]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}

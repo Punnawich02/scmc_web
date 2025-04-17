@@ -32,7 +32,7 @@ const PersonnelPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header title="สำหรับบุคลากร" />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
+      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto font-[Prompt]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}

@@ -27,7 +27,7 @@ export default function AboutPage() {
   return (
     <div className="grid min-h-screen bg-white">
       <Header title="เกี่ยวกับเรา" />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
+      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto font-[Prompt]">
         <div>
           <div>
             {/* Text box */}
@@ -51,16 +51,18 @@ export default function AboutPage() {
                   key={index}
                   className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
                 >
-                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                  <CardBody className="flex flex-col items-center gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full sm:items-start min-h-[20rem]">
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                      {card.title}
-                    </h2>
-                    <p className="text-sm text-white text-center sm:text-left">
-                      {card.description}
-                    </p>
+                    <div className="flex flex-col items-center gap-2 sm:items-start">
+                      <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem] md:min-h-0">
+                        {card.title}
+                      </h2>
+                      <p className="text-sm text-white text-center sm:text-left">
+                        {card.description}
+                      </p>
+                    </div>
                   </CardBody>
                 </Card>
               </a>

@@ -20,7 +20,7 @@ const header_links = [
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
-  const pathname = '/' + usePathname().split('/')[1];
+  const pathname = "/" + usePathname().split("/")[1];
   const toggleNav = () => setIsNavOpen(!isNavOpen);
 
   return (
@@ -71,15 +71,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                   <a
                     key={index}
                     href={link.href}
-                    className="text-sm hover:bg-gray-100 hover:cursor-pointer"
-                    style={{
-                      color: "#6869AA",
-                      fontFamily: "Inter",
-                      fontSize: "16px",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "normal",
-                    }}
+                    className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
+                    ${pathname === link.href ? "underline font-bold" : ""}
+                    text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
                   >
                     {link.name}
                   </a>
@@ -88,15 +82,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                   <Image src="/usa.svg" alt="USA flag" width={18} height={18} />
                   <span
                     id="language-text"
-                    className="text-sm"
-                    style={{
-                      color: "#6869AA",
-                      fontFamily: "Inter",
-                      fontSize: "16px",
-                      fontStyle: "normal",
-                      fontWeight: 400,
-                      lineHeight: "normal",
-                    }}
+                    className="text-sm hover:cursor-pointer hover:bg-gray-100 text-[#6869AA] font-[Prompt] font-[16px] font-[400]"
                   >
                     English
                   </span>
@@ -114,15 +100,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               key={index}
               href={link.href}
               className={`text-sm hover:bg-gray-100
-                ${pathname === link.href ? "underline text-bold" : ""}`}
-              style={{
-                color: "#6869AA",
-                fontFamily: "Inter",
-                fontSize: "16px",
-                fontStyle: "normal",
-                fontWeight: 400,
-                lineHeight: "normal",
-              }}
+                ${pathname === link.href ? "underline font-bold" : ""} 
+                text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
             >
               {link.name}
             </a>
@@ -130,7 +109,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         </nav>
       </div>
       <div>
-        <button className="hidden lg:flex items-center space-x-2 mr-2 ">
+        <button className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100">
           <Image
             src="/usa.svg"
             width={20}
@@ -138,16 +117,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             alt="Smartphone"
             className="h-5 object-contain"
           />
-          <span
-            style={{
-              color: "#6869AA",
-              fontFamily: "Inter",
-              fontSize: "16px",
-              fontStyle: "normal",
-              fontWeight: 400,
-              lineHeight: "normal",
-            }}
-          >
+          <span className="text-sm text-[#6869AA] font-[Prompt] font-[400]">
             English
           </span>
         </button>

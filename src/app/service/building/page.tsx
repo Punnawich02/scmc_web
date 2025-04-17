@@ -28,7 +28,7 @@ const BuildingPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header title="งานอาคารและสถานที่" />
-      <main className="container mx-auto p-4 justify-center items-center w-[80%]">
+      <main className="container mx-auto p-4 justify-center items-center w-[80%] font-[Prompt]">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

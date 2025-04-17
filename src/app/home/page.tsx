@@ -60,7 +60,7 @@ const NewsData = [
 
 export default function HomePage() {
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="หน้าหลัก" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         <div className="max-w-[80%] mx-auto">
@@ -81,7 +81,7 @@ export default function HomePage() {
                   className="rounded-md"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-transparent flex flex-col justify-center px-6 sm:px-8">
-                  <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4 font-prompt">
+                  <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
                     ลงทะเบียนสิทธิ์เข้า-ออก มช.
                   </h2>
                   <p className="text-white text-sm sm:text-base max-w-md mb-6">

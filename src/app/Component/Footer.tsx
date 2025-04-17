@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, amount: 0.1 }}
     >
-      <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto">
+      <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt]">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
           <div className="text-center sm:text-left ml-8">
             <h3 className="font-bold mb-4">ติดต่อเรา</h3>

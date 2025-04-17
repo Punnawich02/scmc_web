@@ -8,7 +8,7 @@ const SecurityPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header title="งานรักษาความปลอดภัยและจราจร"/>
-      <main>
+      <main className="font-[Prompt]">
         <h1>Security Page</h1>
         <p>Welcome to the Security page!</p>
       </main>

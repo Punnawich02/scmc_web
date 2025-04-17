@@ -17,7 +17,7 @@ import { motion } from "framer-motion";
 const cardData = [
   {
     title: "บริการข้อมูล",
-    link: "data_service",
+    link: "data",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
@@ -63,7 +63,7 @@ export default function ServicesPage() {
   return (
     <div className="grid min-h-screen bg-white">
       <Header title="บริการของเรา" />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto">
+      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto font-[Prompt]">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -97,24 +97,24 @@ export default function ServicesPage() {
                   transition={{ duration: 0.8 }}
                   viewport={{ once: true, amount: 0.1 }}
                 >
-                    <Card
+                  <Card
                     key={index}
                     className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
-                    >
+                  >
                     <CardBody className="flex flex-col items-center gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full sm:items-start min-h-[20rem]">
                       <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                      {card.icon}
+                        {card.icon}
                       </div>
                       <div className="flex flex-col items-center gap-2 sm:items-start">
-                      <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem] md:min-h-0">
-                        {card.title}
-                      </h2>
-                      <p className="text-sm text-white text-center sm:text-left">
-                        {card.description}
-                      </p>
+                        <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem] md:min-h-0">
+                          {card.title}
+                        </h2>
+                        <p className="text-sm text-white text-center sm:text-left">
+                          {card.description}
+                        </p>
                       </div>
                     </CardBody>
-                    </Card>
+                  </Card>
                 </motion.div>
               </a>
             ))}
