@@ -34,18 +34,21 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <head>
         <title>{title}</title>
       </head>
-      <div className="flex justify-between items-center w-full md:w-auto">
+      <div className="flex justify-between items-center w-full lg:w-auto">
         <a href="/home" className="flex items-center">
           <Image src="/scmc_logo.svg" alt="scmc logo" width={131} height={44} />
         </a>
+
+        {/* Mobile Menu Button - show only below lg */}
         <button
-          className="md:hidden text-gray-500 focus:outline-none hover:cursor-pointer"
+          className="lg:hidden text-gray-500 focus:outline-none hover:cursor-pointer"
           aria-label="Toggle navigation"
           onClick={toggleNav}
         >
           <Menu className="w-10 h-10" color="#6869AA" />
         </button>
 
+        {/* Mobile Slide Menu - show only below lg */}
         <AnimatePresence>
           {isNavOpen && (
             <motion.div
@@ -53,7 +56,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", stiffness: 70, damping: 15 }}
-              className="fixed top-0 right-0 h-full sm:w-1/3 w-1/2 bg-white shadow-lg z-50 p-6"
+              className="fixed top-0 right-0 h-full sm:w-1/3 w-1/2 bg-white shadow-lg z-50 p-6 lg:hidden"
             >
               <button
                 className="text-gray-500 focus:outline-none mb-6 hover:cursor-pointer hover:text-red-500"
@@ -102,7 +105,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           )}
         </AnimatePresence>
       </div>
-      <div className="hidden md:flex items-center space-x-6">
+
+      <div className="hidden lg:flex items-center space-x-6">
         <nav className="flex space-x-6 ml-2">
           {header_links.map((link, index) => (
             <a
@@ -123,8 +127,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           ))}
         </nav>
       </div>
-      <div >
-      <button className="hidden md:flex items-center space-x-2 mr-2">
+      <div>
+        <button className="hidden lg:flex items-center space-x-2 mr-2">
           <Image
             src="/usa.svg"
             width={20}
