@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import React from "react";
 import Image from "next/image";
 import { Menu } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface HeaderProps {
   title?: string;
@@ -19,7 +20,7 @@ const header_links = [
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
-
+  const pathname = '/' + usePathname().split('/')[1];
   const toggleNav = () => setIsNavOpen(!isNavOpen);
 
   return (
@@ -109,28 +110,27 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       <div className="hidden lg:flex items-center space-x-6">
         <nav className="flex space-x-6 ml-2">
           {header_links.map((link, index) => (
-        <a
-          key={index}
-          href={link.href}
-          className={`text-sm hover:bg-gray-100 ${
-            window.location.pathname === link.href ? "underline" : ""
-          }`}
-          style={{
-            color: "#6869AA",
-            fontFamily: "Inter",
-            fontSize: "16px",
-            fontStyle: "normal",
-            fontWeight: 400,
-            lineHeight: "normal",
-          }}
-        >
-          {link.name}
-        </a>
+            <a
+              key={index}
+              href={link.href}
+              className={`text-sm hover:bg-gray-100
+                ${pathname === link.href ? "underline text-bold" : ""}`}
+              style={{
+                color: "#6869AA",
+                fontFamily: "Inter",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 400,
+                lineHeight: "normal",
+              }}
+            >
+              {link.name}
+            </a>
           ))}
         </nav>
       </div>
       <div>
-        <button className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100">
+        <button className="hidden lg:flex items-center space-x-2 mr-2 ">
           <Image
             src="/usa.svg"
             width={20}
