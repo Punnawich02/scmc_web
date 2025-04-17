@@ -102,6 +102,50 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           )}
         </AnimatePresence>
       </div>
+      <div className="hidden md:flex items-center space-x-6">
+        <nav className="flex space-x-6 ml-2">
+          {header_links.map((link, index) => (
+            <a
+              key={index}
+              href={link.href}
+              className="text-sm hover:bg-gray-100"
+              style={{
+                color: "#6869AA",
+                fontFamily: "Inter",
+                fontSize: "16px",
+                fontStyle: "normal",
+                fontWeight: 400,
+                lineHeight: "normal",
+              }}
+            >
+              {link.name}
+            </a>
+          ))}
+        </nav>
+      </div>
+      <div >
+      <button className="hidden md:flex items-center space-x-2 mr-2">
+          <Image
+            src="/usa.svg"
+            width={20}
+            height={20}
+            alt="Smartphone"
+            className="h-5 object-contain"
+          />
+          <span
+            style={{
+              color: "#6869AA",
+              fontFamily: "Inter",
+              fontSize: "16px",
+              fontStyle: "normal",
+              fontWeight: 400,
+              lineHeight: "normal",
+            }}
+          >
+            English
+          </span>
+        </button>
+      </div>
     </header>
   );
 };
