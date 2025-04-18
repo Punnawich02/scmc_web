@@ -8,7 +8,7 @@ const DataPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header title="บริการข้อมูล"/>
-      <main>
+      <main className="font-[Prompt]">
         <h1>Data Page</h1>
         <p>Welcome to the data page!</p>
       </main>

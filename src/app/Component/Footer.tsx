@@ -1,17 +1,20 @@
 import { motion } from "framer-motion";
 import React from "react";
 
+// Footer component
 const Footer: React.FC = () => {
   return (
     <motion.div
+      // Animation settings for the footer container
       initial={{ opacity: 0, y: 100 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true, amount: 0.1 }}
     >
-      <footer className="bg-[#6869AA] text-white py-8 mt-auto w-[80%] rounded-md justify-self-center mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-items-center">
-          <div className="text-center sm:text-left">
+      <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
+          {/* Contact information section */}
+          <div className="text-center sm:text-left sm:ml-8">
             <h3 className="font-bold mb-4">ติดต่อเรา</h3>
             <p className="text-xs sm:text-sm mb-2">
               ศูนย์บริหารจัดการเมืองเพื่อความยั่งยืน <br />
@@ -19,6 +22,7 @@ const Footer: React.FC = () => {
               239 ถ.ห้วยแก้ว ต.สุเทพ อ.เมืองเชียงใหม่ จ.เชียงใหม่ 50200
             </p>
             <p className="text-xs sm:text-sm mb-2 py-4">
+              {/* Contact details */}
               SCMC (ธุรการ) : 0-5394-1492 <br />
               SCMC (ลงทะเบียนยานพาหนะ) : 0-5394-1494 <br />
               ขส.มช. (รถไฟฟ้า) : 0-5394-4936 <br />
@@ -30,6 +34,7 @@ const Footer: React.FC = () => {
               ขส.มช. (@korsormorchor) <br />
             </p>
           </div>
+          {/* Google Maps iframe section */}
           <div>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1888.4392456677072!2d98.95485265947839!3d18.803567659926504!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30da3b3530c3a9a5%3A0x62ddacc2ae6b2597!2z4Lio4Li54LiZ4Lii4LmM4Lia4Lij4Li04Lir4Liy4Lij4LiI4Lix4LiU4LiB4Liy4Lij4LmA4Lih4Li34Lit4LiH4Lit4Lix4LiI4LiJ4Lij4Li04Lii4LiwIOC4oeC4ii4!5e0!3m2!1sth!2sth!4v1744098137385!5m2!1sth!2sth"
@@ -48,4 +53,3 @@ const Footer: React.FC = () => {
 };
 
 export default Footer;
-

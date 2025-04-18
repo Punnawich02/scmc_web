@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Prompt } from 'next/font/google';
 import "./globals.css";
+
+const prompt = Prompt({
+  subsets: ['latin'], // You can add 'thai' if you need Thai characters
+  weight: ['400', '500', '700'], // Add the weights you need
+  display: 'swap', // optional
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={prompt.className}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
