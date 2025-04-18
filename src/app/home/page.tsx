@@ -108,7 +108,6 @@ const Block = [
 ];
 // End of Mock-up Data
 
-
 type TabType = "ข่าวกิจกรรม" | "เอกสารเผยแพร่" | "บทความ";
 
 const tabData: Record<
@@ -174,7 +173,7 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <section className="pb-6">
-              <div className="relative mx-auto mt-10">
+              <div className="relative mx-auto mt-10 max-w-7xl">
                 <div className="grid sm:flex bg-[#FAAF39D1] rounded-md py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-purple-800 text-sm font-medium">
                   {HighlightServices.map((service, index) => (
                     <a key={index} href={service.link}>
@@ -216,7 +215,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true, amount: 0.1 }}
           >
-            <section className="px-6 py-4 bg-white rounded-md">
+            <section className="px-6 py-4 bg-white rounded-md max-w-7xl mx-auto">
               <div className="mb-6">
                 {tabs.map((text, index) => (
                   <span
@@ -287,7 +286,7 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true, amount: 0.1 }}
           >
-            <section className="px-6 py-8 bg-white flex flex-col md:flex-row items-center justify-center gap-8">
+            <section className="px-6 py-8 bg-white flex flex-col md:flex-row items-center justify-center gap-8 max-w-7xl mx-auto">
               <div className="md:w-1/2 flex justify-center">
                 <Image
                   src="/smartphone.png"

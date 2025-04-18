@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, amount: 0.1 }}
     >
-      <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt]">
+      <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt] max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
           {/* Contact information section */}
           <div className="text-center sm:text-left sm:ml-8">

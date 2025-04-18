@@ -30,62 +30,59 @@ const cardData = [
 
 const PersonnelPage: React.FC = () => {
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="สำหรับบุคลากร" />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-[80%] justify-center mx-auto font-[Prompt]">
+      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <div>
-              {/* Text box */}
-              <h1 className="text-2xl font-bold pb-3 text-black">
-                สำหรับบุคลากร
-              </h1>
-              <p className="text-sm text-gray-700">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse
-                excepturi harum error laborum nemo eaque et maxime iste repellat
-                culpa fuga, unde velit mollitia praesentium. Voluptates quod
-                praesentium molestias nihil. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Totam delectus illo, sequi maxime
-                nesciunt vero reiciendis aliquid eligendi accusamus ducimus quis
-                corporis id iusto doloribus aut sit. Repellendus, minima
-                blanditiis!
-              </p>
-            </div>
+            <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
+              สำหรับบุคลากร
+            </h1>
+            <p className="text-gray-700 mb-4">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
+              dignissimos a rerum facere veritatis, nam similique quisquam
+              quibusdam consectetur nulla ab, officia modi aspernatur est!
+              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
+              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
+              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
+              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
+              quibusdam.
+            </p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-            {cardData.map((card, index) => (
-              // Edit Link to point to the correct page
-              <a href={`#`} key={index}>
-                <motion.div
-                  initial={{ opacity: 0, y: 100 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true, amount: 0.1 }}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
+          {cardData.map((card, index) => (
+            <a href={`#`} key={index} className="h-full">
+              <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true, amount: 0.1 }}
+                className="h-full"
+              >
+                <Card
+                  key={index}
+                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full flex flex-col"
                 >
-                  <Card
-                    key={index}
-                    className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full"
-                  >
-                    <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
-                      <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                        {card.icon}
-                      </div>
-                      <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                        {card.title}
-                      </h2>
-                      <p className="text-sm text-white text-center sm:text-left">
-                        {card.description}
-                      </p>
-                    </CardBody>
-                  </Card>
-                </motion.div>
-              </a>
-            ))}
-          </div>
+                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                    <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
+                      {card.icon}
+                    </div>
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
+                      {card.title}
+                    </h2>
+                    <p className="text-sm text-white text-center sm:text-left flex-grow">
+                      {card.description}
+                    </p>
+                  </CardBody>
+                </Card>
+              </motion.div>
+            </a>
+          ))}
         </div>
       </main>
       <Footer />
