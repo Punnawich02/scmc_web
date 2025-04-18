@@ -100,16 +100,23 @@ const Block = [
   },
 ];
 
+type TabType = "ข่าวกิจกรรม" | "เอกสารเผยแพร่" | "บทความ";
+
+const tabData: Record<
+  TabType,
+  { title: string; description: string; imageUrl: string; link: string }[]
+> = {
+  ข่าวกิจกรรม: News,
+  เอกสารเผยแพร่: PublicDoc,
+  บทความ: Block,
+};
+
+
 export default function HomePage() {
-  const [selectedTab, setSelectedTab] = useState("ข่าวกิจกรรม");
 
-  const tabData = {
-    ข่าวกิจกรรม: News,
-    เอกสารเผยแพร่: PublicDoc,
-    บทความ: Block,
-  };
+  const [selectedTab, setSelectedTab] = useState<TabType>("ข่าวกิจกรรม");
 
-  const tabs = Object.keys(tabData);
+  const tabs: TabType[] = ["ข่าวกิจกรรม", "เอกสารเผยแพร่", "บทความ"];
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
