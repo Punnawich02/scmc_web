@@ -36,9 +36,24 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <title>{title}</title>
       </head>
       <div className="flex justify-between items-center w-full lg:w-auto">
-        <a href="/home" className="flex items-center">
-          <Image src="/scmc_logo.svg" alt="scmc logo" width={131} height={44} />
-        </a>
+        <div>
+          <a href="/home" className="hidden sm:flex items-center">
+            <Image
+              src="/scmc_logo.svg"
+              alt="scmc logo"
+              width={131}
+              height={44}
+            />
+          </a>
+          <a href="/home" className="flex items-center sm:hidden">
+            <Image
+              src="/scmc_logo.svg"
+              alt="scmc logo"
+              width={100}
+              height={44}
+            />
+          </a>
+        </div>
 
         {/* Mobile Menu Button - show only below lg */}
         <button

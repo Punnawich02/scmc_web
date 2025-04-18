@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
     >
       <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt]">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
-          <div className="text-center sm:text-left ml-8">
+          <div className="text-center sm:text-left sm:ml-8">
             <h3 className="font-bold mb-4">ติดต่อเรา</h3>
             <p className="text-xs sm:text-sm mb-2">
               ศูนย์บริหารจัดการเมืองเพื่อความยั่งยืน <br />
