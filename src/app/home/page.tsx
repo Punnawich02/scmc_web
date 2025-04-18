@@ -113,7 +113,6 @@ const tabData: Record<
 
 export default function HomePage() {
   const [selectedTab, setSelectedTab] = useState<TabType>("ข่าวกิจกรรม");
-
   const tabs: TabType[] = ["ข่าวกิจกรรม", "เอกสารเผยแพร่", "บทความ"];
 
   return (
