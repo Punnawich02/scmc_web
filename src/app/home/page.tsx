@@ -171,7 +171,7 @@ export default function HomePage() {
                     <a key={index} href={service.link}>
                       <div
                         key={index}
-                        className="flex flex-col items-center min-w-[100px] max-w-[140px] hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
+                        className="flex flex-col items-center min-w-[100px] max-w-[140px] hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out sm:flex-grow sm:max-w-none"
                       >
                         <div className="w-20 h-20 rounded-md bg-white flex items-center justify-center">
                           {service.icon}
