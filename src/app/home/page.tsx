@@ -41,25 +41,25 @@ const News = [
     title: "กิจกรรมพิเศษสำหรับนักศึกษา CMU ปี 1-4",
     description:
       "กิจกรรมพิเศษสำหรับนักศึกษา มช. ประจำปีการศึกษา 2025 เพื่อส่งเสริมการเรียนรู้และพัฒนาทักษะนอกห้องเรียน",
-    imageUrl: "/news_1.png",
+    imageUrl: "/news/news_1.png",
     link: "#1",
   },
   {
     title: "ข่าวประชาสัมพันธ์จากหน่วยงานต่างๆ",
     description: "ข่าวประชาสัมพันธ์จากหน่วยงานต่างๆ ของมหาวิทยาลัยเชียงใหม่",
-    imageUrl: "/news_2.png",
+    imageUrl: "/news/news_2.png",
     link: "#2",
   },
   {
     title: "ประกาศจากหน่วยงานรักษาความปลอดภัย",
     description: "ประกาศจากหน่วยงานรักษาความปลอดภัยเกี่ยวกับการเข้า-ออก มช.",
-    imageUrl: "/news_3.png",
+    imageUrl: "/news/news_3.png",
     link: "#3",
   },
   {
     title: "ข่าวสารการจราจรในเขต มช.",
     description: "ข่าวสารการจราจรในเขต มช. เพื่อความสะดวกในการเดินทาง",
-    imageUrl: "/news_4.png",
+    imageUrl: "/news/news_4.png",
     link: "#4",
   },
 ];
@@ -68,19 +68,19 @@ const PublicDoc = [
   {
     title: "เอกสาร A",
     description: "เอกสาร A",
-    imageUrl: "/news_1.png",
+    imageUrl: "/news/news_1.png",
     link: "#A",
   },
   {
     title: "เอกสาร B",
     description: "เอกสาร B",
-    imageUrl: "/news_2.png",
+    imageUrl: "/news/news_2.png",
     link: "#B",
   },
   {
     title: "เอกสาร C",
     description: "เอกสาร C",
-    imageUrl: "/news_3.png",
+    imageUrl: "/news/news_3.png",
     link: "#C",
   },
 ];
@@ -89,13 +89,13 @@ const Block = [
   {
     title: "บทความ A",
     description: "บทความ A",
-    imageUrl: "/news_2.png",
+    imageUrl: "/news/news_2.png",
     link: "#AA",
   },
   {
     title: "บทความ B",
     description: "บทความ B",
-    imageUrl: "/news_1.png",
+    imageUrl: "/news/news_1.png",
     link: "#BB",
   },
 ];
@@ -111,9 +111,7 @@ const tabData: Record<
   บทความ: Block,
 };
 
-
 export default function HomePage() {
-
   const [selectedTab, setSelectedTab] = useState<TabType>("ข่าวกิจกรรม");
 
   const tabs: TabType[] = ["ข่าวกิจกรรม", "เอกสารเผยแพร่", "บทความ"];
