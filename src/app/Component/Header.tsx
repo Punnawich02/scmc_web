@@ -5,7 +5,6 @@ import React from "react";
 import Image from "next/image";
 import { Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
-import Head from "next/head"; // ✅ ใช้ Head จาก next/head
 
 interface HeaderProps {
   title?: string;
@@ -26,10 +25,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
   return (
     <>
-      <Head>
+      <head>
         <title>{title}</title>
-        <meta name={title} content={title} />
-      </Head>
+      </head>
 
       <header
         className="bg-transparent border-b-1 bg-white border-[#6869AA] px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px]"
