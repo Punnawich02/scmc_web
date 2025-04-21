@@ -240,7 +240,7 @@ export default function HomePage() {
                 transition={{ duration: 0.5 }}
                 className="gap-4 mb-6"
               >
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
                   {tabData[selectedTab]
                     .slice(0, 4) // Show only the first 4 news items
                     .map((news, index) => (
