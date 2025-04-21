@@ -74,7 +74,7 @@ const News = [
 const PublicDoc = [
   {
     title: "เอกสาร A",
-    description: "เอกสาร A",
+    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos eum, harum modi porro commodi rem quae quo neque corporis facere dolores repellendus officia delectus eligendi quam vitae. Placeat, quasi.",
     imageUrl: "/news/news_1.png",
     link: "#A",
   },
