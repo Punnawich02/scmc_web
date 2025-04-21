@@ -99,11 +99,11 @@ export default function ServicePage() {
                   key={index}
                   className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full flex flex-col"
                 >
-                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                  <CardBody className="flex flex-col items-center lg:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem] lg:min-h-[1rem]">
                       {card.title}
                     </h2>
                     <p className="text-sm text-white text-center sm:text-left flex-grow">

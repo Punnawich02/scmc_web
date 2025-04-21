@@ -12,18 +12,21 @@ const cardData = [
     title: "จองรถ",
     description:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima commodi explicabo incidunt sunt deleniti porro fugiat adipisci numquam facilis, unde consectetur fugit aspernatur rem labore, quaerat similique sit impedit odit.",
+    link: "#",
     icon: <Car className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "คลังเอกสาร",
     description:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima commodi explicabo incidunt sunt deleniti porro fugiat adipisci numquam facilis, unde consectetur fugit aspernatur rem labore, quaerat similique sit impedit odit.",
+    link: "#",
     icon: <File className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "CMU.to",
     description:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima commodi explicabo incidunt sunt deleniti porro fugiat adipisci numquam facilis, unde consectetur fugit aspernatur rem labore, quaerat similique sit impedit odit.",
+    link: "#",
     icon: <Globe className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
 ];
@@ -54,9 +57,9 @@ const PersonnelPage: React.FC = () => {
             </p>
           </motion.div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`#`} key={index} className="h-full">
+            <a href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -72,7 +75,7 @@ const PersonnelPage: React.FC = () => {
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
                       {card.title}
                     </h2>
                     <p className="text-sm text-white text-center sm:text-left flex-grow">

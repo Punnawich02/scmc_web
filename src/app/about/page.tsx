@@ -53,7 +53,7 @@ export default function AboutPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`#`} key={index} className="h-full">
+            <a href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export default function AboutPage() {
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[1rem]">
                       {card.title}
                     </h2>
                     <p className="text-sm text-white text-center sm:text-left flex-grow">

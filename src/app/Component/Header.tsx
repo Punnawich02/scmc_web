@@ -29,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <title>{title}</title>
       </head>
       <header
-        className="bg-transparent border-b-1 bg-white border-[#6869AA] px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px]"
+        className="bg-transparent lg:border-b-1 shadow-md lg:shadow-none bg-white border-[#6869AA] px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px]"
         style={{
           position: "sticky",
           top: 0,
@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                       key={index}
                       href={link.href}
                       className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === link.href ? "underline font-bold" : ""}
+                      ${pathname === link.href ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
                     >
                       {link.name}

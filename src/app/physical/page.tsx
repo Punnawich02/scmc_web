@@ -10,21 +10,21 @@ import { motion } from "framer-motion";
 const cardData = [
   {
     title: "แผนผังมช.",
-    link: "map",
+    link: "#map",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "ข้อมูลอาคาร",
-    link: "building",
+    link: "#building",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: <Building className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
   },
   {
     title: "ข้อมูลต้นไม้",
-    link: "tree",
+    link: "#tree",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: (
@@ -33,7 +33,7 @@ const cardData = [
   },
   {
     title: "Facilities",
-    link: "facilities",
+    link: "#facilities",
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
     icon: <RadioTower className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
@@ -68,7 +68,7 @@ export default function PhysicalPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`#`} key={index} className="h-full">
+            <a href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +84,7 @@ export default function PhysicalPage() {
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[1rem]">
                       {card.title}
                     </h2>
                     <p className="text-sm text-white text-center sm:text-left flex-grow">
