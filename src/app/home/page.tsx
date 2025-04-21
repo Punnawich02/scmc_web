@@ -74,7 +74,8 @@ const News = [
 const PublicDoc = [
   {
     title: "เอกสาร A",
-    description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos eum, harum modi porro commodi rem quae quo neque corporis facere dolores repellendus officia delectus eligendi quam vitae. Placeat, quasi.",
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos eum, harum modi porro commodi rem quae quo neque corporis facere dolores repellendus officia delectus eligendi quam vitae. Placeat, quasi.",
     imageUrl: "/news/news_1.png",
     link: "#A",
   },
@@ -199,7 +200,7 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-md shadow text-sm font-semibold ml-1">
+                <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-md shadow text-sm ml-1 font-semibold">
                   Highlight
                   <br />
                   Services
@@ -302,7 +303,7 @@ export default function HomePage() {
                   width={400}
                   height={150}
                   alt="CMU Mobile Map"
-                  className="w-full object-contain rounded-md hover:shadow-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
+                  className="w-full object-contain rounded-md hover:shadow-lg hover:cursor-pointer sm:scale-100 sm:hover:scale-105 scale-150 hover:scale-155 transition-transform duration-300 ease-in-out"
                 />
               </div>
             </section>

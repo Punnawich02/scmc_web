@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
       transition={{ duration: 0.8 }}
       viewport={{ once: true, amount: 0.1 }}
     >
-      <footer className="bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt] max-w-7xl">
+      <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto rounded-md justify-self-center mx-auto font-[Prompt] max-w-7xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 justify-items-center">
           {/* Contact information section */}
           <div className="text-center sm:text-left sm:ml-8">
@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
               ขส.มช. (รถตู้-รถบัส) : 0-5394-4949 <br />
               งานรักษาความปลอดภัย : 0-5394-1190-1 <br />
               support@scmc.cmu.ac.th <br />
-              จันทร์ - ศุกร์ 08.30 น. - 16.30 น. <br />
+              จันทร์ - ศุกร์ 08:30 น. - 16:30 น. <br />
               SCMC : Smart Campus Management Center <br />
               ขส.มช. (@korsormorchor) <br />
             </p>
