@@ -59,7 +59,7 @@ export default function SupportPage() {
             </p>
           </motion.div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
             <a href={`#`} key={index} className="h-full">
               <motion.div
@@ -73,7 +73,7 @@ export default function SupportPage() {
                   key={index}
                   className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full flex flex-col"
                 >
-                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
+                  <CardBody className="flex flex-col items-center md:items-start gap-4 p-6 bg-[#9799E7] rounded-lg shadow-lg w-full h-full">
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
