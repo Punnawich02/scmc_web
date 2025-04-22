@@ -258,7 +258,7 @@ export default function HomePage() {
                             <h4 className="text-sm font-medium mb-1 text-black">
                               {news.title}
                             </h4>
-                            <p className="text-xs text-gray-600 mb-3 line-clamp-3 flex-grow">
+                            <p className="text-xs text-gray-600 mb-3 line-clamp-3 flex-grow min-h-[3rem]">
                               {news.description.length > 140
                                 ? `${news.description.slice(0, 140)}...`
                                 : news.description}
