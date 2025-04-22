@@ -1,40 +1,38 @@
 "use client";
 
-import Footer from "@/app/Component/Footer";
-import Header from "@/app/Component/Header";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
 import { motion } from "framer-motion";
 import { Droplet, Zap, Phone, Trash2 } from "lucide-react";
 import React from "react";
-
-const cardData = [
-  {
-    title: "ระบบน้ำประปา",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
-    icon: <Droplet className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "ระบบไฟฟ้า",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
-    icon: <Zap className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "ระบบโทรศัพท์",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
-    icon: <Phone className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "ระบบจัดการขยะ",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
-    icon: <Trash2 className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+import { useTranslations } from "next-intl";
 
 const UtilityPage: React.FC = () => {
+  const t = useTranslations("UtilitiesPage");
+  const cardData = [
+    {
+      title: t('water'),
+      description: t('water_title'),
+      icon: <Droplet className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('electric'),
+      description: t('electric_title'),
+      icon: <Zap className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('phone'),
+      description: t('phone_title'),
+      icon: <Phone className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('trash'),
+      description: t('trash_title'),
+      icon: <Trash2 className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="ระบบสาธารณูปโภค" />
@@ -46,17 +44,10 @@ const UtilityPage: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              ระบบสาธารณูปโภค
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>

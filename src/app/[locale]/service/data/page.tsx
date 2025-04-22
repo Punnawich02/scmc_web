@@ -1,11 +1,14 @@
 "use client";
 
-import Footer from "@/app/Component/Footer";
-import Header from "@/app/Component/Header";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
 import { motion } from "framer-motion";
 import React from "react";
+import {useTranslations} from 'next-intl';
 
 const DataPage: React.FC = () => {
+  const t = useTranslations('DataPage');
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header title="บริการข้อมูล" />
@@ -16,17 +19,10 @@ const DataPage: React.FC = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-            บริการข้อมูล
+            {t('header')}
           </h1>
           <p className="text-gray-700 mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-            dignissimos a rerum facere veritatis, nam similique quisquam
-            quibusdam consectetur nulla ab, officia modi aspernatur est!
-            Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-            consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-            animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-            quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-            quibusdam.
+            {t('title')}
           </p>
         </motion.div>
       </main>

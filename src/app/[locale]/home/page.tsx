@@ -6,34 +6,7 @@ import Footer from "../Component/Footer";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
-
-const HighlightServices = [
-  {
-    icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/transport",
-    label: "ตารางและแผนที่รถไฟฟ้า",
-  },
-  {
-    icon: <Cctv className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/security",
-    label: "ขอดูกล้องวงจรปิด",
-  },
-  {
-    icon: <FileText className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/data",
-    label: "บริการข้อมูล",
-  },
-  {
-    icon: <Waves className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/utility",
-    label: "สาธารณูปโภค",
-  },
-  {
-    icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/building",
-    label: "ขอใช้สถานที่",
-  },
-];
+import { useTranslations } from "next-intl";
 
 // Below this line are Mock-up Data
 const News = [
@@ -124,6 +97,40 @@ export default function HomePage() {
   const [selectedTab, setSelectedTab] = useState<TabType>("ข่าวกิจกรรม");
   const tabs: TabType[] = ["ข่าวกิจกรรม", "เอกสารเผยแพร่", "บทความ"];
 
+  const t = useTranslations("HomePage");
+
+  const HighlightServices = [
+    {
+      icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+      link: "/service/transport",
+      label: t("map"),
+    },
+    {
+      icon: <Cctv className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+      link: "/service/security",
+      label: t("cctv"),
+    },
+    {
+      icon: (
+        <FileText className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />
+      ),
+      link: "/service/data",
+      label: t("data"),
+    },
+    {
+      icon: <Waves className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+      link: "/service/utility",
+      label: t("util"),
+    },
+    {
+      icon: (
+        <Building className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />
+      ),
+      link: "/service/building",
+      label: t("build"),
+    },
+  ];
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="หน้าหลัก" />
@@ -146,12 +153,10 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-transparent flex flex-col justify-center px-6 sm:px-8">
                   <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
-                    ลงทะเบียนสิทธิ์เข้า-ออก มช.
+                    {t("vehicle")}
                   </h2>
                   <p className="text-white text-sm sm:text-base max-w-md mb-6">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad
-                    nesciunt fugiat tempore in consequatur error quas ab, vitae
-                    fugit earum.
+                    {t('vehicle_title')}
                   </p>
                   <a
                     href="#"
@@ -159,7 +164,7 @@ export default function HomePage() {
                     style={{ maxWidth: "200px" }}
                   >
                     <button className="bg-[#6869AA] text-white px-4 py-2 rounded-md text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
-                      เข้าสู่ระบบลงทะเบียนยานพาหนะ
+                      {t("vehicle_btn")}
                     </button>
                   </a>
                 </div>
@@ -273,7 +278,7 @@ export default function HomePage() {
               <div className="flex justify-end">
                 <a href="#">
                   <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
-                    เพิ่มเติม +
+                    {t('more')}
                   </button>
                 </a>
               </div>

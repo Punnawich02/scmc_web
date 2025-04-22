@@ -4,6 +4,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
 import { motion } from "framer-motion";
+import {useTranslations} from 'next-intl';
 
 import {
   Database,
@@ -14,52 +15,49 @@ import {
   UserRound,
 } from "lucide-react";
 
-const cardData = [
-  {
-    title: "บริการข้อมูล",
-    link: "data",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "ขส.มช.",
-    link: "transport",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <BusFront className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "งานรักษาความปลอดภัยและจราจร",
-    link: "security",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <ShieldUser className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "งานอาคารสถานที่",
-    link: "building",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Building className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "สาธารณูปโภค",
-    link: "utility",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <HousePlug className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "สำหรับบุคลากร",
-    link: "personnel",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <UserRound className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+
 
 export default function ServicePage() {
+  const t = useTranslations('OurService');
+  const cardData = [
+    {
+      title: t('data'),
+      link: "/data",
+      description: t('data_title'),
+      icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('transport'),
+      link: "/transport",
+      description: t('transport_title'),
+      icon: <BusFront className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('security'),
+      link: "/security",
+      description: t('security_title'),
+      icon: <ShieldUser className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('build'),
+      link: "/building",
+      description: t('build_title'),
+      icon: <Building className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('util'),
+      link: "/utility",
+      description: t('util_title'),
+      icon: <HousePlug className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('personel'),
+      link: "/personnel",
+      description: t('personel_title'),
+      icon: <UserRound className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
+  
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="บริการของเรา" />
@@ -71,23 +69,16 @@ export default function ServicePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              บริการของเรา
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`/service/${card.link}`} key={index} className="h-full">
+            <a href={`/service${card.link}`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}

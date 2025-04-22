@@ -1,33 +1,31 @@
 "use client";
 
-import Footer from "@/app/Component/Footer";
-import Header from "@/app/Component/Header";
-import { Card, CardBody } from "@heroui/card";
-import { motion } from "framer-motion";
-import { Building2, CheckCheck } from "lucide-react";
 import React from "react";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
+import { Card, CardBody } from "@heroui/card";
+import { Clock, Map } from "lucide-react";
+import { motion } from "framer-motion";
+import {useTranslations} from 'next-intl';
 
-const cardData = [
-  {
-    title: "ขอใช้สถานที่",
-    link: "data",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Building2 className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "ตรวจแบบ",
-    link: "transport",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <CheckCheck className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+const TransportPage: React.FC = () => {
+  const t = useTranslations('TransportPage');
 
-const BuildingPage: React.FC = () => {
+  const cardData = [
+    {
+      title: t('table'),
+      description: t('table_title'),
+      icon: <Clock className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('map'),
+      description: t('map'),
+      icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="งานอาคาร และสถานที่" />
+      <Header title="ขส.มช." />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
@@ -36,17 +34,10 @@ const BuildingPage: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              งานอาคาร และสถานที่
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
@@ -86,4 +77,4 @@ const BuildingPage: React.FC = () => {
   );
 };
 
-export default BuildingPage;
+export default TransportPage;

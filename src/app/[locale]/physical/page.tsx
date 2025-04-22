@@ -4,31 +4,44 @@ import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
-import { Eye, User } from "lucide-react";
+import { Map, Building, TreeDeciduous, RadioTower } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
-// Data for the cards displayed on the page
-const cardData = [
-  {
-    title: "วิสัยทัศน์ / พันธะกิจ / โครงสร้าง",
-    link: "vision",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Eye className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "หน่วยงาน และ Contact",
-    link: "contact",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <User className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+export default function PhysicalPage() {
+  const t = useTranslations("PhysicalPage");
+  const cardData = [
+    {
+      title: t("map"),
+      description: t("map_title"),
+      link: "#map",
+      icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t("build"),
+      description: t("build_title"),
+      link: "#build",
+      icon: <Building className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t("tree"),
+      description: t("tree_title"),
+      link: "#tree",
+      icon: (
+        <TreeDeciduous className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
+      ),
+    },
+    {
+      title: t("facilities"),
+      description: t("facilities_title"),
+      link: "facilities",
+      icon: <RadioTower className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
 
-export default function AboutPage() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="เกี่ยวกับเรา" />
+      <Header title="ข้อมูลกายภาพ" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
@@ -37,17 +50,10 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              เกี่ยวกับเรา
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
