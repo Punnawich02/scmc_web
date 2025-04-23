@@ -33,6 +33,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
   return (
     <>
+    <head>
+      <title>{title}</title>
+    </head>
       <header
         className="bg-transparent lg:border-b-1 shadow-md lg:shadow-none bg-white border-[#6869AA] px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px]"
         style={{
@@ -43,7 +46,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           zIndex: 1000,
         }}
       >
-        <title>{title}</title>
         <div className="flex justify-between items-center w-full lg:w-auto">
           <div>
             {/* Logo for larger screens */}
