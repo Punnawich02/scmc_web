@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Prompt } from 'next/font/google';
-import { NextIntlClientProvider, hasLocale } from 'next-intl';
-import { notFound } from 'next/navigation';
-import { routing } from '@/i18n/routing';
+import { Prompt } from "next/font/google";
+import { NextIntlClientProvider, hasLocale } from "next-intl";
+import { notFound } from "next/navigation";
+import { routing } from "@/i18n/routing";
 import "../globals.css";
 
 const prompt = Prompt({
-  subsets: ['latin'], // หรือ ['latin', 'thai'] ถ้ามีภาษาไทย
-  weight: ['400', '500', '700'],
-  display: 'swap',
+  subsets: ["latin"], // หรือ ['latin', 'thai'] ถ้ามีภาษาไทย
+  weight: ["400", "500", "700"],
+  display: "swap",
 });
 
 const geistSans = Geist({
@@ -34,7 +34,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  const { locale } = await params;
+  const { locale } = params;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
@@ -42,7 +42,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} className={prompt.className}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         <NextIntlClientProvider locale={locale}>
           {children}
         </NextIntlClientProvider>
