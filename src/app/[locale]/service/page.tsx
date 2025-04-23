@@ -21,7 +21,7 @@ export default function ServicePage() {
   const cardData = [
     {
       title: t('data'),
-      link: "/data",
+      link: "data",
       description: t('data_title'),
       icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
@@ -77,7 +77,7 @@ export default function ServicePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <Link href={`/service${card.link}`} key={index} className="h-full">
+            <Link href={`/service/${card.link}`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
