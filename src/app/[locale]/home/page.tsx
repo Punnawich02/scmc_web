@@ -134,7 +134,7 @@ export default function HomePage() {
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="หน้าหลัก" />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         <div className="max-w-[80%] mx-auto">
           {/* Vehicle Section */}

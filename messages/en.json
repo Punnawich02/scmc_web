@@ -19,6 +19,7 @@
     "cmut": "CMU Transport"
   },
   "HomePage": {
+    "page_title": "Smart Campus Management Center, CMU",
     "vehicle": "CMU Access Vehicle Registration",
     "vehicle_title": "For individuals who wish to register their vehicles for campus access",
     "vehicle_btn": "Go to Vehicle Registration System",
@@ -33,6 +34,7 @@
     "more": "More +"
   },
   "OurService": {
+    "page_title": "All Services of Chiang Mai University",
     "header": "Our Services",
     "title": "A collection of services provided by the university for the convenience of students, staff, and general users",
     "data": "Information Services",
@@ -49,10 +51,12 @@
     "personel_title": "Support services and facilities for university personnel"
   },
   "DataPage": {
+    "page_title": "Information and Data Service Center",
     "header": "Information Services",
     "title": "A centralized hub for easy access to essential campus data"
   },
   "TransportPage": {
+    "page_title": "Transportation and Electric Shuttle Services at Chiang Mai University",
     "header": "CMU Transportation",
     "title": "Transportation information and electric shuttle services within the university",
     "table": "Shuttle Timetable",
@@ -61,10 +65,12 @@
     "map_title": "Routes and stops of the electric shuttle service"
   },
   "SecurityPage": {
+    "page_title": "Campus Safety and Traffic Management",
     "header": "Security and Traffic Management",
     "title": "Ensuring safety of lives and property, along with managing on-campus traffic"
   },
   "BuildPage": {
+    "page_title": "Facility and Building Management Services at CMU",
     "header": "Building and Facility Services",
     "title": "Managing university buildings and physical spaces",
     "build": "Venue Request",
@@ -73,6 +79,7 @@
     "check_title": "Building plan review and approval services"
   },
   "UtilitiesPage": {
+    "page_title": "Utility Services of Chiang Mai University",
     "header": "Utilities Management",
     "title": "Managing core utility systems to support university operations",
     "water": "Water Supply",
@@ -85,6 +92,7 @@
     "trash_title": "Sustainable waste management approaches and services"
   },
   "PersonelPage": {
+    "page_title": "Services for Chiang Mai University Personnel",
     "header": "For CMU Personnel",
     "title": "Facilities and support systems for university staff",
     "car": "Vehicle Booking",
@@ -95,6 +103,7 @@
     "cmuto_title": "Short URL service for internal departments at CMU"
   },
   "PhysicalPage": {
+    "page_title": "Physical Information of Chiang Mai University",
     "header": "Campus Physical Data",
     "title": "Physical data on areas, buildings, and the campus environment",
     "map": "CMU Map",
@@ -107,6 +116,7 @@
     "facilities_title": "Accessible campus facilities"
   },
   "AboutPage": {
+    "page_title": "About the Organization and Our Vision",
     "header": "About Us",
     "title": "Learn about our organization, vision, and operations",
     "vision": "Vision / Mission / Structure",
@@ -115,6 +125,7 @@
     "contact_title": "Contact information and relevant departments"
   },
   "SupportPage": {
+    "page_title": "Collaborating for Sustainability at the University",
     "header": "Contribute to Sustainability",
     "title": "Encouraging participation for sustainability and the environment",
     "fix": "Maintenance Request",

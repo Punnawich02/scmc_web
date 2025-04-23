@@ -11,7 +11,7 @@ const SecurityPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <Header title="งานรักษาความปลอดภัยและจราจร" />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
