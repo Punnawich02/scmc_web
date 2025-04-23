@@ -16,7 +16,8 @@
     "van_bus": "CMU Transport (Van & Bus): 053 944 949",
     "sec_off": "Security Office: 053 941 190-1",
     "off_hour": "Office Hours: Monday – Friday, 08:30 – 16:30",
-    "cmut": "CMU Transport"
+    "cmut": "CMU Transport",
+    "dev_by":"Development By"
   },
   "HomePage": {
     "page_title": "Smart Campus Management Center, CMU",
