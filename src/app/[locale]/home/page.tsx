@@ -7,6 +7,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 // Below this line are Mock-up Data
 const News = [
@@ -158,7 +159,7 @@ export default function HomePage() {
                   <p className="text-white text-sm sm:text-base max-w-md mb-6">
                     {t('vehicle_title')}
                   </p>
-                  <a
+                  <Link
                     href="#"
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
@@ -166,7 +167,7 @@ export default function HomePage() {
                     <button className="bg-[#6869AA] text-white px-4 py-2 rounded-md text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
                       {t("vehicle_btn")}
                     </button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </section>
@@ -182,7 +183,7 @@ export default function HomePage() {
               <div className="relative mx-auto mt-10 max-w-7xl">
                 <div className="grid sm:flex bg-[#FAAF39D1] rounded-md py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-purple-800 text-sm font-medium">
                   {HighlightServices.map((service, index) => (
-                    <a key={index} href={service.link}>
+                    <Link key={index} href={service.link}>
                       <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -201,7 +202,7 @@ export default function HomePage() {
                           </span>
                         </div>
                       </motion.div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
 
@@ -250,7 +251,7 @@ export default function HomePage() {
                   {tabData[selectedTab]
                     .slice(0, 4) // Show only the first 4 news items
                     .map((news, index) => (
-                      <a key={index} href={news.link}>
+                      <Link key={index} href={news.link}>
                         <div className="bg-white rounded-md overflow-hidden shadow-sm hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full">
                           <Image
                             src={news.imageUrl}
@@ -270,17 +271,17 @@ export default function HomePage() {
                             </p>
                           </div>
                         </div>
-                      </a>
+                      </Link>
                     ))}
                 </div>
               </motion.div>
 
               <div className="flex justify-end">
-                <a href="#">
+                <Link href="#">
                   <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
                     {t('more')}
                   </button>
-                </a>
+                </Link>
               </div>
             </section>
           </motion.div>

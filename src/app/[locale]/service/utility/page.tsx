@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Droplet, Zap, Phone, Trash2 } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const UtilityPage: React.FC = () => {
   const t = useTranslations("UtilitiesPage");
@@ -53,7 +54,7 @@ const UtilityPage: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`#`} key={index} className="h-full">
+            <Link href={`#`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -78,7 +79,7 @@ const UtilityPage: React.FC = () => {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

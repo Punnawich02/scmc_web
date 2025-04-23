@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Car, File, Globe } from "lucide-react";
 import React from "react";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const PersonnelPage: React.FC = () => {
   const t = useTranslations("PersonelPage");
@@ -51,7 +52,7 @@ const PersonnelPage: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={card.link} key={index} className="h-full">
+            <Link href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +77,7 @@ const PersonnelPage: React.FC = () => {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

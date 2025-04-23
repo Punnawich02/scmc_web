@@ -7,6 +7,7 @@ import React from "react";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const BuildingPage: React.FC = () => {
   const t = useTranslations("BuildPage");
@@ -45,7 +46,7 @@ const BuildingPage: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`#`} key={index} className="h-full">
+            <Link href={`#`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -70,7 +71,7 @@ const BuildingPage: React.FC = () => {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

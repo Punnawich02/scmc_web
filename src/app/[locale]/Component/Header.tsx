@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Menu } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import Link from "next/link";
 
 interface HeaderProps {
   title?: string;
@@ -47,23 +47,23 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <div className="flex justify-between items-center w-full lg:w-auto">
           <div>
             {/* Logo for larger screens */}
-            <a href="/home" className="hidden sm:flex items-center">
+            <Link href="/home" className="hidden sm:flex items-center">
               <Image
                 src="/scmc_logo.svg"
                 alt="scmc logo"
                 width={131}
                 height={44}
               />
-            </a>
+            </Link>
             {/* Logo for smaller screens */}
-            <a href="/home" className="flex items-center sm:hidden">
+            <Link href="/home" className="flex items-center sm:hidden">
               <Image
                 src="/scmc_logo.svg"
                 alt="scmc logo"
                 width={100}
                 height={44}
               />
-            </a>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

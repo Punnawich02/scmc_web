@@ -7,6 +7,7 @@ import { Card, CardBody } from "@heroui/card";
 import { Map, Building, TreeDeciduous, RadioTower } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function PhysicalPage() {
   const t = useTranslations("PhysicalPage");
@@ -59,7 +60,7 @@ export default function PhysicalPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={card.link} key={index} className="h-full">
+            <Link href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +85,7 @@ export default function PhysicalPage() {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>
