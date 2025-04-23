@@ -83,20 +83,20 @@ const Block = [
 ];
 // End of Mock-up Data
 
-type TabType = "ข่าวกิจกรรม" | "เอกสารเผยแพร่" | "บทความ";
+type TabType = "news" | "documents" | "articles";
 
 const tabData: Record<
   TabType,
   { title: string; description: string; imageUrl: string; link: string }[]
 > = {
-  ข่าวกิจกรรม: News,
-  เอกสารเผยแพร่: PublicDoc,
-  บทความ: Block,
+  news: News,
+  documents: PublicDoc,
+  articles: Block,
 };
 
 export default function HomePage() {
-  const [selectedTab, setSelectedTab] = useState<TabType>("ข่าวกิจกรรม");
-  const tabs: TabType[] = ["ข่าวกิจกรรม", "เอกสารเผยแพร่", "บทความ"];
+  const [selectedTab, setSelectedTab] = useState<TabType>("news");
+  const tabs: TabType[] = ["news", "documents", "articles"];
 
   const t = useTranslations("HomePage");
 
@@ -234,7 +234,7 @@ export default function HomePage() {
                     }`}
                     onClick={() => setSelectedTab(text)}
                   >
-                    {text}
+                    {t(text)}
                   </span>
                 ))}
               </div>

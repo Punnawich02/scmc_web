@@ -14,22 +14,28 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ title }) => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
-  const pathname = "/" + usePathname().split("/")[2];
-  const lang = usePathname().split("/")[1];
-  const icon_src = lang === "en" ? "/th.svg" : "/usa.svg";
-  const toggleNav = () => setIsNavOpen(!isNavOpen);
+  const currentPath = usePathname();
+  const pathname = "/" + currentPath.split("/")[2];
+  const lang = currentPath.split("/")[1];
+  const router = useRouter();
   const t = useTranslations("Header");
 
-  const currentPath = usePathname()  // renamed from pathname
-  const router = useRouter()
-  
-  const switchLocale = (locale: 'en' | 'th') => {
-    const pathSegments = currentPath.split('/')
-    pathSegments[1] = locale // change only the locale segment
-    const newPath = pathSegments.join('/')
+  // เลือกไอคอนธงตามภาษาปัจจุบัน
+  const icon_src = lang === "en" ? "/th.svg" : "/usa.svg";
+  // ข้อความที่จะแสดงในปุ่มเปลี่ยนภาษา
+  const targetLang = lang === "en" ? "ไทย" : "English";
 
-    router.push(newPath)
-  }
+  const toggleNav = () => setIsNavOpen(!isNavOpen);
+
+  // ฟังก์ชันสำหรับเปลี่ยนภาษา
+  const switchLocale = () => {
+    const targetLocale = lang === "en" ? "th" : "en";
+    const pathSegments = currentPath.split("/");
+    pathSegments[1] = targetLocale; // เปลี่ยนเฉพาะส่วนของภาษา
+    const newPath = pathSegments.join("/");
+
+    router.push(newPath);
+  };
 
   return (
     <>
@@ -47,7 +53,10 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <div className="flex justify-between items-center w-full lg:w-auto">
           <div>
             {/* Logo for larger screens */}
-            <Link href="/home" className="hidden sm:flex items-center">
+            <Link
+              href={`/${lang}/home`}
+              className="hidden sm:flex items-center"
+            >
               <Image
                 src="/scmc_logo.svg"
                 alt="scmc logo"
@@ -56,7 +65,10 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               />
             </Link>
             {/* Logo for smaller screens */}
-            <Link href="/home" className="flex items-center sm:hidden">
+            <Link
+              href={`/${lang}/home`}
+              className="flex items-center sm:hidden"
+            >
               <Image
                 src="/scmc_logo.svg"
                 alt="scmc logo"
@@ -95,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
                 <nav className="flex flex-col space-y-4">
                   <Link
-                    href="/home"
+                    href={`/${lang}/home`}
                     className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/home" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -103,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     {t("home")}
                   </Link>
                   <Link
-                    href="/service"
+                    href={`/${lang}/service`}
                     className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/service" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -111,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     {t("service")}
                   </Link>
                   <Link
-                    href="/physical"
+                    href={`/${lang}/physical`}
                     className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/physical" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -119,7 +131,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     {t("physical")}
                   </Link>
                   <Link
-                    href="/about"
+                    href={`/${lang}/about`}
                     className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/about" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -127,7 +139,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     {t("about")}
                   </Link>
                   <Link
-                    href="/support"
+                    href={`/${lang}/support`}
                     className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/support" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -135,21 +147,24 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     {t("support")}
                   </Link>
 
-                  {/* Language Switcher */}
+                  {/* Language Switcher - Mobile */}
                   <div className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6">
-                    <button onClick={() => switchLocale('th')}>
-                    <Image
-                      src={icon_src}
-                      alt="USA flag"
-                      width={18}
-                      height={18}
-                    />
-                    <span
-                      id="language-text"
-                      className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400]"
+                    <button
+                      onClick={switchLocale}
+                      className="flex items-center space-x-2 hover:cursor-pointer"
                     >
-                      {t("lang")}
-                    </span>
+                      <Image
+                        src={icon_src}
+                        alt="Language flag"
+                        width={18}
+                        height={18}
+                      />
+                      <span
+                        id="language-text"
+                        className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400] ml-2"
+                      >
+                        {targetLang}
+                      </span>
                     </button>
                   </div>
                 </nav>
@@ -162,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <div className="hidden lg:flex items-center space-x-6">
           <nav className="flex space-x-6 ml-2">
             <Link
-              href="/home"
+              href={`/${lang}/home`}
               className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/home" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -170,7 +185,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               {t("home")}
             </Link>
             <Link
-              href="/service"
+              href={`/${lang}/service`}
               className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/service" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -178,7 +193,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               {t("service")}
             </Link>
             <Link
-              href="/physical"
+              href={`/${lang}/physical`}
               className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/physical" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -186,7 +201,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               {t("physical")}
             </Link>
             <Link
-              href="/about"
+              href={`/${lang}/about`}
               className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/about" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -194,7 +209,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               {t("about")}
             </Link>
             <Link
-              href="/support"
+              href={`/${lang}/support`}
               className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
                       ${pathname === "/support" ? "font-bold" : ""}
                       text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
@@ -206,16 +221,19 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
         {/* Desktop Language Switcher */}
         <div>
-          <button className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100">
+          <button
+            onClick={switchLocale}
+            className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100 p-2 rounded"
+          >
             <Image
               src={icon_src}
               width={20}
               height={20}
-              alt="Smartphone"
+              alt="Language flag"
               className="h-5 object-contain"
             />
-            <span className="text-sm text-[#6869AA] font-[Prompt] font-[400]">
-              {t("lang")}
+            <span className="text-sm text-[#6869AA] font-[Prompt] font-[400] ml-1">
+              {targetLang}
             </span>
           </button>
         </div>

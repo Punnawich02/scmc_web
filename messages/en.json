@@ -29,8 +29,8 @@
     "util": "Utilities",
     "build": "Venue Request",
     "news": "Activity News",
-    "doc": "Published Documents",
-    "blog": "Articles",
+    "documents": "Published Documents",
+    "articles": "Articles",
     "more": "More +"
   },
   "OurService": {
