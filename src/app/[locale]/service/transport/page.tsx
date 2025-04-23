@@ -16,11 +16,13 @@ const TransportPage: React.FC = () => {
     {
       title: t('table'),
       description: t('table_title'),
+      link: '#table',
       icon: <Clock className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
     {
       title: t('map'),
       description: t('map'),
+      link: '#map',
       icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
   ];
@@ -44,7 +46,7 @@ const TransportPage: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <Link href={`#`} key={index} className="h-full">
+            <Link href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}

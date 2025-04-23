@@ -35,7 +35,7 @@ export default function PhysicalPage() {
     {
       title: t("facilities"),
       description: t("facilities_title"),
-      link: "facilities",
+      link: "#facilities",
       icon: <RadioTower className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
   ];

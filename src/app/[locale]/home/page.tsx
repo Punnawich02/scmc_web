@@ -16,32 +16,32 @@ const News = [
     description:
       "กิจกรรมพิเศษสำหรับนักศึกษา มช. ประจำปีการศึกษา 2025 เพื่อส่งเสริมการเรียนรู้และพัฒนาทักษะนอกห้องเรียน",
     imageUrl: "/news/news_1.png",
-    link: "#1",
+    link: "#news1",
   },
   {
     title: "ข่าวประชาสัมพันธ์จากหน่วยงานต่างๆ",
     description: "ข่าวประชาสัมพันธ์จากหน่วยงานต่างๆ ของมหาวิทยาลัยเชียงใหม่",
     imageUrl: "/news/news_2.png",
-    link: "#2",
+    link: "#news2",
   },
   {
     title: "ประกาศจากหน่วยงานรักษาความปลอดภัย",
     description: "ประกาศจากหน่วยงานรักษาความปลอดภัยเกี่ยวกับการเข้า-ออก มช.",
     imageUrl: "/news/news_3.png",
-    link: "#3",
+    link: "#news3",
   },
   {
     title: "ข่าวสารการจราจรในเขต มช.",
     description: "ข่าวสารการจราจรในเขต มช. เพื่อความสะดวกในการเดินทาง",
     imageUrl: "/news/news_4.png",
-    link: "#4",
+    link: "#news4",
   },
   {
     title: "กิจกรรมพิเศษสำหรับนักศึกษา CMU ปี 1-4",
     description:
       "กิจกรรมพิเศษสำหรับนักศึกษา มช. ประจำปีการศึกษา 2025 เพื่อส่งเสริมการเรียนรู้และพัฒนาทักษะนอกห้องเรียน",
     imageUrl: "/news/news_1.png",
-    link: "#1",
+    link: "#news1",
   },
 ];
 
@@ -51,19 +51,19 @@ const PublicDoc = [
     description:
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos eum, harum modi porro commodi rem quae quo neque corporis facere dolores repellendus officia delectus eligendi quam vitae. Placeat, quasi.",
     imageUrl: "/news/news_1.png",
-    link: "#A",
+    link: "#DocA",
   },
   {
     title: "เอกสาร B",
     description: "เอกสาร B",
     imageUrl: "/news/news_2.png",
-    link: "#B",
+    link: "#DocB",
   },
   {
     title: "เอกสาร C",
     description: "เอกสาร C",
     imageUrl: "/news/news_3.png",
-    link: "#C",
+    link: "#DocC",
   },
 ];
 
@@ -72,13 +72,13 @@ const Block = [
     title: "บทความ A",
     description: "บทความ A",
     imageUrl: "/news/news_2.png",
-    link: "#AA",
+    link: "#BlogA",
   },
   {
     title: "บทความ B",
     description: "บทความ B",
     imageUrl: "/news/news_1.png",
-    link: "#BB",
+    link: "#BlogB",
   },
 ];
 // End of Mock-up Data
@@ -160,7 +160,7 @@ export default function HomePage() {
                     {t('vehicle_title')}
                   </p>
                   <Link
-                    href="#"
+                    href="#btn"
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
                   >

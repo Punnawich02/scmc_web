@@ -21,7 +21,7 @@ export default function AboutPage() {
     {
       title: t('contact'),
       description: t('contact_title'),
-      link: "#",
+      link: "#contact",
       icon: <User className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
   ];
