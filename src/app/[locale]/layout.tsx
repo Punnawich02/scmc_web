@@ -30,10 +30,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
   params,
-}: Readonly<{
+}: {
   children: React.ReactNode;
   params: { locale: string };
-}>) {
+}) {
   const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
