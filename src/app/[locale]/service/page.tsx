@@ -4,7 +4,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
 import { motion } from "framer-motion";
-import {useTranslations} from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 import {
   Database,
@@ -18,10 +18,11 @@ import Link from "next/link";
 
 export default function ServicePage() {
   const t = useTranslations('OurService');
+  const locale = useLocale();
   const cardData = [
     {
       title: t('data'),
-      link: "data",
+      link: "/data",
       description: t('data_title'),
       icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
@@ -77,7 +78,7 @@ export default function ServicePage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <Link href={`/service/${card.link}`} key={index} className="h-full">
+            <Link href={`/${locale}/service${card.link}`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}

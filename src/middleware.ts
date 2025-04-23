@@ -4,37 +4,41 @@ import { routing } from "./i18n/routing";
 
 const intlMiddleware = createMiddleware(routing);
 
+// Your original function remains for checking just the locale
 function isValidLocale(locale: string): locale is (typeof routing)['locales'][number] {
   return (routing.locales as readonly string[]).includes(locale);
 }
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const firstSegment = pathname.split("/")[1];
+  const segments = pathname.split('/');
+  const firstSegment = segments[1];
 
-  // ✅ Redirect "/" หรือ "/th" → "/th/home"
-  if (
-    pathname === "/" ||
-    (isValidLocale(firstSegment) && pathname === `/${firstSegment}`)
-  ) {
+  // Case: /
+  if (pathname === '/') {
     const url = request.nextUrl.clone();
-    url.pathname = `/${firstSegment || routing.defaultLocale}/home`;
+    url.pathname = `/${routing.defaultLocale}/home`;
     return NextResponse.redirect(url);
   }
 
-  // ✅ ถ้า first segment ไม่ใช่ locale ที่รองรับ
-  if (firstSegment && !isValidLocale(firstSegment)) {
-    const remainingPath = pathname.split("/").slice(1).join("/"); // เก็บ path ทั้งหมด
+  // Case: /th or /en → redirect to /th/home or /en/home
+  if (isValidLocale(firstSegment) && segments.length === 2) {
     const url = request.nextUrl.clone();
-    url.pathname = `/${routing.defaultLocale}/${remainingPath}`; // แทรก default locale
-
+    url.pathname = `/${firstSegment}/home`;
     return NextResponse.redirect(url);
   }
 
-  // ✅ ใช้งาน next-intl middleware ตามปกติ
-  return intlMiddleware(request);
+  // Case: valid locale prefix → allow next-intl to handle
+  if (isValidLocale(firstSegment)) {
+    return intlMiddleware(request);
+  }
+
+  // Case: invalid locale (e.g., /de/service) → redirect to defaultLocale + original path
+  const url = request.nextUrl.clone();
+  url.pathname = `/${routing.defaultLocale}${pathname}`;
+  return NextResponse.redirect(url);
 }
 
 export const config = {
-  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)"
 };
