@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
             <p>SCMC : Smart Campus Management Center</p>
             <p>{t("cmut")} (@korsormorchor)</p>
             <br/>
-            <p>{t("dev_by")} Punnwich</p>
+            <p>{t("dev_by")} Punnawich</p>
           </div>
           {/* Map Section */}
           <div className="flex justify-end sm:me-10">
