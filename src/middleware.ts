@@ -1,5 +1,4 @@
-// middleware.ts
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 
@@ -11,7 +10,15 @@ export function middleware(request: NextRequest) {
   function isValidLocale(locale: string): locale is (typeof routing)['locales'][number] {
     return (routing.locales as readonly string[]).includes(locale);
   }
-  
+
+  if (
+    pathname === '/' ||
+    (isValidLocale(firstSegment) && pathname === `/${firstSegment}`)
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${routing.defaultLocale}/home`;
+    return NextResponse.redirect(url);
+  }
   
   // ถ้า first segment ไม่ใช่ locale ที่รองรับ
   if (firstSegment && !isValidLocale(firstSegment)) {
@@ -21,7 +28,6 @@ export function middleware(request: NextRequest) {
     return Response.redirect(url);
   }
   
-
   // หาก locale ถูกต้อง → ใช้ next-intl middleware ตามปกติ
   return intlMiddleware(request);
 }
