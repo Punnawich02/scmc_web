@@ -1,40 +1,40 @@
 "use client";
 
-import Footer from "@/app/Component/Footer";
-import Header from "@/app/Component/Header";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
 import { motion } from "framer-motion";
 import { Car, File, Globe } from "lucide-react";
 import React from "react";
-
-const cardData = [
-  {
-    title: "จองรถ",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima commodi explicabo incidunt sunt deleniti porro fugiat adipisci numquam facilis, unde consectetur fugit aspernatur rem labore, quaerat similique sit impedit odit.",
-    link: "#",
-    icon: <Car className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "คลังเอกสาร",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima commodi explicabo incidunt sunt deleniti porro fugiat adipisci numquam facilis, unde consectetur fugit aspernatur rem labore, quaerat similique sit impedit odit.",
-    link: "#",
-    icon: <File className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "CMU.to",
-    description:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minima commodi explicabo incidunt sunt deleniti porro fugiat adipisci numquam facilis, unde consectetur fugit aspernatur rem labore, quaerat similique sit impedit odit.",
-    link: "#",
-    icon: <Globe className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 const PersonnelPage: React.FC = () => {
+  const t = useTranslations("PersonelPage");
+  const cardData = [
+    {
+      title: t("car"),
+      description: t("car_title"),
+      link: "#car",
+      icon: <Car className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t("doc"),
+      description: t("doc_title"),
+      link: "#doc",
+      icon: <File className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t("cmuto"),
+      description: t("cmuto_title"),
+      link: "#cmuto",
+      icon: <Globe className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="สำหรับบุคลากร" />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
@@ -43,23 +43,16 @@ const PersonnelPage: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              สำหรับบุคลากร
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={card.link} key={index} className="h-full">
+            <Link href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -84,7 +77,7 @@ const PersonnelPage: React.FC = () => {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

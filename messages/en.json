@@ -1,0 +1,138 @@
+{
+  "Header": {
+    "home": "Home Page",
+    "service": "Our Service",
+    "physical": "Physical Data",
+    "about": "About Us",
+    "support": "Support Us",
+    "lang": "ภาษาไทย"
+  },
+  "Footer": {
+    "contact_us": "Contact Us",
+    "map": "Smart Campus Management Center (SCMC) University Office Building 3, 2nd Floor 239 Huay Kaew Rd., Suthep Subdistrict, Mueang Chiang Mai District, Chiang Mai 50200",
+    "admin": "SCMC (Administration): 053 941 492",
+    "vehicle_reg": "SCMC (Vehicle Registration): 053 941 494",
+    "elect_shutt": "CMU Transport (Electric Shuttle): 053 944 936",
+    "van_bus": "CMU Transport (Van & Bus): 053 944 949",
+    "sec_off": "Security Office: 053 941 190-1",
+    "off_hour": "Office Hours: Monday – Friday, 08:30 – 16:30",
+    "cmut": "CMU Transport"
+  },
+  "HomePage": {
+    "page_title": "Smart Campus Management Center, CMU",
+    "vehicle": "CMU Access Vehicle Registration",
+    "vehicle_title": "For individuals who wish to register their vehicles for campus access",
+    "vehicle_btn": "Go to Vehicle Registration System",
+    "map": "Timetable and Map",
+    "cctv": "CCTV Footage",
+    "data": "Information Services",
+    "util": "Utilities",
+    "build": "Venue Request",
+    "news": "Activity News",
+    "documents": "Published Documents",
+    "articles": "Articles",
+    "more": "More +"
+  },
+  "OurService": {
+    "page_title": "All Services of Chiang Mai University",
+    "header": "Our Services",
+    "title": "A collection of services provided by the university for the convenience of students, staff, and general users",
+    "data": "Information Services",
+    "data_title": "Providing news, updates, and information systems",
+    "transport": "CMU Transportation",
+    "transport_title": "Transportation and shuttle services within the university",
+    "security": "Security and Traffic Management",
+    "security_title": "Campus safety and traffic flow management",
+    "build": "Building and Facility Services",
+    "build_title": "Comprehensive care and maintenance of university buildings",
+    "util": "Utilities",
+    "util_title": "Electricity, water supply, and other basic services",
+    "personel": "For CMU Staff",
+    "personel_title": "Support services and facilities for university personnel"
+  },
+  "DataPage": {
+    "page_title": "Information and Data Service Center",
+    "header": "Information Services",
+    "title": "A centralized hub for easy access to essential campus data"
+  },
+  "TransportPage": {
+    "page_title": "Transportation and Electric Shuttle Services at Chiang Mai University",
+    "header": "CMU Transportation",
+    "title": "Transportation information and electric shuttle services within the university",
+    "table": "Shuttle Timetable",
+    "table_title": "Check the operating schedule of the electric shuttles",
+    "map": "Shuttle Map",
+    "map_title": "Routes and stops of the electric shuttle service"
+  },
+  "SecurityPage": {
+    "page_title": "Campus Safety and Traffic Management",
+    "header": "Security and Traffic Management",
+    "title": "Ensuring safety of lives and property, along with managing on-campus traffic"
+  },
+  "BuildPage": {
+    "page_title": "Facility and Building Management Services at CMU",
+    "header": "Building and Facility Services",
+    "title": "Managing university buildings and physical spaces",
+    "build": "Venue Request",
+    "build_title": "Procedures and forms for requesting space usage",
+    "check": "Plan Review",
+    "check_title": "Building plan review and approval services"
+  },
+  "UtilitiesPage": {
+    "page_title": "Utility Services of Chiang Mai University",
+    "header": "Utilities Management",
+    "title": "Managing core utility systems to support university operations",
+    "water": "Water Supply",
+    "water_title": "Information and services related to water supply",
+    "electric": "Electricity",
+    "electric_title": "Electrical system information and services",
+    "phone": "Telephone System",
+    "phone_title": "Management of the internal telephone communication system",
+    "trash": "Waste Management",
+    "trash_title": "Sustainable waste management approaches and services"
+  },
+  "PersonelPage": {
+    "page_title": "Services for Chiang Mai University Personnel",
+    "header": "For CMU Personnel",
+    "title": "Facilities and support systems for university staff",
+    "car": "Vehicle Booking",
+    "car_title": "System for booking official vehicles for work purposes",
+    "doc": "Document Center",
+    "doc_title": "Central repository for documents and forms",
+    "cmuto": "CMU.to",
+    "cmuto_title": "Short URL service for internal departments at CMU"
+  },
+  "PhysicalPage": {
+    "page_title": "Physical Information of Chiang Mai University",
+    "header": "Campus Physical Data",
+    "title": "Physical data on areas, buildings, and the campus environment",
+    "map": "CMU Map",
+    "map_title": "Overview map of Chiang Mai University campus",
+    "build": "Building Information",
+    "build_title": "Details and data of various buildings",
+    "tree": "Tree Data",
+    "tree_title": "Types and locations of trees within the university",
+    "facilities": "Facilities",
+    "facilities_title": "Accessible campus facilities"
+  },
+  "AboutPage": {
+    "page_title": "About the Organization and Our Vision",
+    "header": "About Us",
+    "title": "Learn about our organization, vision, and operations",
+    "vision": "Vision / Mission / Structure",
+    "vision_title": "Our goals, mission, and organizational structure",
+    "contact": "Departments and Contact",
+    "contact_title": "Contact information and relevant departments"
+  },
+  "SupportPage": {
+    "page_title": "Collaborating for Sustainability at the University",
+    "header": "Contribute to Sustainability",
+    "title": "Encouraging participation for sustainability and the environment",
+    "fix": "Maintenance Request",
+    "fix_title": "System for reporting equipment and facility maintenance",
+    "comment": "Suggestions",
+    "comment_title": "Submit ideas for service improvement",
+    "sddg": "SDG and Carbon Neutrality",
+    "sdg_title": "Sustainable Development Goals and carbon reduction initiatives"
+  }
+}

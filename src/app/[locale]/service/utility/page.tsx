@@ -1,31 +1,42 @@
 "use client";
 
-import React from "react";
-import Footer from "@/app/Component/Footer";
-import Header from "@/app/Component/Header";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
-import { Clock, Map } from "lucide-react";
 import { motion } from "framer-motion";
+import { Droplet, Zap, Phone, Trash2 } from "lucide-react";
+import React from "react";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
-const cardData = [
-  {
-    title: "ตารางรอบรถไฟฟ้า",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
-    icon: <Clock className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "แผนที่รถไฟฟ้า",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, molestias, hic in mollitia earum maiores dolor similique accusamus debitis itaque necessitatibus eos veniam sequi porro nobis optio eveniet aliquam doloremque?",
-    icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+const UtilityPage: React.FC = () => {
+  const t = useTranslations("UtilitiesPage");
+  const cardData = [
+    {
+      title: t('water'),
+      description: t('water_title'),
+      icon: <Droplet className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('electric'),
+      description: t('electric_title'),
+      icon: <Zap className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('phone'),
+      description: t('phone_title'),
+      icon: <Phone className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('trash'),
+      description: t('trash_title'),
+      icon: <Trash2 className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
 
-const TransportPage: React.FC = () => {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="ขส.มช." />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
@@ -34,23 +45,16 @@ const TransportPage: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              ขส.มช.
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={`#`} key={index} className="h-full">
+            <Link href={`#`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -75,7 +79,7 @@ const TransportPage: React.FC = () => {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>
@@ -84,4 +88,4 @@ const TransportPage: React.FC = () => {
   );
 };
 
-export default TransportPage;
+export default UtilityPage;

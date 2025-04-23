@@ -6,37 +6,38 @@ import Footer from "../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
 import { Wrench, MessageSquare, Shrub } from "lucide-react";
 import { motion } from "framer-motion";
-
-const cardData = [
-  {
-    title: "แจ้งซ่อม",
-    link: "repair",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Wrench className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "ข้อเสนอแนะ",
-    link: "suggestion",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: (
-      <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
-    ),
-  },
-  {
-    title: "SDG and Carbon Neutrality",
-    link: "tree",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Shrub className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 export default function SupportPage() {
+  const t = useTranslations("SupportPage");
+  
+  const cardData = [
+    {
+      title: t('fix'),
+      description: t('fix_title'),
+      link: "#fix",
+      icon: <Wrench className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('comment'),
+      description: t('comment_title'),
+      link: "#comment",
+      icon: (
+        <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
+      ),
+    },
+    {
+      title: t('sdg'),
+      description: t('sdg_title'),
+      link: "#sdg",
+      icon: <Shrub className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="ร่วมสร้างความยั่งยืน" />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
@@ -45,23 +46,16 @@ export default function SupportPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              ร่วมสร้างความยั่งยืน
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 justify-center items-stretch max-w-5xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={card.link} key={index} className="h-full">
+            <Link href={card.link} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -86,7 +80,7 @@ export default function SupportPage() {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>

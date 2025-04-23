@@ -6,34 +6,8 @@ import Footer from "../Component/Footer";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
-
-const HighlightServices = [
-  {
-    icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/transport",
-    label: "ตารางและแผนที่รถไฟฟ้า",
-  },
-  {
-    icon: <Cctv className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/security",
-    label: "ขอดูกล้องวงจรปิด",
-  },
-  {
-    icon: <FileText className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/data",
-    label: "บริการข้อมูล",
-  },
-  {
-    icon: <Waves className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/utility",
-    label: "สาธารณูปโภค",
-  },
-  {
-    icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-    link: "/service/building",
-    label: "ขอใช้สถานที่",
-  },
-];
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 // Below this line are Mock-up Data
 const News = [
@@ -109,24 +83,58 @@ const Block = [
 ];
 // End of Mock-up Data
 
-type TabType = "ข่าวกิจกรรม" | "เอกสารเผยแพร่" | "บทความ";
+type TabType = "news" | "documents" | "articles";
 
 const tabData: Record<
   TabType,
   { title: string; description: string; imageUrl: string; link: string }[]
 > = {
-  ข่าวกิจกรรม: News,
-  เอกสารเผยแพร่: PublicDoc,
-  บทความ: Block,
+  news: News,
+  documents: PublicDoc,
+  articles: Block,
 };
 
 export default function HomePage() {
-  const [selectedTab, setSelectedTab] = useState<TabType>("ข่าวกิจกรรม");
-  const tabs: TabType[] = ["ข่าวกิจกรรม", "เอกสารเผยแพร่", "บทความ"];
+  const [selectedTab, setSelectedTab] = useState<TabType>("news");
+  const tabs: TabType[] = ["news", "documents", "articles"];
+
+  const t = useTranslations("HomePage");
+
+  const HighlightServices = [
+    {
+      icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+      link: "/service/transport",
+      label: t("map"),
+    },
+    {
+      icon: <Cctv className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+      link: "/service/security",
+      label: t("cctv"),
+    },
+    {
+      icon: (
+        <FileText className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />
+      ),
+      link: "/service/data",
+      label: t("data"),
+    },
+    {
+      icon: <Waves className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
+      link: "/service/utility",
+      label: t("util"),
+    },
+    {
+      icon: (
+        <Building className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />
+      ),
+      link: "/service/building",
+      label: t("build"),
+    },
+  ];
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="หน้าหลัก" />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         <div className="max-w-[80%] mx-auto">
           {/* Vehicle Section */}
@@ -144,24 +152,22 @@ export default function HomePage() {
                   style={{ objectFit: "cover" }}
                   className="rounded-md"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-transparent flex flex-col justify-center px-6 sm:px-8">
+                <div className="absolute inset-0 bg-gradient-to-r to-transparent flex flex-col justify-center px-6 sm:px-8">
                   <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
-                    ลงทะเบียนสิทธิ์เข้า-ออก มช.
+                    {t("vehicle")}
                   </h2>
                   <p className="text-white text-sm sm:text-base max-w-md mb-6">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad
-                    nesciunt fugiat tempore in consequatur error quas ab, vitae
-                    fugit earum.
+                    {t('vehicle_title')}
                   </p>
-                  <a
+                  <Link
                     href="#"
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
                   >
                     <button className="bg-[#6869AA] text-white px-4 py-2 rounded-md text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
-                      เข้าสู่ระบบลงทะเบียนยานพาหนะ
+                      {t("vehicle_btn")}
                     </button>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </section>
@@ -177,7 +183,7 @@ export default function HomePage() {
               <div className="relative mx-auto mt-10 max-w-7xl">
                 <div className="grid sm:flex bg-[#FAAF39D1] rounded-md py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-purple-800 text-sm font-medium">
                   {HighlightServices.map((service, index) => (
-                    <a key={index} href={service.link}>
+                    <Link key={index} href={service.link}>
                       <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -196,7 +202,7 @@ export default function HomePage() {
                           </span>
                         </div>
                       </motion.div>
-                    </a>
+                    </Link>
                   ))}
                 </div>
 
@@ -228,7 +234,7 @@ export default function HomePage() {
                     }`}
                     onClick={() => setSelectedTab(text)}
                   >
-                    {text}
+                    {t(text)}
                   </span>
                 ))}
               </div>
@@ -245,7 +251,7 @@ export default function HomePage() {
                   {tabData[selectedTab]
                     .slice(0, 4) // Show only the first 4 news items
                     .map((news, index) => (
-                      <a key={index} href={news.link}>
+                      <Link key={index} href={news.link}>
                         <div className="bg-white rounded-md overflow-hidden shadow-sm hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full">
                           <Image
                             src={news.imageUrl}
@@ -265,17 +271,17 @@ export default function HomePage() {
                             </p>
                           </div>
                         </div>
-                      </a>
+                      </Link>
                     ))}
                 </div>
               </motion.div>
 
               <div className="flex justify-end">
-                <a href="#">
+                <Link href="#">
                   <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
-                    เพิ่มเติม +
+                    {t('more')}
                   </button>
-                </a>
+                </Link>
               </div>
             </section>
           </motion.div>

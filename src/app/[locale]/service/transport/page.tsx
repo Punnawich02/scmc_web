@@ -1,34 +1,32 @@
 "use client";
 
 import React from "react";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
 import { Card, CardBody } from "@heroui/card";
-import { Eye, User } from "lucide-react";
+import { Clock, Map } from "lucide-react";
 import { motion } from "framer-motion";
+import {useTranslations} from 'next-intl';
+import Link from "next/link";
 
-// Data for the cards displayed on the page
-const cardData = [
-  {
-    title: "วิสัยทัศน์ / พันธะกิจ / โครงสร้าง",
-    link: "vision",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <Eye className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-  {
-    title: "หน่วยงาน และ Contact",
-    link: "contact",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.",
-    icon: <User className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-  },
-];
+const TransportPage: React.FC = () => {
+  const t = useTranslations('TransportPage');
 
-export default function AboutPage() {
+  const cardData = [
+    {
+      title: t('table'),
+      description: t('table_title'),
+      icon: <Clock className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+    {
+      title: t('map'),
+      description: t('map'),
+      icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+    },
+  ];
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="เกี่ยวกับเรา" />
+      <Header title={t('page_title')} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
@@ -37,23 +35,16 @@ export default function AboutPage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              เกี่ยวกับเรา
+              {t('header')}
             </h1>
             <p className="text-gray-700 mb-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. In
-              dignissimos a rerum facere veritatis, nam similique quisquam
-              quibusdam consectetur nulla ab, officia modi aspernatur est!
-              Consectetur in sunt esse recusandae. Lorem ipsum, dolor sit amet
-              consectetur adipisicing elit. Aspernatur nihil, corporis rem earum
-              animi facere, deleniti eveniet amet quaerat ipsum, maiores minima
-              quo ratione! Asperiores, explicabo. Pariatur earum explicabo
-              quibusdam.
+              {t('title')}
             </p>
           </motion.div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
-            <a href={card.link} key={index} className="h-full">
+            <Link href={`#`} key={index} className="h-full">
               <motion.div
                 initial={{ opacity: 0, y: 100 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +60,7 @@ export default function AboutPage() {
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[1rem]">
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
                       {card.title}
                     </h2>
                     <p className="text-sm text-white text-center sm:text-left flex-grow">
@@ -78,11 +69,13 @@ export default function AboutPage() {
                   </CardBody>
                 </Card>
               </motion.div>
-            </a>
+            </Link>
           ))}
         </div>
       </main>
       <Footer />
     </div>
   );
-}
+};
+
+export default TransportPage;
