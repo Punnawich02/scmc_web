@@ -7,7 +7,7 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 
 const prompt = Prompt({
-  subsets: ["latin"], // หรือ ['latin', 'thai'] ถ้ามีภาษาไทย
+  subsets: ["latin"],
   weight: ["400", "500", "700"],
   display: "swap",
 });
@@ -32,9 +32,9 @@ export default async function RootLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
