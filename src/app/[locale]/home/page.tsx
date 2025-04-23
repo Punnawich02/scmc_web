@@ -152,7 +152,7 @@ export default function HomePage() {
                   style={{ objectFit: "cover" }}
                   className="rounded-md"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-transparent flex flex-col justify-center px-6 sm:px-8">
+                <div className="absolute inset-0 bg-gradient-to-r to-transparent flex flex-col justify-center px-6 sm:px-8">
                   <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
                     {t("vehicle")}
                   </h2>
