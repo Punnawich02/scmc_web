@@ -6,7 +6,7 @@ import Footer from "../Component/Footer";
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
 // Below this line are Mock-up Datas
@@ -97,6 +97,7 @@ const tabData: Record<
 export default function HomePage() {
   const [selectedTab, setSelectedTab] = useState<TabType>("news");
   const tabs: TabType[] = ["news", "documents", "articles"];
+  const locale = useLocale();
 
   const t = useTranslations("HomePage");
 
@@ -183,7 +184,7 @@ export default function HomePage() {
               <div className="relative mx-auto mt-10 max-w-7xl">
                 <div className="grid sm:flex bg-[#FAAF39D1] rounded-xl py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-sm font-medium">
                   {HighlightServices.map((service, index) => (
-                    <Link key={index} href={service.link}>
+                    <Link key={index} href={`/${locale}${service.link}`}>
                       <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
