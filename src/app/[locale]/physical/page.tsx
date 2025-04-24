@@ -43,7 +43,7 @@ export default function PhysicalPage() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t('page_title')} />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
+      <main className="flex flex-col gap-8 px-4 mb-10 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -58,7 +58,7 @@ export default function PhysicalPage() {
             </p>
           </motion.div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
             <Link href={card.link} key={index} className="h-full">
               <motion.div

@@ -44,7 +44,7 @@ const BuildingPage: React.FC = () => {
             </p>
           </motion.div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 justify-center items-stretch max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 justify-center items-stretch max-w-3xl mx-auto">
           {cardData.map((card, index) => (
             <Link href={card.link} key={index} className="h-full">
               <motion.div
