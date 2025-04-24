@@ -20,14 +20,14 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   const router = useRouter();
   const t = useTranslations("Header");
 
-  // เลือกไอคอนธงตามภาษาปัจจุบัน
+  // Select Flag Icon
   const icon_src = lang === "en" ? "/th.svg" : "/usa.svg";
-  // ข้อความที่จะแสดงในปุ่มเปลี่ยนภาษา
+  // Select Show Language
   const targetLang = lang === "en" ? "ไทย" : "English";
 
   const toggleNav = () => setIsNavOpen(!isNavOpen);
 
-  // ฟังก์ชันสำหรับเปลี่ยนภาษา
+  // Language Switcher Function
   const switchLocale = () => {
     const targetLocale = lang === "en" ? "th" : "en";
     const pathSegments = currentPath.split("/");
@@ -36,6 +36,29 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
     router.push(newPath);
   };
+
+  const nav_bar = [
+    {
+      show: t("home"),
+      link: "/home",
+    },
+    {
+      show: t("service"),
+      link: "/service",
+    },
+    {
+      show: t("physical"),
+      link: "/physical",
+    },
+    {
+      show: t("about"),
+      link: "/about",
+    },
+    {
+      show: t("support"),
+      link: "/support",
+    },
+  ];
 
   return (
     <>
@@ -64,6 +87,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 height={44}
               />
             </Link>
+            
             {/* Logo for smaller screens */}
             <Link
               href={`/${lang}/home`}
@@ -106,46 +130,17 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 </button>
 
                 <nav className="flex flex-col space-y-4">
-                  <Link
-                    href={`/${lang}/home`}
-                    className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/home" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                  >
-                    {t("home")}
-                  </Link>
-                  <Link
-                    href={`/${lang}/service`}
-                    className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/service" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                  >
-                    {t("service")}
-                  </Link>
-                  <Link
-                    href={`/${lang}/physical`}
-                    className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/physical" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                  >
-                    {t("physical")}
-                  </Link>
-                  <Link
-                    href={`/${lang}/about`}
-                    className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/about" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                  >
-                    {t("about")}
-                  </Link>
-                  <Link
-                    href={`/${lang}/support`}
-                    className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/support" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                  >
-                    {t("support")}
-                  </Link>
+                  {nav_bar.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={`/${lang}${item.link}`}
+                      className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
+                ${pathname === item.link ? "font-bold" : ""}
+                text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
+                    >
+                      {item.show}
+                    </Link>
+                  ))}
 
                   {/* Language Switcher - Mobile */}
                   <div className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6">
@@ -176,46 +171,17 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center space-x-6">
           <nav className="flex space-x-6 ml-2">
-            <Link
-              href={`/${lang}/home`}
-              className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/home" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-            >
-              {t("home")}
-            </Link>
-            <Link
-              href={`/${lang}/service`}
-              className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/service" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-            >
-              {t("service")}
-            </Link>
-            <Link
-              href={`/${lang}/physical`}
-              className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/physical" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-            >
-              {t("physical")}
-            </Link>
-            <Link
-              href={`/${lang}/about`}
-              className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/about" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-            >
-              {t("about")}
-            </Link>
-            <Link
-              href={`/${lang}/support`}
-              className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
-                      ${pathname === "/support" ? "font-bold" : ""}
-                      text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-            >
-              {t("support")}
-            </Link>
+            {nav_bar.map((item, index) => (
+              <Link
+                key={index}
+                href={`/${lang}${item.link}`}
+                className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
+                ${pathname === item.link ? "font-bold" : ""}
+                text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
+              >
+                {item.show}
+              </Link>
+            ))}
           </nav>
         </div>
 

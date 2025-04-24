@@ -9,7 +9,7 @@ import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 
-// Below this line are Mock-up Data
+// Below this line are Mock-up Datas
 const News = [
   {
     title: "กิจกรรมพิเศษสำหรับนักศึกษา CMU ปี 1-4",
@@ -81,7 +81,7 @@ const Block = [
     link: "#BlogB",
   },
 ];
-// End of Mock-up Data
+// End of Mock-up Datas
 
 type TabType = "news" | "documents" | "articles";
 

@@ -14,10 +14,10 @@ export function middleware(request: NextRequest) {
   const segments = pathname.split('/');
   const firstSegment = segments[1];
 
-  // Case: /
+  // Case: / -> will redirect to defualt /th/home 
   if (pathname === '/') {
     const url = request.nextUrl.clone();
-    url.pathname = `/${routing.defaultLocale}/home`;
+    url.pathname = `/${routing.defaultLocale}/th/home`;
     return NextResponse.redirect(url);
   }
 
@@ -33,7 +33,7 @@ export function middleware(request: NextRequest) {
     return intlMiddleware(request);
   }
 
-  // Case: invalid locale (e.g., /de/service) → redirect to defaultLocale + original path
+  // Case: invalid locale (e.g., /de/service) → redirect to defaultLocale(/th) + original path
   const url = request.nextUrl.clone();
   url.pathname = `/${routing.defaultLocale}${pathname}`;
   return NextResponse.redirect(url);
