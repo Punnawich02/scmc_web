@@ -176,9 +176,9 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               <Link
                 key={index}
                 href={`/${lang}${item.link}`}
-                className={`text-sm hover:bg-gray-100 hover:cursor-pointer 
+                className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl 
                 ${pathname === item.link ? "font-bold" : ""}
-                text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
+                text-[#6869AA] font-[Prompt] font-[20px] font-[400]`}
               >
                 {item.show}
               </Link>
@@ -190,7 +190,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         <div>
           <button
             onClick={switchLocale}
-            className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100 p-2 rounded"
+            className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100 p-2 rounded-xl"
           >
             <Image
               src={icon_src}
