@@ -150,13 +150,13 @@ export default function HomePage() {
                   alt="Angkaew"
                   fill
                   style={{ objectFit: "cover" }}
-                  className="rounded-md"
+                  className="rounded-xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r to-transparent flex flex-col justify-center px-6 sm:px-8">
                   <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
                     {t("vehicle")}
                   </h2>
-                  <p className="text-white text-sm sm:text-base max-w-md mb-6">
+                  <p className="text-white text-xs sm:text-sm sm:text-base max-w-md mb-6">
                     {t('vehicle_title')}
                   </p>
                   <Link
@@ -164,7 +164,7 @@ export default function HomePage() {
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
                   >
-                    <button className="bg-[#6869AA] text-white px-4 py-2 rounded-md text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
+                    <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
                       {t("vehicle_btn")}
                     </button>
                   </Link>
@@ -181,7 +181,7 @@ export default function HomePage() {
           >
             <section className="pb-6">
               <div className="relative mx-auto mt-10 max-w-7xl">
-                <div className="grid sm:flex bg-[#FAAF39D1] rounded-md py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-purple-800 text-sm font-medium">
+                <div className="grid sm:flex bg-[#FAAF39D1] rounded-xl py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-sm font-medium">
                   {HighlightServices.map((service, index) => (
                     <Link key={index} href={service.link}>
                       <motion.div
@@ -194,7 +194,7 @@ export default function HomePage() {
                           key={index}
                           className="flex flex-col items-center min-w-[100px] max-w-[140px] hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out sm:flex-grow sm:max-w-none"
                         >
-                          <div className="w-20 h-20 rounded-md bg-white flex items-center justify-center">
+                          <div className="w-20 h-20 rounded-xl bg-white flex items-center justify-center">
                             {service.icon}
                           </div>
                           <span className="text-white pt-2">
@@ -206,7 +206,7 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-md shadow text-sm ml-1 font-semibold">
+                <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-xl shadow text-sm ml-1 font-semibold">
                   Highlight
                   <br />
                   Services
@@ -252,7 +252,7 @@ export default function HomePage() {
                     .slice(0, 4) // Show only the first 4 news items
                     .map((news, index) => (
                       <Link key={index} href={news.link}>
-                        <div className="bg-white rounded-md overflow-hidden shadow-sm hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full">
+                        <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full">
                           <Image
                             src={news.imageUrl}
                             alt={news.title}
@@ -278,7 +278,7 @@ export default function HomePage() {
 
               <div className="flex justify-end">
                 <Link href="#">
-                  <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
+                  <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
                     {t('more')}
                   </button>
                 </Link>
@@ -309,7 +309,7 @@ export default function HomePage() {
                   width={400}
                   height={150}
                   alt="CMU Mobile Map"
-                  className="w-full object-contain rounded-md hover:shadow-lg hover:cursor-pointer sm:scale-100 sm:hover:scale-105 scale-150 hover:scale-155 transition-transform duration-300 ease-in-out"
+                  className="w-full object-contain rounded-xl hover:shadow-lg hover:cursor-pointer sm:scale-100 sm:hover:scale-105 scale-150 hover:scale-155 transition-transform duration-300 ease-in-out"
                 />
               </div>
             </section>
