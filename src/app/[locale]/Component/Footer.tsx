@@ -21,7 +21,8 @@ const Footer: React.FC = () => {
           {/* Contact information section */}
           <div className="text-center sm:text-left text-sm sm:ms-10">
             <h1 className="font-bold mb-4">{t("contact_us")}</h1>
-            <p>{t("map")}</p>
+            <p>{t("map1")}</p>
+            <p>{t("map2")}</p>
             <p>{t("admin")}</p>
             <p>{t("vehicle_reg")}</p>
             <p>{t("elect_shutt")}</p>

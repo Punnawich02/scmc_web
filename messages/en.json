@@ -9,7 +9,8 @@
   },
   "Footer": {
     "contact_us": "Contact Us",
-    "map": "Smart Campus Management Center (SCMC) University Office Building 3, 2nd Floor 239 Huay Kaew Rd., Suthep Subdistrict, Mueang Chiang Mai District, Chiang Mai 50200",
+    "map1": "Smart Campus Management Center (SCMC) University Office Building 3, 2nd Floor",
+    "map2": "239 Huay Kaew Rd., Suthep Subdistrict, Mueang Chiang Mai District, Chiang Mai 50200",
     "admin": "SCMC (Administration): 053 941 492",
     "vehicle_reg": "SCMC (Vehicle Registration): 053 941 494",
     "elect_shutt": "CMU Transport (Electric Shuttle): 053 944 936",
