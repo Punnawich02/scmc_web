@@ -74,7 +74,7 @@ const UtilityPage: React.FC = () => {
                     <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
                       {card.icon}
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem]">
+                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
                       {card.title}
                     </h2>
                     <p className="text-sm text-white text-center sm:text-left flex-grow">
