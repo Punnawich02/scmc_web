@@ -24,7 +24,7 @@
     "page_title": "Smart Campus Management Center, CMU",
     "vehicle": "CMU Access Vehicle Registration",
     "vehicle_title": "For individuals who wish to register their vehicles for campus access",
-    "vehicle_btn": "Go to Vehicle Registration System",
+    "vehicle_btn": "Vehicle Registration System",
     "map": "Timetable and Map",
     "cctv": "CCTV Footage",
     "data": "Information Services",
@@ -134,7 +134,7 @@
     "fix_title": "System for reporting equipment and facility maintenance",
     "comment": "Suggestions",
     "comment_title": "Submit ideas for service improvement",
-    "sddg": "SDG and Carbon Neutrality",
+    "sdg": "SDG and Carbon Neutrality",
     "sdg_title": "Sustainable Development Goals and carbon reduction initiatives"
   }
 }

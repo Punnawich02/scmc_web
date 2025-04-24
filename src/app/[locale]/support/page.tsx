@@ -28,7 +28,7 @@ export default function SupportPage() {
       ),
     },
     {
-      title: t('sdg'),
+      title: "SDG and Carbon Neutrality",
       description: t('sdg_title'),
       link: "#sdg",
       icon: <Shrub className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,

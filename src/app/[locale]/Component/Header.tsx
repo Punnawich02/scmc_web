@@ -22,6 +22,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
   // Select Flag Icon
   const icon_src = lang === "en" ? "/th.svg" : "/usa.svg";
+
   // Select Show Language
   const targetLang = lang === "en" ? "ไทย" : "English";
 
@@ -87,7 +88,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 height={44}
               />
             </Link>
-            
+
             {/* Logo for smaller screens */}
             <Link
               href={`/${lang}/home`}
@@ -143,11 +144,11 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                   ))}
 
                   {/* Language Switcher - Mobile */}
-                  <div className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6">
-                    <button
-                      onClick={switchLocale}
-                      className="flex items-center space-x-2 hover:cursor-pointer"
-                    >
+                  <button
+                    onClick={switchLocale}
+                    className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6"
+                  >
+                    <div className="flex items-center space-x-2 hover:cursor-pointer">
                       <Image
                         src={icon_src}
                         alt="Language flag"
@@ -160,8 +161,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                       >
                         {targetLang}
                       </span>
-                    </button>
-                  </div>
+                    </div>
+                  </button>
                 </nav>
               </motion.div>
             )}
