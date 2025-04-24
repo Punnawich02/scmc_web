@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
   // Case: / -> will redirect to defualt /th/home 
   if (pathname === '/') {
     const url = request.nextUrl.clone();
-    url.pathname = `/${routing.defaultLocale}/th/home`;
+    url.pathname = `/${routing.defaultLocale}/home`;
     return NextResponse.redirect(url);
   }
 
