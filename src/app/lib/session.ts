@@ -1,5 +1,5 @@
-import { cookies } from 'next/headers';
-import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
+import { cookies } from "next/headers";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 // Types for token data
 export interface TokenData {
@@ -14,30 +14,33 @@ export interface TokenData {
 // Save token to cookies (encrypted)
 export async function saveToken(token: TokenData): Promise<void> {
   const cookieStore = cookies();
-  
+
   // In a production app, you'd want to encrypt this data
-  (await
-        // In a production app, you'd want to encrypt this data
-        cookieStore).set('oauth-token', JSON.stringify(token), {
+  (
+    await // In a production app, you'd want to encrypt this data
+    cookieStore
+  ).set("oauth-token", JSON.stringify(token), {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
+    secure: process.env.NODE_ENV === "production",
     maxAge: token.expires_in ? token.expires_in : 3600, // default to 1 hour
-    path: '/',
+    path: "/",
   });
 }
 
 // Get token from cookies
-export function getToken(cookieStore: ReadonlyRequestCookies): TokenData | null {
-  const tokenCookie = cookieStore.get('oauth-token');
-  
+export function getToken(
+  cookieStore: ReadonlyRequestCookies
+): TokenData | null {
+  const tokenCookie = cookieStore.get("oauth-token");
+
   if (!tokenCookie) {
     return null;
   }
-  
+
   try {
     return JSON.parse(tokenCookie.value) as TokenData;
   } catch (e) {
-    console.error('Failed to parse token from cookie', e);
+    console.error("Failed to parse token from cookie", e);
     return null;
   }
 }
@@ -45,5 +48,5 @@ export function getToken(cookieStore: ReadonlyRequestCookies): TokenData | null 
 // Remove token from cookies
 export async function removeToken(): Promise<void> {
   const cookieStore = cookies();
-  (await cookieStore).delete('oauth-token');
+  (await cookieStore).delete("oauth-token");
 }

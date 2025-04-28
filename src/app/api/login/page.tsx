@@ -6,12 +6,14 @@ export default function Home() {
 
   return (
     <div>
-          <h1>Next.js OAuth Authorization Code Flow</h1>
-          <div>
-            <Link href={authUrl} className={styles.loginButton}>
-              Log in with CMU account
-            </Link>
-          </div>
+      <h1>Next.js OAuth Authorization Code Flow</h1>
+      <div>
+        <Link href={authUrl} className={styles.loginButton}>
+          <button className={styles.loginButton}>
+            Log in with CMU account
+          </button>
+        </Link>
+      </div>
     </div>
   );
 }
