@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   
   if (!token) {
     // Redirect to home page if no token
-    redirect('/');
+    redirect('/api/login');
   }
 
   // Fetch user's basic info
