@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
         client_secret: process.env.CLIENT_SECRET!,
         redirect_uri: process.env.CALLBACK_URL!,
         scope: process.env.SCOPE || "", // Use empty string as fallback
-        code,
+        code: code,
       }),
     });
 

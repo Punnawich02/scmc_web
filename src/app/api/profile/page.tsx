@@ -13,7 +13,7 @@ export default async function ProfilePage() {
   const token = getToken(await cookieStore);
 
   if (!token) {
-    // Redirect to home page if no token
+    // Redirect to login page if no token
     redirect("/api/login");
   }
 
@@ -46,10 +46,12 @@ export default async function ProfilePage() {
       {error && <div className={styles.error}>Error: {error}</div>}
 
       <div>
+        {/* Show Token */}
         <h2>Access Token:</h2>
         <pre className={styles.codeBlock}>{JSON.stringify(token, null, 2)}</pre>
         <hr />
 
+        {/* Show Basic Info */}
         <h2>Basic Info:</h2>
         <pre className={styles.codeBlock}>
           {basicInfo ? JSON.stringify(basicInfo, null, 2) : "Loading..."}
