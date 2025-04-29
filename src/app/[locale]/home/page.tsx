@@ -161,7 +161,7 @@ export default function HomePage() {
                     {t('vehicle_title')}
                   </p>
                   <Link
-                    href="#btn"
+                    href="/api/login"
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
                   >
