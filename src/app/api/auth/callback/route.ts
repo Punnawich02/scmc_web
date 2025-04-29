@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // If don't have a code, redirect to login
   if (!code) {
     redirect("/api/login");
   }

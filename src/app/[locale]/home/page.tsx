@@ -160,15 +160,15 @@ export default function HomePage() {
                   <p className="text-white text-xs sm:text-sm sm:text-base max-w-md mb-6">
                     {t('vehicle_title')}
                   </p>
-                  <Link
-                    href="/api/login"
+                    <Link
+                    href='/api/login'
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
-                  >
+                    >
                     <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
                       {t("vehicle_btn")}
                     </button>
-                  </Link>
+                    </Link>
                 </div>
               </div>
             </section>
