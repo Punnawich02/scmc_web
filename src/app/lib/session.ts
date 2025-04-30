@@ -22,7 +22,7 @@ export async function saveToken(token: TokenData): Promise<void> {
   ).set("oauth-token", JSON.stringify(token), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: token.expires_in ? token.expires_in : 3600, // default to 1 hour
+    maxAge: token.expires_in ? token.expires_in : 60, // default to 1 hour
     path: "/",
   });
 }
@@ -43,10 +43,4 @@ export function getToken(
     console.error("Failed to parse token from cookie", e);
     return null;
   }
-}
-
-// Remove token from cookies
-export async function removeToken(): Promise<void> {
-  const cookieStore = cookies();
-  (await cookieStore).delete("oauth-token");
 }

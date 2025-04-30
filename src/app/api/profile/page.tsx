@@ -1,14 +1,19 @@
+// This is a server component
+// It runs on the server and can access server-side resources like cookies, headers, etc.
+'ues strict';
+
 import { cookies } from "next/headers";
 import { getToken } from "../../lib/session";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import styles from "../page.module.css";
 
-// Make sure server doesn't cache this page
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Make sure server cache this page for 60 seconds
+export const dynamic = "auto";
+export const revalidate = 60;
 
 export default async function ProfilePage() {
+  // Get data from cookies
   const cookieStore = cookies();
   const token = getToken(await cookieStore);
 
@@ -41,8 +46,6 @@ export default async function ProfilePage() {
 
   return (
     <div className={styles.profileContainer}>
-      <h1>Profile</h1>
-
       {error && <div className={styles.error}>Error: {error}</div>}
 
       <div>
@@ -56,6 +59,54 @@ export default async function ProfilePage() {
         <pre className={styles.codeBlock}>
           {basicInfo ? JSON.stringify(basicInfo, null, 2) : "Loading..."}
         </pre>
+        <hr />
+
+        {/* Example to show a value from api */}
+        <div>
+          <h2>Profile</h2>
+          <p>
+            ชื่อ-สกุล: {basicInfo.firstname_TH + " " + basicInfo.lastname_TH}
+          </p>
+          <p>รหัสนักศึกษา: {basicInfo.student_id}</p>
+          <p>คณะ: {basicInfo.organization_name_TH}</p>
+          <p>CMU Mail: {basicInfo.cmuitaccount}</p>
+        </div>
+        <hr />
+
+        <div>
+          <h2>From</h2>
+          <div>
+            <label htmlFor="from">ชื่อ-สกุล:</label>
+            <input
+              type="text"
+              id="name"
+              name="from"
+              value={basicInfo.firstname_TH + " " + basicInfo.lastname_TH}
+              readOnly
+            />
+          </div>
+          <div>
+            <label htmlFor="from">รหัสนักศึกษา:</label>
+            <input
+              type="text"
+              id="id"
+              name="from"
+              value={basicInfo.student_id}
+              readOnly
+            />
+          </div>
+          <div>
+            <label htmlFor="from">ส่วนสูง:</label>
+            <input type="text" id="height" name="from" />
+            <label htmlFor="from">น้ำหนัก:</label>
+            <input type="text" id="weight" name="from" />
+          </div>
+          {/* <div>
+            <button type="button" onClick={calculate} className={styles.submitButton}>
+              Calculate
+            </button>
+          </div> */}
+        </div>
         <hr />
 
         <Link href="/api/auth/logout" className={styles.logoutButton}>

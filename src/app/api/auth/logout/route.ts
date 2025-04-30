@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { removeToken } from "../../../lib/session";
+import { cookies } from "next/headers";
 
 export async function GET() {
-  // Clear the session
-  removeToken();
+  // Remove the token from cookies
+  (await cookies()).delete("oauth-token");
 
   // Redirect to the OAuth provider's logout page
   return NextResponse.redirect(process.env.LOGOUT_URL!);
