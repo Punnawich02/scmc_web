@@ -22,9 +22,10 @@ export async function saveToken(token: TokenData): Promise<void> {
   ).set("oauth-token", JSON.stringify(token), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    maxAge: token.expires_in ? token.expires_in : 60, // default to 1 hour
+    maxAge: token.expires_in ? token.expires_in : 60*60, // default to 60 sec * 60 min = 1 hour
     path: "/",
   });
+  console.log("Saved!");
 }
 
 // Get token from cookies
@@ -38,6 +39,7 @@ export function getToken(
   }
 
   try {
+    console.log("Getted!");
     return JSON.parse(tokenCookie.value) as TokenData;
   } catch (e) {
     console.error("Failed to parse token from cookie", e);

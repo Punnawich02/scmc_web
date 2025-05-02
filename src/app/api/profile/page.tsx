@@ -1,66 +1,100 @@
-// This is a server component
-// It runs on the server and can access server-side resources like cookies, headers, etc.
-'ues strict';
+"use client";
 
-import { cookies } from "next/headers";
-import { getToken } from "../../lib/session";
-import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../page.module.css";
 
-// Make sure server cache this page for 60 seconds
-export const dynamic = "auto";
-export const revalidate = 60;
-
-export default async function ProfilePage() {
-  // Get data from cookies
-  const cookieStore = cookies();
-  const token = getToken(await cookieStore);
-
-  if (!token) {
-    // Redirect to login page if no token
-    redirect("/api/login");
+export default function ProfilePage() {
+  const [token, setToken] = useState(null);
+  interface BasicInfo {
+    firstname_TH: string;
+    lastname_TH: string;
+    student_id: string;
+    organization_name_TH: string;
+    cmuitaccount: string;
   }
 
-  // Fetch user's basic info
-  let basicInfo = null;
-  let error = null;
+  const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
-  try {
-    const response = await fetch(process.env.BASICINFO_URL!, {
-      headers: {
-        Authorization: `Bearer ${token.access_token}`,
-      },
-      cache: "no-store",
-    });
-
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch the token
+        const tokenResponse = await fetch("/api/getToken");
+        if (!tokenResponse.ok) {
+          if (tokenResponse.status === 401) {
+            // Redirect to login page if unauthorized
+            router.push("/api/login");
+            return;
+          }
+          throw new Error(`Token fetch error: ${tokenResponse.status}`);
+        }
+        
+        const tokenData = await tokenResponse.json();
+        setToken(tokenData);
+        
+        // Fetch user's basic info using the token
+        const basicInfoResponse = await fetch("/api/getUserInfo", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        
+        if (!basicInfoResponse.ok) {
+          throw new Error(`API error: ${basicInfoResponse.status}`);
+        }
+        
+        const userData = await basicInfoResponse.json();
+        setBasicInfo(userData);
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
+        const errorMessage = err instanceof Error ? err.message : "Unknown error";
+        setError("Failed to load profile data: " + errorMessage);
+      } finally {
+        setLoading(false);
+      }
     }
 
-    basicInfo = await response.json();
-  } catch (err) {
-    console.error("Failed to fetch profile:", err);
-    error = "Failed to load profile data";
+    fetchData();
+  }, [router]);
+
+  const handleLogout = () => {
+    // Use router instead of direct link to prevent automatic navigation
+    router.push('/api/auth/logout');
+  };
+
+  if (loading) {
+    return <div className={styles.profileContainer}>Loading profile data...</div>;
+  }
+
+  if (error) {
+    return <div className={styles.profileContainer}>
+      <div className={styles.error}>Error: {error}</div>
+    </div>;
+  }
+
+  if (!basicInfo) {
+    return <div className={styles.profileContainer}>No profile data available</div>;
   }
 
   return (
     <div className={styles.profileContainer}>
-      {error && <div className={styles.error}>Error: {error}</div>}
-
       <div>
         {/* Show Token */}
         <h2>Access Token:</h2>
         <pre className={styles.codeBlock}>{JSON.stringify(token, null, 2)}</pre>
         <hr />
-
+        
         {/* Show Basic Info */}
         <h2>Basic Info:</h2>
         <pre className={styles.codeBlock}>
-          {basicInfo ? JSON.stringify(basicInfo, null, 2) : "Loading..."}
+          {JSON.stringify(basicInfo, null, 2)}
         </pre>
         <hr />
-
+        
         {/* Example to show a value from api */}
         <div>
           <h2>Profile</h2>
@@ -72,8 +106,8 @@ export default async function ProfilePage() {
           <p>CMU Mail: {basicInfo.cmuitaccount}</p>
         </div>
         <hr />
-
-        <div>
+        
+        {/* <div>
           <h2>From</h2>
           <div>
             <label htmlFor="from">ชื่อ-สกุล:</label>
@@ -101,17 +135,13 @@ export default async function ProfilePage() {
             <label htmlFor="from">น้ำหนัก:</label>
             <input type="text" id="weight" name="from" />
           </div>
-          {/* <div>
-            <button type="button" onClick={calculate} className={styles.submitButton}>
-              Calculate
-            </button>
-          </div> */}
         </div>
-        <hr />
-
-        <Link href="/api/auth/logout" className={styles.logoutButton}>
+        <hr /> */}
+        
+        {/* Use button instead of Link for logout */}
+        <button onClick={handleLogout} className={styles.logoutButton}>
           Logout
-        </Link>
+        </button>
       </div>
     </div>
   );
