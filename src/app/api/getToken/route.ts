@@ -7,7 +7,6 @@ export async function GET() {
   const token = getToken(await cookieStore);
   
   if (!token) {
-    console.log("Get token in getToken.ts");
     return NextResponse.json({ error: "No token found" }, { status: 401 });
   }
   

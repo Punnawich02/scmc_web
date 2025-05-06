@@ -163,3 +163,22 @@ a.secondary {
     filter: invert();
   }
 }
+
+.logoutButton {
+  appearance: none;
+  border: 1px;
+  border-radius: 8px;
+  background: black;
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoutButton:hover {
+  background: gray;
+}
