@@ -19,9 +19,10 @@ export async function saveToken(token: TokenData): Promise<void> {
   (await cookieStore).set("oauth-token", JSON.stringify(token), {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
-    expires: new Date(Date.now() + (token.expires_in? token.expires_in : 90 * 60) *1000 ), // Set expiration time to 90 minutes or the token's expires_in value 
+    expires: new Date(
+      Date.now() + (token.expires_in ? token.expires_in : 90 * 60) * 1000
+    ), // Set expiration time to 90 minutes or the token's expires_in value
   });
-
 }
 
 // Get token from cookies

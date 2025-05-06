@@ -237,12 +237,7 @@ export default function ProfilePage() {
             />
 
             <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              required
-            />
+            <input type="password" id="password" name="password" required />
 
             <label htmlFor="input">Input:</label>
             <input type="text" id="input" name="input" required />
