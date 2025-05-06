@@ -16,7 +16,7 @@ export default function SupportPage() {
     {
       title: t('fix'),
       description: t('fix_title'),
-      link: "#fix",
+      link: "/support/fix",
       icon: <Wrench className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
     {

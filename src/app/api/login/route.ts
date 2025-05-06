@@ -5,10 +5,7 @@ import { redirect } from "next/navigation";
 export async function GET() {
   const cookieStore = cookies();
   const token = getToken(await cookieStore);
-  if (token) {
-    // Redirect to profile page if token exists
-    redirect("/api/profile");
-  } else {
+  if (!token) {
     const auth_url = process.env.AUTH_URL;
     const client_id = process.env.CLIENT_ID;
     const callback_url = process.env.CALLBACK_URL;

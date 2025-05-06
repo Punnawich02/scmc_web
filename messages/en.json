@@ -136,5 +136,28 @@
     "comment_title": "Submit ideas for service improvement",
     "sdg": "SDG and Carbon Neutrality",
     "sdg_title": "Sustainable Development Goals and carbon reduction initiatives"
+  },
+  "UserProfile": {
+    "name": "First and Last Name",
+    "email": "Email",
+    "id": "StudentID",
+    "fac": "Faculty",
+    "status": "Status"
+  },
+  "FixPage": {
+    "page_title": "Equipment and Area Maintenance Request",
+    "inform": "Requester Details",
+    "name": "Name",
+    "organization": "Organization",
+    "account": "Status",
+    "detail": "Maintenance Request",
+    "repairCategory": "Repair Category",
+    "hardware": "Hardware",
+    "software": "Software",
+    "network": "Network",
+    "other": "Other",
+    "band": "Equipment",
+    "repair_title": "Maintenance Request Details",
+    "position": "Location"
   }
 }

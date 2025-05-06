@@ -69,23 +69,15 @@ export default function ProfilePage() {
     router.push("/api/auth/logout");
   };
 
-  const handleSubmitForm = () => {
-    const formElement = document.querySelector("form");
-    if (formElement) {
-      const formData = new FormData(formElement);
+  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Form submitted");
+    try {
+      const formData = new FormData(e.currentTarget);
       const data = Object.fromEntries(formData.entries());
-      alert(
-        "Name: " +
-          data.fname +
-          " " +
-          data.lname +
-          "\nEmail: " +
-          data.email +
-          "\nInput: " +
-          data.input
-      );
-    } else {
-      console.error("Form element not found");
+      console.log("Form data:", data);
+    } catch (error) {
+      console.error("Error processing form data:", error);
     }
   };
 
@@ -204,6 +196,7 @@ export default function ProfilePage() {
               flexDirection: "column",
               gap: "1rem",
             }}
+            onSubmit={handleSubmitForm}
           >
             <div>
               <label htmlFor="fname">First Name:</label>
@@ -242,14 +235,28 @@ export default function ProfilePage() {
             <label htmlFor="input">Input:</label>
             <input type="text" id="input" name="input" required />
 
-            <button type="submit" onClick={handleSubmitForm}>
+            <button
+              type="submit"
+              style={{
+                backgroundColor: "#4CAF50",
+                color: "white",
+                padding: "10px 20px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
               Submit
             </button>
           </form>
         </div>
 
         {/* Use button instead of Link for logout */}
-        <button onClick={handleLogout} className={styles.logoutButton}>
+        <button
+          onClick={handleLogout}
+          className={styles.logoutButton}
+          style={{ marginTop: "1rem", alignItems: "center" }}
+        >
           Logout
         </button>
       </div>
