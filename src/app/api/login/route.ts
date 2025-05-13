@@ -14,5 +14,7 @@ export async function GET() {
     const authUrl = `${auth_url}?client_id=${client_id}&response_type=code&redirect_uri=${callback_url}&scope=${scope}`;
 
     redirect(authUrl);
+  } else {
+    return new Response("Token is valid", { status: 200 });
   }
 }

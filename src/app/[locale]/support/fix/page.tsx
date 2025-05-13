@@ -102,7 +102,7 @@ const SupportFixPage = () => {
         <Header title="" />
         <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
           <Link
-            href="/api/login"
+            href="/api/login?caller=/support/fix"
             className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10"
           >
             <button className="bg-blue-500 text-white py-2 px-4 rounded-xl hover:bg-blue-600 hover:cursor-pointer transition duration-200 ease-in-out">
@@ -158,11 +158,6 @@ const SupportFixPage = () => {
     }
   };
 
-  const handleLogout = () => {
-    // Use router instead of direct link to prevent automatic navigation
-    router.push("/api/auth/logout");
-  };
-
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("title")} />
@@ -209,12 +204,6 @@ const SupportFixPage = () => {
                 readOnly
               />
             </div>
-            <button
-              className="bg-red-500 text-white py-2 px-4 rounded-xl hover:bg-red-600 hover:cursor-pointer transition duration-200 ease-in-out mt-4"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
           </div>
           <div className="flex flex-col gap-4 mt-4">
             <h1 className="text-2xl font-bold">{t("detail")}</h1>

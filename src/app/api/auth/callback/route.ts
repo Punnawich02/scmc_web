@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
     await saveToken(tokenData);
 
     // Redirect to profile page
-    return NextResponse.redirect(new URL("/th/support/fix", request.url));
+    return NextResponse.redirect(new URL("/th/home", request.url));
   } catch (error) {
     console.error("Token exchange error:", error);
     // Redirect to home with error message

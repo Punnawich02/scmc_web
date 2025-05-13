@@ -3,11 +3,12 @@
 import Image from "next/image";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Below this line are Mock-up Datas
 const News = [
@@ -95,6 +96,51 @@ const tabData: Record<
 };
 
 export default function HomePage() {
+  const [token, setToken] = useState(null);
+  
+  interface BasicInfo {
+    firstname_TH: string;
+    lastname_TH: string;
+  }
+  const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Fetch the token
+        const tokenResponse = await fetch("/api/getToken");
+        if (!tokenResponse.ok) {
+          if (tokenResponse.status === 401) {
+            return;
+          }
+          throw new Error(`Token fetch error: ${tokenResponse.status}`);
+        }
+
+        const tokenData = await tokenResponse.json();
+        setToken(tokenData);
+
+        // Fetch user's basic info using the token
+        const basicInfoResponse = await fetch("/api/getUserInfo", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!basicInfoResponse.ok) {
+          throw new Error(`API error: ${basicInfoResponse.status}`);
+        }
+
+        const userData = await basicInfoResponse.json();
+        setBasicInfo(userData);
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
+      }
+    }
+
+    fetchData();
+  }, [router]);
+
   const [selectedTab, setSelectedTab] = useState<TabType>("news");
   const tabs: TabType[] = ["news", "documents", "articles"];
   const locale = useLocale();
@@ -135,7 +181,7 @@ export default function HomePage() {
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title={t('page_title')} />
+      <Header title={t("page_title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         <div className="max-w-[80%] mx-auto">
           {/* Vehicle Section */}
@@ -144,7 +190,7 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <section className="relative w-full max-w-7xl mx-auto">
+            <section className="relative w-full max-w-7xl mx-auto mb-6">
               <div className="relative w-full h-[300px] sm:h-[400px]">
                 <Image
                   src="/DSC06224.jpg"
@@ -158,19 +204,57 @@ export default function HomePage() {
                     {t("vehicle")}
                   </h2>
                   <p className="text-white text-xs sm:text-sm sm:text-base max-w-md mb-6">
-                    {t('vehicle_title')}
+                    {t("vehicle_title")}
                   </p>
-                    <Link
-                    href='/api/login'
+                  <Link
+                    href="/api/login"
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
-                    >
+                  >
                     <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
                       {t("vehicle_btn")}
                     </button>
-                    </Link>
+                  </Link>
                 </div>
               </div>
+            </section>
+          </motion.div>
+
+          {/* Login Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true, amount: 0.1 }}
+          >
+            <section className="px-6 py-8 bg-gray-100 flex flex-col items-center justify-center gap-8 max-w-7xl mx-auto text-black rounded-xl shadow-md">
+              {!token ? (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div>
+                    เข้าสู่ระบบเพื่อใช้งานบริการต่างๆ ของมหาวิทยาลัยเชียงใหม่
+                  </div>
+                  <button
+                    className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+                    onClick={() => router.push("/api/login")}
+                  >
+                    Login
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div>
+                    ยินดีต้อนรับ{" "}
+                    {basicInfo?.firstname_TH + " " + basicInfo?.lastname_TH}{" "}
+                    สู่ระบบบริการมหาวิทยาลัยเชียงใหม่
+                  </div>
+                  <button
+                    className="bg-red-500 text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:bg-red-600 hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+                    onClick={() => router.push("/api/auth/logout")}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </section>
           </motion.div>
 
@@ -280,7 +364,7 @@ export default function HomePage() {
               <div className="flex justify-end">
                 <Link href="#">
                   <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
-                    {t('more')}
+                    {t("more")}
                   </button>
                 </Link>
               </div>
@@ -315,6 +399,8 @@ export default function HomePage() {
               </div>
             </section>
           </motion.div>
+
+          
         </div>
       </main>
       <Footer />

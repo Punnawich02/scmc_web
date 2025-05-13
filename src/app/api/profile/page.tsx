@@ -5,7 +5,12 @@ import { useRouter } from "next/navigation";
 import styles from "../page.module.css";
 
 export default function ProfilePage() {
-  const [token, setToken] = useState(null);
+
+  const [token, setToken] = useState<Token | null>(null);
+  interface Token {
+    expires_in: string;
+  }
+
   interface BasicInfo {
     firstname_TH: string;
     lastname_TH: string;
@@ -20,7 +25,7 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
+ 
   useEffect(() => {
     async function fetchData() {
       try {
@@ -170,6 +175,7 @@ export default function ProfilePage() {
             <p>รหัสนักศึกษา: {basicInfo.student_id}</p>
             <p>คณะ: {basicInfo.organization_name_TH}</p>
             <p>CMU Mail: {basicInfo.cmuitaccount}</p>
+            <p>Expire in: {parseInt(token.expires_in)/60/60} hr.</p>
           </pre>
         </div>
         <hr />
