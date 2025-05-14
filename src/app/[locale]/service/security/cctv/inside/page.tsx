@@ -6,109 +6,109 @@ import { useTranslations } from "next-intl";
 
 const InsidePage = () => {
   const t = useTranslations("FixPage");
-//   const locale = useLocale();
+  //   const locale = useLocale();
 
-//   const [token, setToken] = useState(null);
+  //   const [token, setToken] = useState(null);
 
-//   interface BasicInfo {
-//     itaccounttype_EN: string;
-//     itaccounttype_TH: string;
-//     organization_name_EN: string;
-//     firstname_TH: string;
-//     lastname_TH: string;
-//     firstname_EN: string;
-//     lastname_EN: string;
-//     student_id: string;
-//     organization_name_TH: string;
-//     cmuitaccount: string;
-//   }
+  //   interface BasicInfo {
+  //     itaccounttype_EN: string;
+  //     itaccounttype_TH: string;
+  //     organization_name_EN: string;
+  //     firstname_TH: string;
+  //     lastname_TH: string;
+  //     firstname_EN: string;
+  //     lastname_EN: string;
+  //     student_id: string;
+  //     organization_name_TH: string;
+  //     cmuitaccount: string;
+  //   }
 
-//   const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
-//   const [error, setError] = useState<string | null>(null);
-//   const [loading, setLoading] = useState(true);
-//   const router = useRouter();
+  //   const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
+  //   const [error, setError] = useState<string | null>(null);
+  //   const [loading, setLoading] = useState(true);
+  //   const router = useRouter();
 
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         // Fetch the token
-//         const tokenResponse = await fetch("/api/getToken");
-//         if (!tokenResponse.ok) {
-//           if (tokenResponse.status === 401) {
-//             return;
-//           }
-//           throw new Error(`Token fetch error: ${tokenResponse.status}`);
-//         }
+  //   useEffect(() => {
+  //     async function fetchData() {
+  //       try {
+  //         // Fetch the token
+  //         const tokenResponse = await fetch("/api/getToken");
+  //         if (!tokenResponse.ok) {
+  //           if (tokenResponse.status === 401) {
+  //             return;
+  //           }
+  //           throw new Error(`Token fetch error: ${tokenResponse.status}`);
+  //         }
 
-//         const tokenData = await tokenResponse.json();
-//         setToken(tokenData);
+  //         const tokenData = await tokenResponse.json();
+  //         setToken(tokenData);
 
-//         // Fetch user's basic info using the token
-//         const basicInfoResponse = await fetch("/api/getUserInfo", {
-//           headers: {
-//             "Content-Type": "application/json",
-//           },
-//         });
+  //         // Fetch user's basic info using the token
+  //         const basicInfoResponse = await fetch("/api/getUserInfo", {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //         });
 
-//         if (!basicInfoResponse.ok) {
-//           throw new Error(`API error: ${basicInfoResponse.status}`);
-//         }
+  //         if (!basicInfoResponse.ok) {
+  //           throw new Error(`API error: ${basicInfoResponse.status}`);
+  //         }
 
-//         const userData = await basicInfoResponse.json();
-//         setBasicInfo(userData);
-//       } catch (err) {
-//         console.error("Failed to fetch data:", err);
-//         const errorMessage =
-//           err instanceof Error ? err.message : "Unknown error";
-//         setError("Failed to load profile data: " + errorMessage);
-//       } finally {
-//         setLoading(false);
-//       }
-//     }
+  //         const userData = await basicInfoResponse.json();
+  //         setBasicInfo(userData);
+  //       } catch (err) {
+  //         console.error("Failed to fetch data:", err);
+  //         const errorMessage =
+  //           err instanceof Error ? err.message : "Unknown error";
+  //         setError("Failed to load profile data: " + errorMessage);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     }
 
-//     fetchData();
-//   }, [router]);
+  //     fetchData();
+  //   }, [router]);
 
-//   if (loading) {
-//     return (
-//       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-//         <Header title={t("page_title")} />
-//         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
-//           Loadind profile data...
-//         </main>
-//         <Footer />
-//       </div>
-//     );
-//   }
+  //   if (loading) {
+  //     return (
+  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
+  //         <Header title={t("page_title")} />
+  //         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
+  //           Loadind profile data...
+  //         </main>
+  //         <Footer />
+  //       </div>
+  //     );
+  //   }
 
-//   if (error) {
-//     return (
-//       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-//         <Header title={t("page_title")} />
-//         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
-//           Error : {error}
-//         </main>
-//         <Footer />
-//       </div>
-//     );
-//   }
+  //   if (error) {
+  //     return (
+  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
+  //         <Header title={t("page_title")} />
+  //         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
+  //           Error : {error}
+  //         </main>
+  //         <Footer />
+  //       </div>
+  //     );
+  //   }
 
-//   if (token) {
-//     return (
-//       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-//         <Header title="" />
-//         <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-//           <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-//             สำหรับบุคลากร / นักศึกษา ในมช
-//           </h1>
-//           <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out">
-//             เข้าสู่ระบบ / login
-//           </button>
-//         </main>
-//         <Footer />
-//       </div>
-//     );
-//   }
+  //   if (token) {
+  //     return (
+  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
+  //         <Header title="" />
+  //         <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
+  //           <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
+  //             สำหรับบุคลากร / นักศึกษา ในมช
+  //           </h1>
+  //           <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out">
+  //             เข้าสู่ระบบ / login
+  //           </button>
+  //         </main>
+  //         <Footer />
+  //       </div>
+  //     );
+  //   }
 
   //   if (!basicInfo) {
   //     return (
@@ -126,6 +126,9 @@ const InsidePage = () => {
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
+        <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
+          แบบฟอร์มขอดูกล้องวงจรปิดออนไลน์
+        </h1>
         <form className="flex flex-col gap-4 mx-auto w-full bg-gray-50 p-6 rounded-xl shadow">
           {/* Name - ID */}
           <div className="flex flex-row items-center gap-6 w-full">
@@ -134,8 +137,8 @@ const InsidePage = () => {
               <input
                 type="text"
                 className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอกชื่อ-สกุล"
-                required
+                value="ธนูทวย คงควรคอย"
+                readOnly
               />
             </label>
             <label className="flex flex-row items-center flex-1 gap-2">
@@ -168,8 +171,8 @@ const InsidePage = () => {
               <input
                 type="email"
                 className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอก e-mail"
-                required
+                value="lol@cmu.ac.th"
+                readOnly
               />
             </label>
             <label className="flex flex-row items-center flex-1 gap-2">

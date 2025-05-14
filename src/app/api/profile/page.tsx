@@ -175,7 +175,6 @@ export default function ProfilePage() {
             <p>รหัสนักศึกษา: {basicInfo.student_id}</p>
             <p>คณะ: {basicInfo.organization_name_TH}</p>
             <p>CMU Mail: {basicInfo.cmuitaccount}</p>
-            <p>Expire in: {parseInt(token.expires_in)/60/60} hr.</p>
           </pre>
         </div>
         <hr />
