@@ -1,364 +1,330 @@
 "use client";
-
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+// import { useTranslations } from "next-intl";
 
 const InsidePage = () => {
-  const t = useTranslations("FixPage");
-  //   const locale = useLocale();
-
-  //   const [token, setToken] = useState(null);
-
-  //   interface BasicInfo {
-  //     itaccounttype_EN: string;
-  //     itaccounttype_TH: string;
-  //     organization_name_EN: string;
-  //     firstname_TH: string;
-  //     lastname_TH: string;
-  //     firstname_EN: string;
-  //     lastname_EN: string;
-  //     student_id: string;
-  //     organization_name_TH: string;
-  //     cmuitaccount: string;
-  //   }
-
-  //   const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
-  //   const [error, setError] = useState<string | null>(null);
-  //   const [loading, setLoading] = useState(true);
-  //   const router = useRouter();
-
-  //   useEffect(() => {
-  //     async function fetchData() {
-  //       try {
-  //         // Fetch the token
-  //         const tokenResponse = await fetch("/api/getToken");
-  //         if (!tokenResponse.ok) {
-  //           if (tokenResponse.status === 401) {
-  //             return;
-  //           }
-  //           throw new Error(`Token fetch error: ${tokenResponse.status}`);
-  //         }
-
-  //         const tokenData = await tokenResponse.json();
-  //         setToken(tokenData);
-
-  //         // Fetch user's basic info using the token
-  //         const basicInfoResponse = await fetch("/api/getUserInfo", {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         });
-
-  //         if (!basicInfoResponse.ok) {
-  //           throw new Error(`API error: ${basicInfoResponse.status}`);
-  //         }
-
-  //         const userData = await basicInfoResponse.json();
-  //         setBasicInfo(userData);
-  //       } catch (err) {
-  //         console.error("Failed to fetch data:", err);
-  //         const errorMessage =
-  //           err instanceof Error ? err.message : "Unknown error";
-  //         setError("Failed to load profile data: " + errorMessage);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-
-  //     fetchData();
-  //   }, [router]);
-
-  //   if (loading) {
-  //     return (
-  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-  //         <Header title={t("page_title")} />
-  //         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
-  //           Loadind profile data...
-  //         </main>
-  //         <Footer />
-  //       </div>
-  //     );
-  //   }
-
-  //   if (error) {
-  //     return (
-  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-  //         <Header title={t("page_title")} />
-  //         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
-  //           Error : {error}
-  //         </main>
-  //         <Footer />
-  //       </div>
-  //     );
-  //   }
-
-  //   if (token) {
-  //     return (
-  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-  //         <Header title="" />
-  //         <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-  //           <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-  //             สำหรับบุคลากร / นักศึกษา ในมช
-  //           </h1>
-  //           <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out">
-  //             เข้าสู่ระบบ / login
-  //           </button>
-  //         </main>
-  //         <Footer />
-  //       </div>
-  //     );
-  //   }
-
-  //   if (!basicInfo) {
-  //     return (
-  //       <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-  //         <Header title={t("page_title")} />
-  //         <main className="flex flex-col gap-8 px-4 py-6 w-full text-black max-w-7xl mx-auto mb-10 justify-center items-center">
-  //           No data available.
-  //         </main>
-  //         <Footer />
-  //       </div>
-  //     );
-  //   }
+  // const t = useTranslations("FixPage");
+  const [, setToken] = useState(null);
+    
+    interface BasicInfo {
+      firstname_TH: string;
+      lastname_TH: string;
+      itaccounttype_TH: string;
+      student_id: number;
+    }
+    const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
+    const router = useRouter();
+  
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          // Fetch the token
+          const tokenResponse = await fetch("/api/getToken");
+          if (!tokenResponse.ok) {
+            if (tokenResponse.status === 401) {
+              return;
+            }
+            throw new Error(`Token fetch error: ${tokenResponse.status}`);
+          }
+  
+          const tokenData = await tokenResponse.json();
+          setToken(tokenData);
+  
+          // Fetch user's basic info using the token
+          const basicInfoResponse = await fetch("/api/getUserInfo", {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+  
+          if (!basicInfoResponse.ok) {
+            throw new Error(`API error: ${basicInfoResponse.status}`);
+          }
+  
+          const userData = await basicInfoResponse.json();
+          setBasicInfo(userData);
+        } catch (err) {
+          console.error("Failed to fetch data:", err);
+        }
+      }
+  
+      fetchData();
+    }, [router]);
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title={t("title")} />
+      <Header title="Delelopment" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-        <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-          แบบฟอร์มขอดูกล้องวงจรปิดออนไลน์
+        <h1 className="text-3xl font-bold my-8 text-black">
+          สำหรับบุคคลภายนอก
         </h1>
-        <form className="flex flex-col gap-4 mx-auto w-full bg-gray-50 p-6 rounded-xl shadow">
-          {/* Name - ID */}
-          <div className="flex flex-row items-center gap-6 w-full">
-            <label className="flex flex-row items-center flex-1 gap-2">
-              <span className="font-medium whitespace-nowrap">ชื่อ-สกุล</span>
+        <form className="flex flex-col gap-6 mx-auto w-full">
+          {/* Row 1: Prefix, Name-Surname, Age */}
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-2">
+              <label className="block text-sm font-medium">คำนำหน้า</label>
+              <select
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+                id="prefix"
+                name="prefix"
+              >
+                <option value="mr">นาย</option>
+                <option value="mrs">นาง</option>
+                <option value="miss">นางสาว</option>
+              </select>
+            </div>
+            <div className="col-span-7">
+              <label className="block text-sm font-medium">ชื่อ-สกุล</label>
               <input
                 type="text"
-                className="border rounded-3xl px-3 py-2 w-full"
-                value="ธนูทวย คงควรคอย"
+                id="name"
+                name="name"
+                value={basicInfo?.firstname_TH + ' ' + basicInfo?.lastname_TH}
+                className="border w-full h-10 rounded-xl px-3 mt-1"
                 readOnly
               />
-            </label>
-            <label className="flex flex-row items-center flex-1 gap-2">
-              <span className="font-medium whitespace-nowrap">
-                เลขบัตรประชาชน
-              </span>
+            </div>
+            <div className="col-span-3">
+              <label className="block text-sm font-medium">อายุ</label>
               <input
-                type="text"
-                className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอกเลขบัตรประชาชน"
-                required
+                type="number"
+                id="age"
+                name="age"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
               />
-            </label>
-          </div>
-          {/* Tel - e-mail - LINE ID */}
-          <div className="flex flex-row items-center gap-6 w-full">
-            <label className="flex flex-row items-center flex-1 gap-2">
-              <span className="font-medium whitespace-nowrap">
-                เบอร์โทรศัพท์
-              </span>
-              <input
-                type="text"
-                className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอกเบอร์โทร"
-                required
-              />
-            </label>
-            <label className="flex flex-row items-center flex-1 gap-2">
-              <span className="font-medium whitespace-nowrap">e-mail</span>
-              <input
-                type="email"
-                className="border rounded-3xl px-3 py-2 w-full"
-                value="lol@cmu.ac.th"
-                readOnly
-              />
-            </label>
-            <label className="flex flex-row items-center flex-1 gap-2">
-              <span className="font-medium whitespace-nowrap">LINE ID</span>
-              <input
-                type="text"
-                className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอก LINE ID"
-                required
-              />
-            </label>
-          </div>
-          {/* Reason */}
-          <div className="">
-            <label className="flex flex-row">
-              <span className="font-medium">เหตุผล</span>
-              <textarea
-                className="border ms-4 rounded-2xl px-3 py-2 w-full min-h-[150px] resize-vertical"
-                placeholder="กรุณากรอกเหตุผลโดยละเอียด"
-                required
-              />
-            </label>
-          </div>
-          {/* Time Desktop */}
-          <div className="flex flex-row items-center gap-6 w-full">
-            <label className="flex flex-row items-center flex-1 gap-2">
-              <span className="font-medium whitespace-nowrap">
-                ตั้งแต่วันที่
-              </span>
-              <input
-                type="date"
-                className="border rounded-3xl px-3 py-2 w-full"
-                required
-              />
-              <input
-                type="time"
-                className="border rounded-3xl px-3 py-2 w-full"
-                required
-              />
-            </label>
-            <label className="flex flex-row items-center flex-1 gap-2 hidden lg:hidden-none">
-              <span className="font-medium whitespace-nowrap">ถึงวันที่</span>
-              <input
-                type="date"
-                className="border rounded-3xl px-3 py-2 w-full"
-                required
-              />
-              <input
-                type="time"
-                className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอกชื่อ-สกุล"
-                required
-              />
-            </label>
-          </div>
-          {/* Time Mobile */}
-          <div>
-            <label className="flex flex-row items-center flex-1 gap-2 lg:hidden">
-              <span className="font-medium whitespace-nowrap">ถึงวันที่</span>
-              <input
-                type="date"
-                className="border rounded-3xl px-3 py-2 w-full"
-                required
-              />
-              <input
-                type="time"
-                className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอกชื่อ-สกุล"
-                required
-              />
-            </label>
-          </div>
-          {/* Area */}
-          <div>
-            <label className="flex flex-row items-center flex-1 gap-2 lg:hidden">
-              <span className="font-medium whitespace-nowrap">
-                บริเวณที่ขอดูภาพ
-              </span>
-              <input
-                type="text"
-                className="border rounded-3xl px-3 py-2 w-full"
-                placeholder="กรุณากรอกบริเวณที่ขอดูภาพ"
-                required
-              />
-            </label>
-          </div>
-          {/* By */}
-          <div className="flex flex-row items-start flex-1 gap-2">
-            <span className="font-medium whitespace-nowrap me-3">โดยที่</span>
-            <div>
-              {/* Video Only */}
-              <div className="flex flex-col">
-                <label className="flex flex-row ms-2">
-                  <input
-                    type="checkbox"
-                    className="border rounded-3xl px-3 py-2 w-[16px]"
-                  />
-                  <span className="ms-2">ขอดูภาพวิดีโออย่างเดียว</span>
-                </label>
-                <label className="flex flex-row items-center flex-1 gap-2 ms-8 mt-3">
-                  <span className="whitespace-nowrap">ได้รับการอนุญาตจาก</span>
-                  <input
-                    type="text"
-                    className="border rounded-3xl px-3 py-2 w-full"
-                    required
-                  />
-                  <span className="whitespace-nowrap">วันที่</span>
-                  <input
-                    type="date"
-                    className="border rounded-3xl px-3 py-2 w-full"
-                    required
-                  />
-                </label>
-              </div>
-              {/* Save Video */}
-              <div className="flex flex-col mt-10">
-                <label className="flex flex-row ms-2 items-center gap-2">
-                  <input
-                    type="checkbox"
-                    className="border rounded-3xl px-3 py-2 w-[16px]"
-                  />
-                  <span>ขอดูภาพวิดีโอและบันทึกไฟล์</span>
-                  <select className="border rounded-3xl px-3 py-2">
-                    <option value="mp4">ภาพนิ่ง</option>
-                    <option value="avi">ภาพวิดีโอ</option>
-                    <option value="mov">ภาพนิ่งและวิดีโอ</option>
-                  </select>
-                </label>
-                <div className="mt-3">
-                  <div>
-                    <span className="ms-8">โดยมีหลักฐานประกอบ ดังนี้</span>
-                    <div className="flex ms-15 mt-3">
-                      <input
-                        type="checkbox"
-                        className="border rounded-3xl px-3 py-2 w-[16px]"
-                      />
-                      <span className="ms-2">
-                        สำเนาบันทึกประจำวันจากสถานีตำรวจฯ
-                        หรือหนังสือจากผู้รับผิดชอบคดี
-                      </span>
-                    </div>
-                    <div className="flex ระำทห-หะฟพะ ms-15 mt-3">
-                      <input
-                        type="checkbox"
-                        className="border rounded-3xl px-3 py-2 w-[16px]"
-                      />
-                      <span className="ms-2">
-                        สำเนาบัตรประจำตัวประชาชน หรือสำเนาหนังสือเดินทาง
-                        (Passport) <br className="md:hidden" />
-                        หรือสำเนาบัตรที่มีหมายเลขบัตรประชาชน
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <span className="ms-8">
-                      กรณีมอบอำนาจ เพิ่มเอกสาร (ถ้ามี)
-                    </span>
-                    <div className="flex ms-15 mt-3">
-                      <input
-                        type="checkbox"
-                        className="border rounded-3xl px-3 py-2 w-[16px]"
-                      />
-                      <span className="ms-2">หนังสือมอบอำนาจ</span>
-                    </div>
-                    <div className="flex ระำทห-หะฟพะ ms-15 mt-3">
-                      <input
-                        type="checkbox"
-                        className="border rounded-3xl px-3 py-2 w-[16px]"
-                      />
-                      <span className="ms-2">
-                        สำเนาบัตรประจำตัวประชาชน หรือสำเนาหนังสือเดินทาง
-                        (Passport) <br className="md:hidden" />
-                        หรือสำเนาบัตรที่มีหมายเลขบัตรประชาชนผู้รับมอบอำนาจ
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
-          <button
-            type="submit"
-            className="bg-[#6869AA] text-white px-4 py-2 rounded-xl hover:scale-105 transition-transform"
-          >
-            Submit
-          </button>
+
+          {/* Row 2: Address, Village, District, Subdistrict */}
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-3">
+              <label className="block text-sm font-medium">บ้านเลขที่</label>
+              <input
+                type="text"
+                id="house_number"
+                name="house_number"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-3">
+              <label className="block text-sm font-medium">หมู่</label>
+              <input
+                type="text"
+                id="village_number"
+                name="village_number"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-3">
+              <label className="block text-sm font-medium">ถนน</label>
+              <input
+                type="text"
+                id="road"
+                name="road"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-3">
+              <label className="block text-sm font-medium">ตำบล</label>
+              <input
+                type="text"
+                id="sub_district"
+                name="sub_district"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+          </div>
+
+          {/* Row 3: Province, District, Phone */}
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-4">
+              <label className="block text-sm font-medium">อำเภอ</label>
+              <input
+                type="text"
+                id="district"
+                name="district"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-4">
+              <label className="block text-sm font-medium">จังหวัด</label>
+              <input
+                type="text"
+                id="province"
+                name="province"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-4">
+              <label className="block text-sm font-medium">
+                หมายเลขโทรศัพท์
+              </label>
+              <input
+                type="text"
+                id="tel"
+                name="tel"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+          </div>
+
+          {/* Row 4: Current job, ID */}
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-4">
+              <label className="block text-sm font-medium">ปัจจุบันเป็น</label>
+              <input
+                type="text"
+                id="status"
+                name="status"
+                value={basicInfo?.itaccounttype_TH}
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+                readOnly
+              />
+            </div>
+            <div className="col-span-8">
+              <label className="block text-sm font-medium">
+                เลขที่บัตรประจำตัวประชาชน/รหัสนักศึกษา
+              </label>
+              <input
+                type="text"
+                id="id"
+                name="id"
+                value={basicInfo?.student_id}
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+          </div>
+
+          {/* Reason section */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              ขอดูภาพกล้องวงจรปิดเนื่องจาก
+            </label>
+            <textarea
+              className="border w-full rounded-xl px-3 py-2 h-36"
+              id="reason"
+              name="reason"
+            />
+          </div>
+
+          {/* Incident info */}
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-5">
+              <label className="block text-sm font-medium">
+                เกิดเหตุบริเวณ
+              </label>
+              <input
+                type="text"
+                id="area"
+                name="area"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-4">
+              <label className="block text-sm font-medium">วันที่</label>
+              <input
+                type="date"
+                id="accident_date"
+                name="accident_date"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-3">
+              <label className="block text-sm font-medium">เวลา</label>
+              <input
+                type="time"
+                id="accident_time"
+                name="accident_time"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+          </div>
+
+          {/* Security notifications */}
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-12">
+              <label className="block text-sm font-medium">
+                แจ้งหน่วยรักษาความปลอดภัยเมื่อวันที่
+              </label>
+              <input
+                type="date"
+                id="security_noti_date"
+                name="security_noti_date"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-12 gap-4 items-center">
+            <div className="col-span-8">
+              <label className="block text-sm font-medium">
+                แจ้งสถานีตำรวจท้องที่เมื่อวันที่
+              </label>
+              <input
+                type="date"
+                id="police_noti_date"
+                name="police_noti_date"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+            <div className="col-span-4">
+              <label className="block text-sm font-medium">เวลา</label>
+              <input
+                type="time"
+                id="police_noti_time"
+                name="police_noti_time"
+                className="border w-full h-10 rounded-xl px-3 mt-1"
+              />
+            </div>
+          </div>
+
+          {/* Requested camera areas */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              บริเวณที่ขอภาพกล้องวงจรปิด
+            </label>
+            <input
+              type="text"
+              id="area_req_1"
+              name="area_req_1"
+              className="border w-full h-10 rounded-xl px-3 mt-1 mb-2"
+            />
+            <input
+              type="text"
+              id="area_req_2"
+              name="area_req_2"
+              className="border w-full h-10 rounded-xl px-3 mb-2"
+            />
+            <input
+              type="text"
+              id="area_req_3"
+              name="area_req_3"
+              className="border w-full h-10 rounded-xl px-3"
+            />
+          </div>
+
+          {/* Supporting documents section */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              เอกสารหลักฐานประกอบ
+            </label>
+            <button className="bg-[#6869AA] text-white px-6 py-2 rounded-xl hover:bg-opacity-90">
+              อัปโหลด
+            </button>
+          </div>
+
+          {/* Submit button */}
+          <div className="mt-6">
+            <button
+              type="submit"
+              className="bg-[#6869AA] text-white w-full py-3 rounded-xl hover:bg-opacity-90 font-medium"
+            >
+              ถัดไป
+            </button>
+          </div>
         </form>
       </main>
       <Footer />

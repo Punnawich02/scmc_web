@@ -56,6 +56,7 @@ export default function ProfilePage() {
 
         const userData = await basicInfoResponse.json();
         setBasicInfo(userData);
+        console.log("Basic Info: ",basicInfoResponse.json())
       } catch (err) {
         console.error("Failed to fetch data:", err);
         const errorMessage =
