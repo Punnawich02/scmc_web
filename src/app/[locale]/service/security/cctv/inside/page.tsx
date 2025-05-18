@@ -7,7 +7,9 @@ import { useRouter } from "next/navigation";
 
 const InsidePage = () => {
   // const t = useTranslations("FixPage");
-  const [, setToken] = useState(null);
+    const [ token , setToken] = useState(null);
+    const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
+    const router = useRouter();
     
     interface BasicInfo {
       firstname_TH: string;
@@ -15,52 +17,55 @@ const InsidePage = () => {
       itaccounttype_TH: string;
       student_id: number;
     }
-    const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
-    const router = useRouter();
   
     useEffect(() => {
-      async function fetchData() {
-        try {
-          // Fetch the token
-          const tokenResponse = await fetch("/api/getToken");
-          if (!tokenResponse.ok) {
-            if (tokenResponse.status === 401) {
-              return;
-            }
-            throw new Error(`Token fetch error: ${tokenResponse.status}`);
+    async function fetchData() {
+      try {
+        const tokenResponse = await fetch("/api/getToken");
+        if (!tokenResponse.ok) {
+          if (tokenResponse.status === 401) {
+            setToken(null); // ไม่มี token
+            return;
           }
-  
-          const tokenData = await tokenResponse.json();
-          setToken(tokenData);
-  
-          // Fetch user's basic info using the token
-          const basicInfoResponse = await fetch("/api/getUserInfo", {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
-  
-          if (!basicInfoResponse.ok) {
-            throw new Error(`API error: ${basicInfoResponse.status}`);
-          }
-  
-          const userData = await basicInfoResponse.json();
-          setBasicInfo(userData);
-        } catch (err) {
-          console.error("Failed to fetch data:", err);
+          throw new Error(`Token fetch error: ${tokenResponse.status}`);
         }
+
+        const tokenData = await tokenResponse.json();
+        setToken(tokenData); // มี token 
+
+        const basicInfoResponse = await fetch("/api/getUserInfo", {
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (!basicInfoResponse.ok) {
+          throw new Error(`API error: ${basicInfoResponse.status}`);
+        }
+
+        const userData = await basicInfoResponse.json();
+        setBasicInfo(userData);
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
+        setToken(null); // fallback เผื่อ error
       }
-  
-      fetchData();
-    }, [router]);
+    }
+
+    fetchData();
+  }, [router]);
+
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="Delelopment" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-        <h1 className="text-3xl font-bold my-8 text-black">
-          สำหรับบุคคลภายนอก
-        </h1>
+        {token ? (
+          <h1 className="text-3xl font-bold my-8 text-black">
+            นักศึกษา/บุคลากรภายในมช.
+          </h1>
+        ) : (
+          <h1 className="text-3xl font-bold my-8 text-black">
+            สำหรับบุคคลภายนอก
+          </h1>
+        )}
         <form className="flex flex-col gap-6 mx-auto w-full">
           {/* Row 1: Prefix, Name-Surname, Age */}
           <div className="grid grid-cols-12 gap-4 items-center">
@@ -82,7 +87,10 @@ const InsidePage = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={basicInfo?.firstname_TH + ' ' + basicInfo?.lastname_TH}
+                value={
+                basicInfo
+                ? `${basicInfo.firstname_TH} ${basicInfo.lastname_TH}`
+                : ""}
                 className="border w-full h-10 rounded-xl px-3 mt-1"
                 readOnly
               />

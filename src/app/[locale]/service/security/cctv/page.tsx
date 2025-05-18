@@ -58,7 +58,10 @@ const CCTVPage: React.FC = () => {
             >
             สำหรับบุคลากร / นักศึกษา ในมช
             </button>
-          <button className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out">
+          <button 
+          className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+          onClick={() => router.push(`/${locale}/service/security/cctv/inside`)}
+          >
             สำหรับบุคคลภายนอก
           </button>
         </motion.div>
