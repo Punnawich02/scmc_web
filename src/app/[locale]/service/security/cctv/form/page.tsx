@@ -3,22 +3,22 @@ import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// import { useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 
 const InsidePage = () => {
-  // const t = useTranslations("FixPage");
-    const [ token , setToken] = useState(null);
-    const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
-    const router = useRouter();
-    
-    interface BasicInfo {
-      firstname_TH: string;
-      lastname_TH: string;
-      itaccounttype_TH: string;
-      student_id: number;
-    }
-  
-    useEffect(() => {
+  const t = useTranslations("CCTVRequestForm");
+  const [token, setToken] = useState(null);
+  const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
+  const router = useRouter();
+
+  interface BasicInfo {
+    firstname_TH: string;
+    lastname_TH: string;
+    itaccounttype_TH: string;
+    student_id: number;
+  }
+
+  useEffect(() => {
     async function fetchData() {
       try {
         const tokenResponse = await fetch("/api/getToken");
@@ -31,7 +31,7 @@ const InsidePage = () => {
         }
 
         const tokenData = await tokenResponse.json();
-        setToken(tokenData); // มี token 
+        setToken(tokenData); // มี token
 
         const basicInfoResponse = await fetch("/api/getUserInfo", {
           headers: { "Content-Type": "application/json" },
@@ -52,51 +52,49 @@ const InsidePage = () => {
     fetchData();
   }, [router]);
 
-
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title="Delelopment" />
+      <Header title={t("page_title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
         {token ? (
-          <h1 className="text-3xl font-bold my-8 text-black">
-            นักศึกษา/บุคลากรภายในมช.
-          </h1>
+          <h1 className="text-3xl font-bold my-8 text-black">{t("Insider")}</h1>
         ) : (
           <h1 className="text-3xl font-bold my-8 text-black">
-            สำหรับบุคคลภายนอก
+            {t("Outsider")}
           </h1>
         )}
         <form className="flex flex-col gap-6 mx-auto w-full">
           {/* Row 1: Prefix, Name-Surname, Age */}
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-2">
-              <label className="block text-sm font-medium">คำนำหน้า</label>
+              <label className="block text-sm font-medium">{t("prefix")}</label>
               <select
                 className="border w-full h-10 rounded-xl px-3 mt-1"
                 id="prefix"
                 name="prefix"
               >
-                <option value="mr">นาย</option>
-                <option value="mrs">นาง</option>
-                <option value="miss">นางสาว</option>
+                <option value="mr">{t("mr")}</option>
+                <option value="mrs">{t("mrs")}</option>
+                <option value="miss">{t("miss")}</option>
               </select>
             </div>
             <div className="col-span-7">
-              <label className="block text-sm font-medium">ชื่อ-สกุล</label>
+              <label className="block text-sm font-medium">{t("name")}</label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 value={
-                basicInfo
-                ? `${basicInfo.firstname_TH} ${basicInfo.lastname_TH}`
-                : ""}
+                  basicInfo
+                    ? `${basicInfo.firstname_TH} ${basicInfo.lastname_TH}`
+                    : undefined
+                }
                 className="border w-full h-10 rounded-xl px-3 mt-1"
-                readOnly
+                readOnly={!!token}
               />
             </div>
             <div className="col-span-3">
-              <label className="block text-sm font-medium">อายุ</label>
+              <label className="block text-sm font-medium">{t("age")}</label>
               <input
                 type="number"
                 id="age"
@@ -109,7 +107,9 @@ const InsidePage = () => {
           {/* Row 2: Address, Village, District, Subdistrict */}
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-3">
-              <label className="block text-sm font-medium">บ้านเลขที่</label>
+              <label className="block text-sm font-medium">
+                {t("house_no")}
+              </label>
               <input
                 type="text"
                 id="house_number"
@@ -118,7 +118,9 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-3">
-              <label className="block text-sm font-medium">หมู่</label>
+              <label className="block text-sm font-medium">
+                {t("village_no")}
+              </label>
               <input
                 type="text"
                 id="village_number"
@@ -127,7 +129,7 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-3">
-              <label className="block text-sm font-medium">ถนน</label>
+              <label className="block text-sm font-medium">{t("street")}</label>
               <input
                 type="text"
                 id="road"
@@ -136,7 +138,9 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-3">
-              <label className="block text-sm font-medium">ตำบล</label>
+              <label className="block text-sm font-medium">
+                {t("subdistrict")}
+              </label>
               <input
                 type="text"
                 id="sub_district"
@@ -149,7 +153,9 @@ const InsidePage = () => {
           {/* Row 3: Province, District, Phone */}
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-4">
-              <label className="block text-sm font-medium">อำเภอ</label>
+              <label className="block text-sm font-medium">
+                {t("district")}
+              </label>
               <input
                 type="text"
                 id="district"
@@ -158,7 +164,9 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-4">
-              <label className="block text-sm font-medium">จังหวัด</label>
+              <label className="block text-sm font-medium">
+                {t("province")}
+              </label>
               <input
                 type="text"
                 id="province"
@@ -168,7 +176,7 @@ const InsidePage = () => {
             </div>
             <div className="col-span-4">
               <label className="block text-sm font-medium">
-                หมายเลขโทรศัพท์
+                {t("telephone")}
               </label>
               <input
                 type="text"
@@ -182,25 +190,25 @@ const InsidePage = () => {
           {/* Row 4: Current job, ID */}
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-4">
-              <label className="block text-sm font-medium">ปัจจุบันเป็น</label>
+              <label className="block text-sm font-medium">
+                {t("cerrently")}
+              </label>
               <input
                 type="text"
                 id="status"
                 name="status"
-                value={basicInfo?.itaccounttype_TH}
+                value={basicInfo ? basicInfo.itaccounttype_TH : undefined}
                 className="border w-full h-10 rounded-xl px-3 mt-1"
-                readOnly
+                readOnly={!!token}
               />
             </div>
             <div className="col-span-8">
-              <label className="block text-sm font-medium">
-                เลขที่บัตรประจำตัวประชาชน/รหัสนักศึกษา
-              </label>
+              <label className="block text-sm font-medium">{t("no")}</label>
               <input
                 type="text"
                 id="id"
                 name="id"
-                value={basicInfo?.student_id}
+                value={basicInfo ? basicInfo.student_id : undefined}
                 className="border w-full h-10 rounded-xl px-3 mt-1"
               />
             </div>
@@ -209,7 +217,7 @@ const InsidePage = () => {
           {/* Reason section */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              ขอดูภาพกล้องวงจรปิดเนื่องจาก
+              {t("reason")}
             </label>
             <textarea
               className="border w-full rounded-xl px-3 py-2 h-36"
@@ -222,7 +230,7 @@ const InsidePage = () => {
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-5">
               <label className="block text-sm font-medium">
-                เกิดเหตุบริเวณ
+                {t("accident_area")}
               </label>
               <input
                 type="text"
@@ -232,7 +240,7 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-4">
-              <label className="block text-sm font-medium">วันที่</label>
+              <label className="block text-sm font-medium">{t("date")}</label>
               <input
                 type="date"
                 id="accident_date"
@@ -241,7 +249,7 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-3">
-              <label className="block text-sm font-medium">เวลา</label>
+              <label className="block text-sm font-medium">{t("time")}</label>
               <input
                 type="time"
                 id="accident_time"
@@ -255,7 +263,7 @@ const InsidePage = () => {
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-12">
               <label className="block text-sm font-medium">
-                แจ้งหน่วยรักษาความปลอดภัยเมื่อวันที่
+                {t("security_noti_date")}
               </label>
               <input
                 type="date"
@@ -269,7 +277,7 @@ const InsidePage = () => {
           <div className="grid grid-cols-12 gap-4 items-center">
             <div className="col-span-8">
               <label className="block text-sm font-medium">
-                แจ้งสถานีตำรวจท้องที่เมื่อวันที่
+                {t("police_noti_date")}
               </label>
               <input
                 type="date"
@@ -279,7 +287,7 @@ const InsidePage = () => {
               />
             </div>
             <div className="col-span-4">
-              <label className="block text-sm font-medium">เวลา</label>
+              <label className="block text-sm font-medium">{t("time")}</label>
               <input
                 type="time"
                 id="police_noti_time"
@@ -292,7 +300,7 @@ const InsidePage = () => {
           {/* Requested camera areas */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              บริเวณที่ขอภาพกล้องวงจรปิด
+              {t("request_area")}
             </label>
             <input
               type="text"
@@ -316,11 +324,9 @@ const InsidePage = () => {
 
           {/* Supporting documents section */}
           <div>
-            <label className="block text-sm font-medium mb-2">
-              เอกสารหลักฐานประกอบ
-            </label>
+            <label className="block text-sm font-medium mb-2">{t("doc")}</label>
             <button className="bg-[#6869AA] text-white px-6 py-2 rounded-xl hover:bg-opacity-90">
-              อัปโหลด
+              {t("upload")}
             </button>
           </div>
 
@@ -330,7 +336,7 @@ const InsidePage = () => {
               type="submit"
               className="bg-[#6869AA] text-white w-full py-3 rounded-xl hover:bg-opacity-90 font-medium"
             >
-              ถัดไป
+              {t("next")}
             </button>
           </div>
         </form>

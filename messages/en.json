@@ -67,9 +67,45 @@
     "map_title": "Routes and stops of the electric shuttle service"
   },
   "SecurityPage": {
-    "page_title": "Campus Safety and Traffic Management",
+    "page_title": "Security and Traffic in the University Area",
     "header": "Security and Traffic Management",
-    "title": "Ensuring safety of lives and property, along with managing on-campus traffic"
+    "title": "Ensuring safety of life and property, and managing traffic within the campus",
+    "cctv": "Request to View CCTV Online"
+  },
+  "CCTVPage": {
+    "page_title": "CCTV Footage Request",
+    "header": "CCTV Footage Request",
+    "title": "Request CCTV Footage from the University",
+    "Insider": "For CMU Staff / Students",
+    "Outsider": "For External Individuals"
+  },
+  "CCTVRequestForm": {
+    "page_title": "CCTV Footage Request Form",
+    "prefix": "Prefix",
+    "mr": "Mr.",
+    "miss": "Miss",
+    "mrs": "Mrs.",
+    "name": "Full Name",
+    "age": "Age",
+    "house_no": "House Number",
+    "village_no": "Village Number",
+    "street": "Street",
+    "subdistrict": "Subdistrict",
+    "district": "District",
+    "province": "Province",
+    "telephone": "Phone Number",
+    "cerrently": "Currently",
+    "no": "ID Card/Student ID Number",
+    "reason": "Request CCTV footage because",
+    "accident_area": "Incident Area",
+    "date": "Date",
+    "time": "Time",
+    "security_noti_date": "Notified Security Unit on",
+    "police_noti_date": "Notified Local Police Station on",
+    "request_area": "Area Requested for CCTV Footage",
+    "doc": "Supporting Documents",
+    "upload": "Upload",
+    "next": "Next"
   },
   "BuildPage": {
     "page_title": "Facility and Building Management Services at CMU",

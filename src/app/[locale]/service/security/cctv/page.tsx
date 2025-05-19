@@ -5,14 +5,10 @@ import Footer from "../../../Component/Footer";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { redirect } from "next/navigation";
-import Link from "next/link";
 import { useLocale } from "next-intl";
 
-
-
 const CCTVPage: React.FC = () => {
-  const t = useTranslations("SecurityPage");
+  const t = useTranslations("CCTVPage");
   const router = useRouter();
   const locale = useLocale();
 
@@ -20,7 +16,7 @@ const CCTVPage: React.FC = () => {
     try {
       const res = await fetch("/api/getToken", { credentials: "include" });
       if (res.ok) {
-        router.push(`/${locale}/service/security/cctv/inside`);
+        router.push(`/${locale}/service/security/cctv/form`);
 
       } else {
         router.push("/api/login");
@@ -56,13 +52,13 @@ const CCTVPage: React.FC = () => {
             className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
             onClick= {checkToken}
             >
-            สำหรับบุคลากร / นักศึกษา ในมช
+            {t("Insider")}
             </button>
           <button 
           className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-          onClick={() => router.push(`/${locale}/service/security/cctv/inside`)}
+          onClick={() => router.push(`/${locale}/service/security/cctv/form`)}
           >
-            สำหรับบุคคลภายนอก
+            {t("Outsider")}
           </button>
         </motion.div>
       </main>
