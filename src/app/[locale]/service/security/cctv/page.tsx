@@ -20,7 +20,7 @@ const CCTVPage: React.FC = () => {
     try {
       const res = await fetch("/api/getToken", { credentials: "include" });
       if (res.ok) {
-        router.push(`/${locale}/service/security/cctv/inside`);
+        router.push(`/${locale}/service/security/cctv/inside?type=internal`)
 
       } else {
         router.push("/api/login");
@@ -52,15 +52,17 @@ const CCTVPage: React.FC = () => {
           viewport={{ once: true, amount: 0.1 }}
           className="h-full"
         >
-            <button
-            className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-            onClick= {checkToken}
-            >
-            สำหรับบุคลากร / นักศึกษา ในมช
-            </button>
+          <button
+          className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+          onClick={checkToken}
+          >
+          สำหรับบุคลากร / นักศึกษาในมช
+          </button>
+
           <button 
+          id = "สำหรับบุคคลภายนอก"
           className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-          onClick={() => router.push(`/${locale}/service/security/cctv/inside`)}
+          onClick={() => router.push(`/${locale}/service/security/cctv/inside?type=external`)}
           >
             สำหรับบุคคลภายนอก
           </button>

@@ -9,6 +9,7 @@ import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 // Below this line are Mock-up Datas
 const News = [
@@ -146,6 +147,7 @@ export default function HomePage() {
   const locale = useLocale();
 
   const t = useTranslations("HomePage");
+  const pathname = usePathname();
 
   const HighlightServices = [
     {
@@ -235,7 +237,7 @@ export default function HomePage() {
                   </div>
                   <button
                     className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-                    onClick={() => router.push("/api/login")}
+                    onClick={() => router.push(`/api/login?callbackUrl=${encodeURIComponent(pathname)}`)}
                   >
                     Login
                   </button>

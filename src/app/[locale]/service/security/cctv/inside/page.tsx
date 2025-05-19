@@ -2,14 +2,28 @@
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/router';
+import { useSearchParams } from "next/navigation";
+
 // import { useTranslations } from "next-intl";
 
 const InsidePage = () => {
   // const t = useTranslations("FixPage");
     const [ token , setToken] = useState(null);
     const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
-    const router = useRouter();
+    const searchParam = useSearchParams();
+    const type = searchParam.get("type");
+    const [header, setHeader] = useState("");
+
+  useEffect(() => {
+    if (type === "internal") {
+      setHeader("สำหรับบุคลากร / นักศึกษาในมช");
+    } else if (type === "external") {
+      setHeader("สำหรับบุคคลภายนอก");
+    }
+  }, [type]);
+
+
     
     interface BasicInfo {
       firstname_TH: string;
@@ -50,20 +64,23 @@ const InsidePage = () => {
     }
 
     fetchData();
-  }, [router]);
+  }, [type]);
 
 
+  
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title="Delelopment" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
         {token ? (
           <h1 className="text-3xl font-bold my-8 text-black">
-            นักศึกษา/บุคลากรภายในมช.
+            {/* นักศึกษา/บุคลากรภายในมช. */}
+            {header}
           </h1>
         ) : (
           <h1 className="text-3xl font-bold my-8 text-black">
-            สำหรับบุคคลภายนอก
+            {/* บุคคลภายนอก */}
+            {header}
           </h1>
         )}
         <form className="flex flex-col gap-6 mx-auto w-full">
@@ -88,9 +105,12 @@ const InsidePage = () => {
                 id="name"
                 name="name"
                 value={
-                basicInfo
+                type === "external"
+                ? ""
+                : basicInfo
                 ? `${basicInfo.firstname_TH} ${basicInfo.lastname_TH}`
-                : ""}
+                : ""
+              }
                 className="border w-full h-10 rounded-xl px-3 mt-1"
                 readOnly
               />
@@ -187,7 +207,12 @@ const InsidePage = () => {
                 type="text"
                 id="status"
                 name="status"
-                value={basicInfo?.itaccounttype_TH}
+                value=
+                {type === "external"
+                ? ""
+                : basicInfo
+                ? `${basicInfo.itaccounttype_TH}`
+                : ""}
                 className="border w-full h-10 rounded-xl px-3 mt-1"
                 readOnly
               />
@@ -200,7 +225,12 @@ const InsidePage = () => {
                 type="text"
                 id="id"
                 name="id"
-                value={basicInfo?.student_id}
+                value=
+                {type === "external"
+                ? ""
+                : basicInfo
+                ? `${basicInfo.student_id}`
+                : ""}
                 className="border w-full h-10 rounded-xl px-3 mt-1"
               />
             </div>
