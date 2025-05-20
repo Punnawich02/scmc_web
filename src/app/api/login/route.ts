@@ -1,20 +1,15 @@
-import { cookies } from "next/headers";
-import { getToken } from "@/app/lib/session";
-import { redirect } from "next/navigation";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
-  const cookieStore = cookies();
-  const token = getToken(await cookieStore);
-  if (!token) {
-    const auth_url = process.env.AUTH_URL;
-    const client_id = process.env.CLIENT_ID;
-    const callback_url = process.env.CALLBACK_URL;
-    const scope = process.env.SCOPE;
+export async function GET(request: NextRequest) {
+  const loginUrl = new URL(process.env.AUTH_URL!);
+  const currentUrl = request.nextUrl.searchParams.get("callbackUrl") || "/" ;
 
-    const authUrl = `${auth_url}?client_id=${client_id}&response_type=code&redirect_uri=${callback_url}&scope=${scope}`;
+  loginUrl.searchParams.set("client_id", process.env.CLIENT_ID!);
+  loginUrl.searchParams.set("redirect_uri", process.env.CALLBACK_URL!);
+  loginUrl.searchParams.set("response_type", "code");
+  loginUrl.searchParams.set("scope", process.env.SCOPE || "");
+  loginUrl.searchParams.set("state", encodeURIComponent(currentUrl)); 
 
-    redirect(authUrl);
-  } else {
-    return new Response("Token is valid", { status: 200 });
-  }
+  return NextResponse.redirect(loginUrl.toString());
+
 }

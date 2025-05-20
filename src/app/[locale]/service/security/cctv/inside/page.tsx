@@ -2,10 +2,8 @@
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/router';
-import { useSearchParams } from "next/navigation";
-
-// import { useTranslations } from "next-intl";
+import { useSearchParams , useRouter} from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const InsidePage = () => {
   // const t = useTranslations("FixPage");
@@ -14,6 +12,7 @@ const InsidePage = () => {
     const searchParam = useSearchParams();
     const type = searchParam.get("type");
     const [header, setHeader] = useState("");
+
 
   useEffect(() => {
     if (type === "internal") {
@@ -33,38 +32,39 @@ const InsidePage = () => {
     }
   
     useEffect(() => {
-    async function fetchData() {
-      try {
-        const tokenResponse = await fetch("/api/getToken");
-        if (!tokenResponse.ok) {
-          if (tokenResponse.status === 401) {
-            setToken(null); // ไม่มี token
-            return;
-          }
-          throw new Error(`Token fetch error: ${tokenResponse.status}`);
+  async function fetchData() {
+    try {
+      const tokenResponse = await fetch("/api/getToken");
+      if (!tokenResponse.ok) {
+        if (tokenResponse.status === 401) {
+          setToken(null); // ไม่มี token
+          return;
         }
-
-        const tokenData = await tokenResponse.json();
-        setToken(tokenData); // มี token 
-
-        const basicInfoResponse = await fetch("/api/getUserInfo", {
-          headers: { "Content-Type": "application/json" },
-        });
-
-        if (!basicInfoResponse.ok) {
-          throw new Error(`API error: ${basicInfoResponse.status}`);
-        }
-
-        const userData = await basicInfoResponse.json();
-        setBasicInfo(userData);
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
-        setToken(null); // fallback เผื่อ error
+        throw new Error(`Token fetch error: ${tokenResponse.status}`);
       }
-    }
 
-    fetchData();
-  }, [type]);
+      const tokenData = await tokenResponse.json();
+      setToken(tokenData); // มี token 
+
+      const basicInfoResponse = await fetch("/api/getUserInfo", {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!basicInfoResponse.ok) {
+        throw new Error(`API error: ${basicInfoResponse.status}`);
+      }
+
+      const userData = await basicInfoResponse.json();
+      setBasicInfo(userData);
+    } catch (err) {
+      console.error("Failed to fetch data:", err);
+      setToken(null); // fallback เผื่อ error
+    }
+  }
+
+  fetchData();
+}, [type]);
+
 
 
   

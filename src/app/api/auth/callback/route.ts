@@ -23,6 +23,9 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const state = searchParams.get("state");
+    const returnUrl = state ? decodeURIComponent(state) :"/";
+    
     // Exchange code for access token
     const tokenResponse = await fetch(process.env.TOKEN_URL!, {
       method: "POST",
@@ -84,7 +87,7 @@ export async function GET(request: NextRequest) {
     await saveToken(tokenData);
 
     // Redirect to profile page
-    return NextResponse.redirect(new URL("/th/service/security/cctv/inside", request.url));
+    return NextResponse.redirect(new URL(returnUrl, request.url));
   } catch (error) {
     console.error("Token exchange error:", error);
     // Redirect to home with error message

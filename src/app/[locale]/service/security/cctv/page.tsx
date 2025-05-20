@@ -23,7 +23,8 @@ const CCTVPage: React.FC = () => {
         router.push(`/${locale}/service/security/cctv/inside?type=internal`)
 
       } else {
-        router.push("/api/login");
+        const currentPath = window.location.pathname + window.location.search;
+        router.push(`/api/login?callbackUrl=${encodeURIComponent(currentPath)}/inside?type=internal`);
       }
     } catch (error) {
       console.error("Error checking token:", error);
@@ -55,6 +56,7 @@ const CCTVPage: React.FC = () => {
           <button
           className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
           onClick={checkToken}
+          // onClick={() => router.push(`/${locale}/service/security/cctv/inside?type=internal`)}
           >
           สำหรับบุคลากร / นักศึกษาในมช
           </button>
