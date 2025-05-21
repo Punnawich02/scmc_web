@@ -65,6 +65,10 @@ const InsidePage = () => {
   fetchData();
 }, [type]);
 
+  const [idValue, setIdValue] = useState(() => {
+    if (type === "external") return "";
+    return basicInfo?.student_id || "";
+  });
 
 
   
@@ -225,14 +229,11 @@ const InsidePage = () => {
                 type="text"
                 id="id"
                 name="id"
-                value=
-                {type === "external"
-                ? ""
-                : basicInfo
-                ? `${basicInfo.student_id}`
-                : ""}
+                value={idValue}
+                onChange={(e) => setIdValue(e.target.value)}
                 className="border w-full h-10 rounded-xl px-3 mt-1"
               />
+
             </div>
           </div>
 
