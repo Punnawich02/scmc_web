@@ -5,10 +5,7 @@ import Footer from "../../../Component/Footer";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { redirect } from "next/navigation";
-import Link from "next/link";
 import { useLocale } from "next-intl";
-
 
 
 const CCTVPage: React.FC = () => {
@@ -16,22 +13,23 @@ const CCTVPage: React.FC = () => {
   const router = useRouter();
   const locale = useLocale();
 
-  const checkToken = async () => {
-    try {
-      const res = await fetch("/api/getToken", { credentials: "include" });
-      if (res.ok) {
-        router.push(`/${locale}/service/security/cctv/inside?type=internal`)
+ const checkToken = async () => {
+  try {
+    const res = await fetch('/api/getToken', { credentials: 'include' });
 
-      } else {
-        const currentPath = window.location.pathname + window.location.search;
-        router.push(`/api/login?callbackUrl=${encodeURIComponent(currentPath)}/inside?type=internal`);
-      }
-    } catch (error) {
-      console.error("Error checking token:", error);
-      router.push("/api/login");
+    if (res.ok) {
+      router.push(`/${locale}/service/security/cctv/inside?type=internal`);
+    } else {
+      const callbackUrl = `/${locale}/service/security/cctv/inside?type=internal`;
+      window.location.href = `/api/login?callbackUrl=${encodeURIComponent(callbackUrl)}`;
     }
-  };
+  } catch (err) {
+    console.error('Token check failed', err);
+    window.location.href = `/api/login?callbackUrl=${encodeURIComponent(`/${locale}/home`)}`;
+  }
+};
 
+ 
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Header title={t("page_title")} />
@@ -54,17 +52,16 @@ const CCTVPage: React.FC = () => {
           className="h-full"
         >
           <button
-          className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-          onClick={checkToken}
-          // onClick={() => router.push(`/${locale}/service/security/cctv/inside?type=internal`)}
+            className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+            onClick={checkToken}
           >
-          สำหรับบุคลากร / นักศึกษาในมช
+            สำหรับบุคลากร / นักศึกษาในมช
           </button>
 
           <button 
-          id = "สำหรับบุคคลภายนอก"
-          className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-          onClick={() => router.push(`/${locale}/service/security/cctv/inside?type=external`)}
+            id="สำหรับบุคคลภายนอก"
+            className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+            onClick={() => router.push(`/${locale}/service/security/cctv/inside?type=external`)}
           >
             สำหรับบุคคลภายนอก
           </button>

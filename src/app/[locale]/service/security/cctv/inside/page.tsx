@@ -34,7 +34,7 @@ const InsidePage = () => {
     useEffect(() => {
   async function fetchData() {
     try {
-      const tokenResponse = await fetch("/api/getToken");
+      const tokenResponse = await fetch("/api/getToken",{ credentials: "include" });
       if (!tokenResponse.ok) {
         if (tokenResponse.status === 401) {
           setToken(null); // ไม่มี token
@@ -48,6 +48,7 @@ const InsidePage = () => {
 
       const basicInfoResponse = await fetch("/api/getUserInfo", {
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
       });
 
       if (!basicInfoResponse.ok) {

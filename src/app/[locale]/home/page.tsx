@@ -237,7 +237,7 @@ export default function HomePage() {
                   </div>
                   <button
                     className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-                    onClick={() => router.push(`/api/login?callbackUrl=${encodeURIComponent(pathname)}`)}
+                    onClick={() => window.location.href = `/api/login?callbackUrl=/th/home`}
                   >
                     Login
                   </button>
@@ -251,7 +251,8 @@ export default function HomePage() {
                   </div>
                   <button
                     className="bg-red-500 text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:bg-red-600 hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-                    onClick={() => router.push("/api/auth/logout")}
+                    onClick={() => window.location.href = `/api/auth/logout?callbackUrl=/th/home`}
+
                   >
                     Logout
                   </button>
