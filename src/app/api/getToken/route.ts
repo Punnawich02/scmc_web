@@ -2,6 +2,11 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+type Token = {
+  expires_at?: number;
+  [key: string]: unknown;
+};
+
 export async function GET() {
   const cookieStore = await cookies();
   const raw = cookieStore.get("oauth-token")?.value;
@@ -11,7 +16,7 @@ export async function GET() {
   }
 
   try {
-    const token = JSON.parse(raw) as { expires_at?: number; [key: string]: any };
+    const token = JSON.parse(raw) as Token;
     if (token.expires_at && Date.now() >= token.expires_at) {
       return NextResponse.json({ valid: false }, { status: 401 });
     }
@@ -20,3 +25,4 @@ export async function GET() {
     return NextResponse.json({ valid: false }, { status: 401 });
   }
 }
+

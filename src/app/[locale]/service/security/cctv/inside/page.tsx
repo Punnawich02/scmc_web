@@ -2,8 +2,7 @@
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { useEffect, useState } from "react";
-import { useSearchParams , useRouter} from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useSearchParams} from "next/navigation";
 
 const InsidePage = () => {
   // const t = useTranslations("FixPage");

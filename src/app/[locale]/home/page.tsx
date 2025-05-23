@@ -9,7 +9,6 @@ import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 
 // Below this line are Mock-up Datas
 const News = [
@@ -147,7 +146,6 @@ export default function HomePage() {
   const locale = useLocale();
 
   const t = useTranslations("HomePage");
-  const pathname = usePathname();
 
   const HighlightServices = [
     {

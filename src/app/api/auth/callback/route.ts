@@ -47,9 +47,16 @@ export async function GET(request: NextRequest) {
     const res = NextResponse.redirect(new URL(returnUrl, request.url));
     setTokenCookie(res, tokenData);
     return res;
-  } catch (err: any) {
-    console.error("OAuth callback error:", err);
-    // ส่งกลับหน้าเดิมพร้อม error query
-    return NextResponse.redirect(new URL(`/?error=${encodeURIComponent(err.message)}`, request.url));
+  } catch (err: unknown) {
+  console.error("OAuth callback error:", err);
+
+  let message = "Unknown error";
+  if (err instanceof Error) {
+    message = err.message;
   }
+
+  return NextResponse.redirect(
+    new URL(`/?error=${encodeURIComponent(message)}`, request.url)
+  );
+}
 }
