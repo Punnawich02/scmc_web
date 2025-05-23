@@ -1,63 +1,55 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { saveToken } from '../../../lib/session';
+// app/api/auth/callback/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { setTokenCookie, TokenData } from "../../../lib/session";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const code = searchParams.get('code');
-  const errorParam = searchParams.get('error');
-  const state = searchParams.get('state');
+  const { searchParams } = request.nextUrl;
+  const code = searchParams.get("code");
+  const errorParam = searchParams.get("error");
+  const state = searchParams.get("state") || "/";
+  const returnUrl = decodeURIComponent(state);
 
+  // ถ้ามี error จาก OAuth
   if (errorParam) {
-    const desc = searchParams.get('error_description') || 'Unknown error';
-    return NextResponse.redirect(new URL(`/?error=${encodeURIComponent(desc)}`, request.url));
+    const desc = searchParams.get("error_description") || "Unknown error";
+    // redirect ต้องใช้ new URL(path, base)
+    return NextResponse.redirect(new URL(`${returnUrl}?error=${encodeURIComponent(desc)}`, request.url));
   }
 
+  // ถ้าไม่มี code เลย กลับไป login
   if (!code) {
-    return NextResponse.redirect(new URL('/api/login', request.url));
+    return NextResponse.redirect(new URL("/api/login", request.url));
   }
-
-  const returnUrl = state ? decodeURIComponent(state) : '/';
 
   try {
-    const tokenResponse = await fetch(process.env.TOKEN_URL!, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/json',
-      },
+    const tokenRes = await fetch(process.env.TOKEN_URL!, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: new URLSearchParams({
-        grant_type: 'authorization_code',
+        grant_type: "authorization_code",
         client_id: process.env.CLIENT_ID!,
         client_secret: process.env.CLIENT_SECRET!,
         redirect_uri: process.env.CALLBACK_URL!,
-        scope: process.env.SCOPE || '',
-        code: code,
-      }),
-      credentials: "include" ,
+        scope: process.env.SCOPE!,
+        code,
+      }).toString(),
     });
 
-    if (!tokenResponse.ok) {
-      const text = await tokenResponse.text();
-      throw new Error(`Token fetch failed: ${text}`);
+    if (!tokenRes.ok) {
+      const text = await tokenRes.text();
+      throw new Error(text);
     }
 
-    const contentType = tokenResponse.headers.get('content-type') || '';
-    let tokenData: any;
+    const tokenData = (await tokenRes.json()) as TokenData;
+    if (!tokenData.access_token) throw new Error("No access_token in response");
 
-    if (contentType.includes('application/json')) {
-      tokenData = await tokenResponse.json();
-    } else {
-      const raw = await tokenResponse.text();
-      const params = new URLSearchParams(raw);
-      tokenData = Object.fromEntries(params.entries());
-    }
-
-    if (!tokenData.access_token) throw new Error('No token received');
-
-    await saveToken(tokenData);
-
-    return NextResponse.redirect(new URL(returnUrl, request.url));
+    // สร้าง response พร้อม redirect แบบ absolute
+    const res = NextResponse.redirect(new URL(returnUrl, request.url));
+    setTokenCookie(res, tokenData);
+    return res;
   } catch (err: any) {
+    console.error("OAuth callback error:", err);
+    // ส่งกลับหน้าเดิมพร้อม error query
     return NextResponse.redirect(new URL(`/?error=${encodeURIComponent(err.message)}`, request.url));
   }
 }

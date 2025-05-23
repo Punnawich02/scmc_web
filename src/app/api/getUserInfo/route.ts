@@ -2,14 +2,23 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getToken } from "../../lib/session";
 
+export const runtime = "nodejs"; // ป้องกัน Edge runtime ปัญหา cookies()
+
 export async function GET() {
-  const cookieStore = cookies();
-  const token = getToken(await cookieStore);
+  // 1. รอ cookies() ให้เสร็จ
+  const cookieStore = await cookies();
+
+  // 2. อ่าน token จาก cookieStore
+  const token = getToken(cookieStore);
 
   if (!token) {
-    return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+    return NextResponse.json(
+      { error: "Not authorized" },
+      { status: 401 }
+    );
   }
 
+  // 3. ใช้ token.access_token ไปร้องขอข้อมูล
   try {
     const response = await fetch(process.env.BASICINFO_URL!, {
       headers: {

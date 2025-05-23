@@ -1,15 +1,22 @@
-
-import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { getToken } from '../../lib/session';
+// app/api/getToken/route.ts
+import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
 export async function GET() {
-  const cookieStore = cookies();
-  const token = getToken(await cookieStore);
-  if (!token) {
-    return NextResponse.json({ valid: false, error: 'No token found' }, { status: 401 });
+  const cookieStore = await cookies();
+  const raw = cookieStore.get("oauth-token")?.value;
+
+  if (!raw) {
+    return NextResponse.json({ valid: false }, { status: 401 });
   }
 
-  return NextResponse.json({ valid: true, token });
+  try {
+    const token = JSON.parse(raw) as { expires_at?: number; [key: string]: any };
+    if (token.expires_at && Date.now() >= token.expires_at) {
+      return NextResponse.json({ valid: false }, { status: 401 });
+    }
+    return NextResponse.json({ valid: true, token });
+  } catch {
+    return NextResponse.json({ valid: false }, { status: 401 });
+  }
 }
-
