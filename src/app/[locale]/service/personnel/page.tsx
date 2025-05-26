@@ -27,7 +27,7 @@ const PersonnelPage: React.FC = () => {
     {
       title: t("cmuto"),
       description: t("cmuto_title"),
-      link: "#cmuto",
+      link: "https://cmu.to/",
       icon: <Globe className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
   ];

@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Users {
+  user_id         Int      @id @default(autoincrement())
+  prefix          String
+  name            String
+  age             Int
+  house_no        String
+  village         String
+  road            String
+  sub_district    String
+  district        String
+  province        String
+  telephone       String
+  currently       String
+  citizen_id      String
+  created_at     DateTime @default(now())
+
+  Form Form[]
+}
+
+model Form {
+  form_id             Int      @id @default(autoincrement())
+  user_id             Int
+  request_reason      String
+  accident_area       String
+  accident_date       String
+  accident_time       String
+  security_noti_date  String
+  police_noti_date    String
+  police_noti_time    String
+  cctv_area_request1  String?
+  cctv_area_request2  String?
+  cctv_area_request3  String?
+  created_at          DateTime @default(now())
+
+  user            Users    @relation(fields: [user_id], references: [user_id])
+
+  NDA NDA[]
+}
+
+model NDA{
+  nda_id          Int      @id @default(autoincrement())
+  form_id         Int
+  accepted        Boolean
+  created_at     DateTime @default(now())
+
+  form           Form     @relation(fields: [form_id], references: [form_id])
+}
