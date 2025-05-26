@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
+import { useLocale } from "next-intl";
 
 const InsidePage = () => {
   const t = useTranslations("CCTVRequestForm");
   const [token, setToken] = useState(null);
   const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
   const router = useRouter();
+  const locale = useLocale();
 
   interface BasicInfo {
     firstname_TH: string;
@@ -382,8 +384,11 @@ const InsidePage = () => {
             {/* Submit button */}
             <div className="mt-8">
               <button
-                type="submit"
+                type="button"
                 className="bg-gradient-to-r from-[#6869AA] to-[#a1a2d6] text-white w-full py-3 rounded-xl shadow-lg hover:from-[#5757a6] hover:to-[#8889c7] hover:cursor-pointer transition font-bold text-lg tracking-wide"
+                onClick={() =>
+                  router.push(`/${locale}/service/security/cctv/nda`)
+                }
               >
                 {t("next")}
               </button>
