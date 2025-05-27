@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model AccidentInfo {
+  id                    String   @id @default(uuid()) @db.Uuid
+  user_id               String   @default(dbgenerated("auth.uid()")) @db.Uuid
+  acci_place            String   @db.VarChar
+  acci_date             DateTime @db.Date
+  acci_time             DateTime @db.Time(6)
+  security_contact_date DateTime @db.Date
+  police_contact_date   DateTime @db.Date
+  police_contact_time   DateTime @db.Time(6)
+  UserInfo              UserInfo @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model RequestPlaces {
+  id            String   @id @default(uuid()) @db.Uuid
+  user_id       String   @default(dbgenerated("auth.uid()")) @db.Uuid
+  request_place String
+  UserInfo      UserInfo @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+/// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
+model UserInfo {
+  id              String          @id(map: "CamRecordRequest_pkey") @default(uuid()) @db.Uuid
+  created_at      DateTime        @default(now()) @db.Timestamptz(6)
+  user_name       String
+  user_age        Decimal         @db.Decimal
+  user_address    String
+  user_phone      String
+  user_occupation String
+  user_cardid     String          @db.VarChar
+  user_reason     String
+  AccidentInfo    AccidentInfo[]
+  RequestPlaces   RequestPlaces[]
+}
