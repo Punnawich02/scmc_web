@@ -2,7 +2,7 @@
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 
@@ -10,29 +10,24 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
   const formData = new FormData(event.currentTarget);
   const data = Object.fromEntries(formData.entries());
-  
+
   try {
     let userId;
-    
-    // Check if user exists
+
     const checkResponse = await fetch(`http://localhost:3000/api/users/${data.citizen_id}`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
-    
+
     if (checkResponse.ok) {
-      // User exists, get their ID
       const userData = await checkResponse.json();
       userId = userData.user_id;
+
       const updateResponse = await fetch(`http://localhost:3000/api/users/${data.citizen_id}`, {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prefix: data.prefix || "mr",
+          prefix: data.prefix || "",
           name: data.name,
           age: parseInt(String(data.age)) || 0,
           house_no: data.house_no || "",
@@ -51,14 +46,11 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         throw new Error(`Failed to update user: ${errorData.details || "Unknown error"}`);
       }
     } else {
-      // User doesn't exist, create new user
       const createResponse = await fetch("http://localhost:3000/api/users", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          prefix: data.prefix || "mr",
+          prefix: data.prefix || "",
           name: data.name,
           age: parseInt(String(data.age)) || 0,
           house_no: data.house_no || "",
@@ -72,23 +64,19 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           citizen_id: data.citizen_id || "",
         }),
       });
-      
+
       if (!createResponse.ok) {
         const errorData = await createResponse.json();
         throw new Error(`Failed to create user: ${errorData.details || "Unknown error"}`);
       }
-      
+
       const userRes = await createResponse.json();
       userId = userRes.user_id;
-      console.log("New user created with ID:", userId);
     }
-    
-    // Create form associated with the user (existing or newly created)
+
     const response_form = await fetch("http://localhost:3000/api/form", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user_id: userId,
         request_reason: data.reason || "",
@@ -103,12 +91,12 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         cctv_area_request3: data.area_req_3 || "",
       }),
     });
-    
+
     if (!response_form.ok) {
       const errorData = await response_form.json();
       throw new Error(`Failed to submit form: ${errorData.details || "Unknown error"}`);
     }
-    
+
     alert("Data submitted successfully!");
   } catch (error) {
     alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
@@ -118,11 +106,15 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   }
 };
 
+
+
 const FormPage = () => {
   const t = useTranslations("CCTVRequestForm");
   const [token, setToken] = useState(null);
   const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
   const router = useRouter();
+  const searchParam = useSearchParams();
+  const type = searchParam.get("type");
 
   interface BasicInfo {
     firstname_TH: string;
@@ -137,14 +129,14 @@ const FormPage = () => {
         const tokenResponse = await fetch("/api/getToken");
         if (!tokenResponse.ok) {
           if (tokenResponse.status === 401) {
-            setToken(null); // ไม่มี token
+            setToken(null);
             return;
           }
           throw new Error(`Token fetch error: ${tokenResponse.status}`);
         }
 
         const tokenData = await tokenResponse.json();
-        setToken(tokenData); // มี token
+        setToken(tokenData);
 
         const basicInfoResponse = await fetch("/api/getUserInfo", {
           headers: { "Content-Type": "application/json" },
@@ -158,7 +150,7 @@ const FormPage = () => {
         setBasicInfo(userData);
       } catch (err) {
         console.error("Failed to fetch data:", err);
-        setToken(null); // fallback เผื่อ error
+        setToken(null);
       }
     }
 
@@ -169,7 +161,6 @@ const FormPage = () => {
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-        {/* Head */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -177,7 +168,13 @@ const FormPage = () => {
         >
           {token ? (
             <h1 className="text-3xl font-bold my-8 text-black">
-              {t("Insider")}
+              {type === "internal"
+                ? t("Insider")
+                : type === "external"
+                ? t("Outsider")
+                : token
+                ? t("Insider")
+                : t("Outsider")}
             </h1>
           ) : (
             <h1 className="text-3xl font-bold my-8 text-black">
@@ -185,6 +182,7 @@ const FormPage = () => {
             </h1>
           )}
         </motion.div>
+
 
         {/* Form */}
         <motion.div
@@ -208,27 +206,31 @@ const FormPage = () => {
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                   id="prefix"
                   name="prefix"
+                  defaultValue="" 
+                  required 
                 >
+                  <option value="" disabled/>
                   <option value="mr">{t("mr")}</option>
                   <option value="mrs">{t("mrs")}</option>
                   <option value="miss">{t("miss")}</option>
                 </select>
               </div>
-              <div className="col-span-7">
-                <label className="block text-sm font-semibold text-[#6869AA] mb-1">
+              <div className="col-span-7" >
+                <label className="block text-sm font-semibold text-[#6869AA] mb-1" >
                   {t("name")}
                 </label>
                 <input
                   type="text"
                   id="name"
                   name="name"
-                  value={
-                    basicInfo
+                  defaultValue={
+                    type === "internal" && basicInfo
                       ? `${basicInfo.firstname_TH} ${basicInfo.lastname_TH}`
-                      : undefined
+                      : ""
                   }
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                   readOnly={!!token}
+                  required
                 />
               </div>
               <div className="col-span-3">
@@ -240,6 +242,7 @@ const FormPage = () => {
                   id="age"
                   name="age"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
             </div>
@@ -255,6 +258,7 @@ const FormPage = () => {
                   id="house_no"
                   name="house_no"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-3">
@@ -266,6 +270,7 @@ const FormPage = () => {
                   id="village"
                   name="village"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-3">
@@ -277,6 +282,7 @@ const FormPage = () => {
                   id="road"
                   name="road"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-3">
@@ -288,6 +294,7 @@ const FormPage = () => {
                   id="sub_district"
                   name="sub_district"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
             </div>
@@ -303,6 +310,7 @@ const FormPage = () => {
                   id="district"
                   name="district"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-4">
@@ -314,6 +322,7 @@ const FormPage = () => {
                   id="province"
                   name="province"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-4">
@@ -325,6 +334,7 @@ const FormPage = () => {
                   id="telephone"
                   name="telephone"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
             </div>
@@ -339,9 +349,14 @@ const FormPage = () => {
                   type="text"
                   id="currently"
                   name="currently"
-                  value={basicInfo ? basicInfo.itaccounttype_TH : undefined}
+                  defaultValue={
+                    type === "internal" && basicInfo
+                      ? basicInfo.itaccounttype_TH
+                      : ""
+                  }
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                   readOnly={!!token}
+                  required
                 />
               </div>
               <div className="col-span-8">
@@ -352,8 +367,14 @@ const FormPage = () => {
                   type="text"
                   id="citizen_id"
                   name="citizen_id"
-                  value={basicInfo ? basicInfo.student_id : undefined}
+                  defaultValue={
+                    type === "internal" && basicInfo
+                      ? basicInfo.student_id
+                      : ""
+                  }
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
+                  readOnly={!!token}
                 />
               </div>
             </div>
@@ -381,6 +402,7 @@ const FormPage = () => {
                   id="area"
                   name="area"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-4">
@@ -392,6 +414,7 @@ const FormPage = () => {
                   id="accident_date"
                   name="accident_date"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-3">
@@ -403,6 +426,7 @@ const FormPage = () => {
                   id="accident_time"
                   name="accident_time"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
             </div>
@@ -418,6 +442,7 @@ const FormPage = () => {
                   id="security_noti_date"
                   name="security_noti_date"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
             </div>
@@ -432,6 +457,7 @@ const FormPage = () => {
                   id="police_noti_date"
                   name="police_noti_date"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
               <div className="col-span-4">
@@ -443,6 +469,7 @@ const FormPage = () => {
                   id="police_noti_time"
                   name="police_noti_time"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
               </div>
             </div>
@@ -458,6 +485,7 @@ const FormPage = () => {
                   id="area_req_1"
                   name="area_req_1"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
+                  required
                 />
                 <input
                   type="text"

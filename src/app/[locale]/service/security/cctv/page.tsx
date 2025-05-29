@@ -16,7 +16,7 @@ const CCTVPage: React.FC = () => {
     try {
       const res = await fetch("/api/getToken", { credentials: "include" });
       if (res.ok) {
-        router.push(`/${locale}/service/security/cctv/form`);
+        router.push(`/${locale}/service/security/cctv/form?type=internal`);
 
       } else {
         router.push("/api/login");
@@ -56,7 +56,7 @@ const CCTVPage: React.FC = () => {
             </button>
           <button 
           className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-          onClick={() => router.push(`/${locale}/service/security/cctv/form`)}
+          onClick={() => router.push(`/${locale}/service/security/cctv/form?type=external`)}
           >
             {t("Outsider")}
           </button>
