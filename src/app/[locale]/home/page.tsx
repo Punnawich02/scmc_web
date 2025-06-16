@@ -202,48 +202,6 @@ export default function HomePage() {
             </section>
           </motion.div>
 
-<<<<<<< HEAD
-          {/* Login Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            <section className="px-6 py-8 bg-gray-100 flex flex-col items-center justify-center gap-8 max-w-7xl mx-auto text-black rounded-xl shadow-md">
-              {!token ? (
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <div>
-                    เข้าสู่ระบบเพื่อใช้งานบริการต่างๆ ของมหาวิทยาลัยเชียงใหม่
-                  </div>
-                  <button
-                    className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-                    onClick={() => window.location.href = `/api/login?callbackUrl=/th/home`}
-                  >
-                    Login
-                  </button>
-                </div>
-              ) : (
-                <div className="flex flex-col items-center justify-center gap-4">
-                  <div>
-                    ยินดีต้อนรับ{" "}
-                    {basicInfo?.firstname_TH + " " + basicInfo?.lastname_TH}{" "}
-                    สู่ระบบบริการมหาวิทยาลัยเชียงใหม่
-                  </div>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:bg-red-600 hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
-                    onClick={() => window.location.href = `/api/auth/logout?callbackUrl=/th/home`}
-
-                  >
-                    Logout
-                  </button>
-                </div>
-              )}
-            </section>
-          </motion.div>
-
-=======
->>>>>>> Mai's-Branch
           {/* Highlight Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
