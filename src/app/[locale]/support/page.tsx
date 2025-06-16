@@ -11,79 +11,87 @@ import Link from "next/link";
 
 export default function SupportPage() {
   const t = useTranslations("SupportPage");
-  
+
   const cardData = [
     {
-      title: t('fix'),
-      description: t('fix_title'),
+      title: t("fix"),
+      description: t("fix_title"),
       link: "/support/fix",
-      icon: <Wrench className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      icon: <Wrench className="w-12 h-12" color="#FFF" strokeWidth={1.5} />,
     },
     {
-      title: t('comment'),
-      description: t('comment_title'),
+      title: t("comment"),
+      description: t("comment_title"),
       link: "#comment",
       icon: (
-        <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
+        <MessageSquare className="w-12 h-12" color="#FFF" strokeWidth={1.5} />
       ),
     },
     {
       title: "SDG and Carbon Neutrality",
-      description: t('sdg_title'),
+      description: t("sdg_title"),
       link: "#sdg",
-      icon: <Shrub className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      icon: <Shrub className="w-12 h-12" color="#FFF" strokeWidth={1.5} />,
     },
   ];
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title={t('page_title')} />
+      <Header title={t("page_title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <div>
             <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              {t('header')}
+              {t("header")}
             </h1>
-            <p className="text-gray-700 mb-4">
-              {t('title')}
-            </p>
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 justify-center items-stretch max-w-5xl mx-auto">
-          {cardData.map((card, index) => (
-            <Link href={card.link} key={index} className="h-full">
-              <motion.div
-                initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true, amount: 0.1 }}
-                className="h-full"
-              >
-                <Card
-                  key={index}
-                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full flex flex-col"
-                >
-                  <CardBody className="flex flex-col items-center md:items-start gap-4 p-6 bg-[#9799E7] rounded-xl w-full h-full">
-                    <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                      {card.icon}
+            <p className="text-gray-700 mb-4">{t("title")}</p>
+          </div>
+          <div className="relative w-full min-h-[700px] sm:h-[500px] flex items-center justify-center bg-[url('/support/bg-support.jpg')] bg-cover bg-center rounded-xl overflow-hidden">
+            <div className="absolute inset-0 bg-[#1112438A] backdrop-blur-[3px]" />
+            <div className="relative flex flex-col items-center justify-center gap-8 z-10">
+              <div className="flex flex-col sm:flex-row gap-8">
+                {cardData.slice(0, 2).map((card, index) => (
+                  <Link href={card.link} key={index}>
+                    <div className="w-[300px] transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
+                      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-2xl bg-white/30 backdrop-blur-lg shadow-lg">
+                        <div className="bg-[#5759BB] rounded-full w-16 h-16 flex items-center justify-center shrink-0">
+                          {card.icon}
+                        </div>
+                        <div className="text-white text-center sm:text-left">
+                          <h2 className="text-lg font-bold">{card.title}</h2>
+                          <p className="text-sm">{card.description}</p>
+                        </div>
+                      </div>
                     </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                      {card.title}
-                    </h2>
-                    <p className="text-sm text-white text-center sm:text-left flex-grow">
-                      {card.description}
-                    </p>
-                  </CardBody>
-                </Card>
-              </motion.div>
-            </Link>
-          ))}
-        </div>
+                  </Link>
+                ))}
+              </div>
+              <div>
+                <Link href={cardData[2].link}>
+                  <div className="w-[300px] transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-2xl bg-white/30 backdrop-blur-lg shadow-lg">
+                      <div className="bg-[#5759BB] rounded-full w-16 h-16 flex items-center justify-center shrink-0">
+                        {cardData[2].icon}
+                      </div>
+                      <div className="text-white text-center sm:text-left">
+                        <h2 className="text-lg font-bold">
+                          {cardData[2].title}
+                        </h2>
+                        <p className="text-sm">{cardData[2].description}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </main>
+
       <Footer />
     </div>
   );
