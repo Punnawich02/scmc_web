@@ -1,83 +1,68 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
-import { Card, CardBody } from "@heroui/card";
-import { Clock, Map } from "lucide-react";
+import { BusFront, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
-import {useTranslations} from 'next-intl';
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 
-const TransportPage: React.FC = () => {
-  const t = useTranslations('TransportPage');
+export default function TransportPage() {
+  const t = useTranslations("TransportPage");
+  const [isOpen, setIsOpen] = useState(false);
 
-  const cardData = [
-    {
-      title: t('table'),
-      description: t('table_title'),
-      link: '#table',
-      icon: <Clock className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-    },
-    {
-      title: t('map'),
-      description: t('map'),
-      link: '#map',
-      icon: <Map className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
-    },
-  ];
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title={t('page_title')} />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              {t('header')}
+      <Header title={t("page_title")} />
+
+      <main className="flex flex-col items-center px-4 py-12 max-w-7xl mx-auto w-full">
+        {/* ส่วนหัวไอคอน + ข้อความ */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full bg-[#9799E7] rounded-2xl px-6 py-8 sm:px-12 sm:py-10 flex items-center gap-8"
+        >
+          <div className="w-28 h-28 rounded-full bg-[#5759BB] flex items-center justify-center flex-shrink-0">
+            <BusFront className="w-14 h-14 text-white" />
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full text-white">
+            <h1 className="text-4xl sm:text-6xl font-bold mb-2 sm:mb-0 whitespace-nowrap">
+              {t("header")}
             </h1>
-            <p className="text-gray-700 mb-4">
-              {t('title')}
+            <p className="text-base sm:text-lg sm:ml-6 sm:flex-1 text-white">
+              {t("table")}
             </p>
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 justify-center items-stretch max-w-3xl mx-auto">
-          {cardData.map((card, index) => (
-            <Link href={card.link} key={index} className="h-full">
-              <motion.div
-                initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true, amount: 0.1 }}
-                className="h-full"
-              >
-                <Card
-                  key={index}
-                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full flex flex-col"
-                >
-                  <CardBody className="flex flex-col items-center sm:items-start gap-4 p-6 bg-[#9799E7] rounded-xl w-full h-full">
-                    <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                      {card.icon}
-                    </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left">
-                      {card.title}
-                    </h2>
-                    <p className="text-sm text-white text-center sm:text-left flex-grow">
-                      {card.description}
-                    </p>
-                  </CardBody>
-                </Card>
-              </motion.div>
-            </Link>
-          ))}
+          </div>
+        </motion.div>
+
+        {/* Dropdown */}
+        <div className="mt-10 w-full max-w-5xl">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="w-full flex items-center justify-between bg-[#EFEFFF] border border-[#8586D1] rounded-full px-6 py-3 transition-all"
+          >
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center w-full text-black">
+              {t("table")}
+            </h2>
+            <ChevronDown
+              className={`text-[#8586D1] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+
+          {/* เนื้อหาเมื่อเปิด */}
+          {isOpen && (
+            <div className="mt-6">
+              <p className="text-gray-700 text-center">
+                🚍 ตารางเดินรถ ขส.มช. จะมาแสดงที่นี่ เช่น รูปภาพ หรือ component ตาราง
+              </p>
+            </div>
+          )}
         </div>
       </main>
+
       <Footer />
     </div>
   );
-};
-
-export default TransportPage;
+}

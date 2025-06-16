@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
@@ -38,19 +37,17 @@ export default function PhysicalPage() {
           <div className="absolute inset-0 bg-[#5759BB]/50" />
 
           {/* การ์ดข้อมูล */}
-          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-10 w-fit">
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit">
             {cardData.map((card, index) => (
               <Link href={card.link} key={index}>
-                <div className="flex items-center justify-center gap-8 w-[500px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-10">
-                  <div className="bg-[#5759BB] rounded-full p-6 flex items-center justify-center">
-                    {React.cloneElement(card.icon, { className: "w-10 h-10 text-white" })}
+                <div className="flex items-center gap-4 w-[300px] h-[120px] bg-white/30 backdrop-blur-md rounded-2xl shadow-lg hover:scale-105 transition-transform px-6">
+                  <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center">
+                    {React.cloneElement(card.icon, { className: "w-8 h-8 text-white" })}
                   </div>
-                  <div className="text-[#1F1F1F] text-2xl sm:text-3xl font-bold">
+                  <div className="text-white text-lg font-bold">
                     {card.title}
                   </div>
                 </div>
-
-
               </Link>
             ))}
           </div>
