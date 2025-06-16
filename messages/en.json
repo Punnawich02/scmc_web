@@ -18,7 +18,7 @@
     "sec_off": "Security Office: 053 941 190-1",
     "off_hour": "Office Hours: Monday – Friday, 08:30 – 16:30",
     "cmut": "CMU Transport",
-    "dev_by":"Development By"
+    "dev_by": "Development By"
   },
   "HomePage": {
     "page_title": "Smart Campus Management Center, CMU",
@@ -120,11 +120,29 @@
   "AboutPage": {
     "page_title": "About the Organization and Our Vision",
     "header": "About Us",
-    "title": "Learn about our organization, vision, and operations",
-    "vision": "Vision / Mission / Structure",
-    "vision_title": "Our goals, mission, and organizational structure",
-    "contact": "Departments and Contact",
-    "contact_title": "Contact information and relevant departments"
+    "about": "Sustainable Campus Management Center",
+    "about_title": "The Sustainable Campus Management Center (SCMC), Chiang Mai University, is the core agency driving the university toward becoming a Smart & Sustainable City. By integrating technology, innovation, and data, the center efficiently manages resources encompassing the environment, energy, transportation, safety, and campus infrastructure. SCMC oversees utility systems such as electricity, water supply, wastewater, and facilities. It also promotes clean energy, energy conservation, and green technology; develops and manages intelligent public transport systems like CMU Transit; supports green spaces, systematic waste management, and carbon footprint reduction; and monitors performance in real-time through dashboards and smart sensors for transparency and accountability. The center encourages participation from students, staff, and partners to co-create a model for an eco-university, serving as a policy testing ground for scalable sustainable development under the concept 'Smart – Sustainable – Safe' for an improved quality of life on campus and surrounding communities.",
+    "vision": "Vision",
+    "vision_title": "To be a central management hub for a model smart university, driven by intelligent technologies for sustainability in the environment, energy, mobility, and the well-being of all campus stakeholders.",
+    "mission": "Mission",
+    "mission_points": {
+      "1": "Manage infrastructure and resources efficiently and sustainably.",
+      "2": "Develop information technology systems for smart city management.",
+      "3": "Promote clean energy, resource conservation, and waste reduction.",
+      "4": "Support intelligent transportation systems and safe accessibility.",
+      "5": "Encourage community participation in the sustainable development of the university city."
+    },
+    "structure": "Center Structure",
+    "chancellor": "University President",
+    "director1": "Director of the University Office",
+    "director2": "Director of the Sustainable Campus Management Center",
+    "department1": "Technical Planning",
+    "department2": "Administrative",
+    "department3": "Building and Facilities",
+    "department4": "Other",
+    "department5": "Other",
+    "contact": "Agencies and Contact",
+    "contact_title": "Contact Information and Related Agencies"
   },
   "SupportPage": {
     "page_title": "Collaborating for Sustainability at the University",

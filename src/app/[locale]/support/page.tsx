@@ -17,21 +17,21 @@ export default function SupportPage() {
       title: t("fix"),
       description: t("fix_title"),
       link: "/support/fix",
-      icon: <Wrench className="w-12 h-12" color="#FFF" strokeWidth={1.5} />,
+      icon: <Wrench className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
     {
       title: t("comment"),
       description: t("comment_title"),
       link: "#comment",
       icon: (
-        <MessageSquare className="w-12 h-12" color="#FFF" strokeWidth={1.5} />
+        <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
       ),
     },
     {
-      title: "SDG and Carbon Neutrality",
+      title: t("sdg"),
       description: t("sdg_title"),
       link: "#sdg",
-      icon: <Shrub className="w-12 h-12" color="#FFF" strokeWidth={1.5} />,
+      icon: <Shrub className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
     },
   ];
 
@@ -50,20 +50,19 @@ export default function SupportPage() {
             </h1>
             <p className="text-gray-700 mb-4">{t("title")}</p>
           </div>
-          <div className="relative w-full min-h-[700px] sm:h-[500px] flex items-center justify-center bg-[url('/support/bg-support.jpg')] bg-cover bg-center rounded-xl overflow-hidden">
+          <div className="relative w-full min-h-[700px] sm:h-[500px] flex items-center justify-center bg-[url('/support/bg-support.jpg')] bg-cover bg-center rounded-4xl overflow-hidden">
             <div className="absolute inset-0 bg-[#1112438A] backdrop-blur-[3px]" />
             <div className="relative flex flex-col items-center justify-center gap-8 z-10">
               <div className="flex flex-col sm:flex-row gap-8">
                 {cardData.slice(0, 2).map((card, index) => (
                   <Link href={card.link} key={index}>
                     <div className="w-[300px] transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
-                      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-2xl bg-white/30 backdrop-blur-lg shadow-lg">
-                        <div className="bg-[#5759BB] rounded-full w-16 h-16 flex items-center justify-center shrink-0">
+                      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-4xl bg-white/30 backdrop-blur-lg shadow-lg">
+                        <div className="bg-[#5759BB] rounded-full w-20 h-20 flex items-center justify-center shrink-0">
                           {card.icon}
                         </div>
                         <div className="text-white text-center sm:text-left">
                           <h2 className="text-lg font-bold">{card.title}</h2>
-                          <p className="text-sm">{card.description}</p>
                         </div>
                       </div>
                     </div>
@@ -73,15 +72,14 @@ export default function SupportPage() {
               <div>
                 <Link href={cardData[2].link}>
                   <div className="w-[300px] transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
-                    <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-2xl bg-white/30 backdrop-blur-lg shadow-lg">
-                      <div className="bg-[#5759BB] rounded-full w-16 h-16 flex items-center justify-center shrink-0">
+                    <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-4xl bg-white/30 backdrop-blur-lg shadow-lg">
+                      <div className="bg-[#5759BB] rounded-full w-20 h-20 flex items-center justify-center shrink-0">
                         {cardData[2].icon}
                       </div>
                       <div className="text-white text-center sm:text-left">
                         <h2 className="text-lg font-bold">
                           {cardData[2].title}
                         </h2>
-                        <p className="text-sm">{cardData[2].description}</p>
                       </div>
                     </div>
                   </div>

@@ -16,7 +16,7 @@ export default function AboutPage() {
   const missionKeys = ["1", "2", "3", "4", "5"];
   const departments = [
     {
-      title: "ฝ่ายงานแผนเทค",
+      title: t("department1"),
       members: [
         "Lorem Ipsum",
         "Lorem Ipsum",
@@ -26,7 +26,7 @@ export default function AboutPage() {
       ],
     },
     {
-      title: "ฝ่ายธุรการ",
+      title: t("department2"),
       members: [
         "Lorem Ipsum",
         "Lorem Ipsum",
@@ -36,7 +36,7 @@ export default function AboutPage() {
       ],
     },
     {
-      title: "ฝ่ายอาคารสถานที่",
+      title: t("department3"),
       members: [
         "Lorem Ipsum",
         "Lorem Ipsum",
@@ -46,7 +46,7 @@ export default function AboutPage() {
       ],
     },
     {
-      title: "ฝ่ายอื่น ๆ",
+      title: t("department4"),
       members: [
         "Lorem Ipsum",
         "Lorem Ipsum",
@@ -56,7 +56,7 @@ export default function AboutPage() {
       ],
     },
     {
-      title: "ฝ่ายอื่น ๆ",
+      title: t("department5"),
       members: [
         "Lorem Ipsum",
         "Lorem Ipsum",
@@ -79,7 +79,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-5xl font-bold mb-4 mt-4 text-black">
+            <h1 className="text-6xl font-bold mb-1 mt-10 text-black">
               {t("header")}
             </h1>
           </motion.div>
@@ -100,13 +100,11 @@ export default function AboutPage() {
                 alt="Nature Lake"
                 width={600}
                 height={400}
-                className="rounded-xl w-full h-auto object-cover"
+                className="rounded-2xl w-full h-auto object-cover"
               />
             </div>
-            <div className="text-sm text-gray-800 space-y-4">
-              <h2 className="text-xl font-semibold">
-                ศูนย์บริหารจัดการเมืองเพื่อความยั่งยืน
-              </h2>
+            <div className="text-sm space-y-4">
+              <h2 className="text-2xl font-semibold">{t("about")}</h2>
               <p>{t("about_title")}</p>
             </div>
           </section>
@@ -114,14 +112,14 @@ export default function AboutPage() {
           <section className="grid md:grid-cols-2 space-y-2 mt-5 gap-5">
             {/* Vision Section */}
             <div className="items-center gap-2">
-              <h3 className="text-lg font-semibold">{t("vision")}</h3>
-              <p>{t("vision_title")}</p>
+              <h3 className="text-2xl font-semibold">{t("vision")}</h3>
+              <p className="mt-2">{t("vision_title")}</p>
             </div>
 
             {/* Mission Section */}
             <div className="items-center gap-2">
-              <h3 className="text-lg font-semibold">{t("mission")}</h3>
-              <ol>
+              <h3 className="text-2xl font-semibold">{t("mission")}</h3>
+              <ol className="mt-2">
                 {missionKeys.map((key, index) => (
                   <li key={key}>
                     {" "}
@@ -138,7 +136,7 @@ export default function AboutPage() {
               (img, i) => (
                 <div
                   key={i}
-                  className="relative w-[258px] h-[250px] rounded-xl overflow-hidden"
+                  className="relative w-[258px] h-[250px] rounded-2xl overflow-hidden"
                 >
                   <Image
                     src={`/about/${img}`}
@@ -158,16 +156,17 @@ export default function AboutPage() {
               <div className="bg-[#9799E7] text-white px-4 py-2 rounded-full z-10">
                 {t(`chancellor`)}
               </div>
-              <div className="w-0.5 h-4 bg-gray-400"></div>
-              <div className="bg-[#9799E7] text-white px-4 py-2 rounded-full z-10">
+              <div className="w-[0.4rem] h-4 bg-gray-400"></div>
+              <div className="bg-[#9799E7]/75 text-white px-4 py-2 rounded-full z-10">
                 {t(`director1`)}
               </div>
-              <div className="w-0.5 h-4 bg-gray-400"></div>
-              <div className="bg-[#9799E7] text-white px-4 py-2 rounded-full z-10">
+              <div className="w-[0.4rem] h-4 bg-gray-400"></div>
+              <div className="bg-[#9799E7]/50 text-white px-4 py-2 rounded-full z-10">
                 {t(`director2`)}
               </div>
-              <div className="w-0.5 h-4 bg-gray-400"></div>
+              <div className="w-[0.4rem] h-4 bg-gray-400"></div>
               <div className="flex flex-wrap justify-center gap-4 relative">
+                <div className="absolute top-5 left-0 right-0 h-[0.4rem] mx-13 bg-gray-400 z-0" />
                 {departments.map((dept, index) => (
                   <div
                     key={index}
@@ -176,7 +175,7 @@ export default function AboutPage() {
                     <div className="bg-indigo-200 text-black px-3 py-2 rounded-full font-medium">
                       {dept.title}
                     </div>
-                    <div className="w-0.5 h-4 bg-gray-400"></div>
+                    <div className="w-[0.4rem] h-4 bg-gray-400"></div>
                     <div className="bg-indigo-100 rounded-xl p-4 w-40 shadow">
                       <ul className="text-xs space-y-1">
                         {dept.members.map((name, i) => (
