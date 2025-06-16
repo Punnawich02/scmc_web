@@ -5,48 +5,20 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Cctv, FileText, Waves, Building, Map } from "lucide-react";
+import { Cctv, FileText, Waves, Building, Map, CarFront } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
+type NewsItem = {
+  title: string;
+  description: string;
+  imageUrl: string;
+  link: string;
+};
+
+type TabType = "news" | "documents" | "articles";
 // Below this line are Mock-up Datas
-const News = [
-  {
-    title: "กิจกรรมพิเศษสำหรับนักศึกษา CMU ปี 1-4",
-    description:
-      "กิจกรรมพิเศษสำหรับนักศึกษา มช. ประจำปีการศึกษา 2025 เพื่อส่งเสริมการเรียนรู้และพัฒนาทักษะนอกห้องเรียน",
-    imageUrl: "/news/news_1.png",
-    link: "#news1",
-  },
-  {
-    title: "ข่าวประชาสัมพันธ์จากหน่วยงานต่างๆ",
-    description: "ข่าวประชาสัมพันธ์จากหน่วยงานต่างๆ ของมหาวิทยาลัยเชียงใหม่",
-    imageUrl: "/news/news_2.png",
-    link: "#news2",
-  },
-  {
-    title: "ประกาศจากหน่วยงานรักษาความปลอดภัย",
-    description: "ประกาศจากหน่วยงานรักษาความปลอดภัยเกี่ยวกับการเข้า-ออก มช.",
-    imageUrl: "/news/news_3.png",
-    link: "#news3",
-  },
-  {
-    title: "ข่าวสารการจราจรในเขต มช.",
-    description: "ข่าวสารการจราจรในเขต มช. เพื่อความสะดวกในการเดินทาง",
-    imageUrl: "/news/news_4.png",
-    link: "#news4",
-  },
-  {
-    title: "กิจกรรมพิเศษสำหรับนักศึกษา CMU ปี 1-4",
-    description:
-      "กิจกรรมพิเศษสำหรับนักศึกษา มช. ประจำปีการศึกษา 2025 เพื่อส่งเสริมการเรียนรู้และพัฒนาทักษะนอกห้องเรียน",
-    imageUrl: "/news/news_1.png",
-    link: "#news1",
-  },
-];
-
-const PublicDoc = [
+const PublicDoc: NewsItem[] = [
   {
     title: "เอกสาร A",
     description:
@@ -68,7 +40,7 @@ const PublicDoc = [
   },
 ];
 
-const Block = [
+const Block: NewsItem[] = [
   {
     title: "บทความ A",
     description: "บทความ A",
@@ -84,69 +56,78 @@ const Block = [
 ];
 // End of Mock-up Datas
 
-type TabType = "news" | "documents" | "articles";
-
-const tabData: Record<
-  TabType,
-  { title: string; description: string; imageUrl: string; link: string }[]
-> = {
-  news: News,
-  documents: PublicDoc,
-  articles: Block,
-};
-
 export default function HomePage() {
-  const [token, setToken] = useState(null);
-  
-  interface BasicInfo {
-    firstname_TH: string;
-    lastname_TH: string;
-  }
-  const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
-  const router = useRouter();
+  const t = useTranslations("HomePage");
+  const locale = useLocale();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Fetch the token
-        const tokenResponse = await fetch("/api/getToken");
-        if (!tokenResponse.ok) {
-          if (tokenResponse.status === 401) {
-            return;
-          }
-          throw new Error(`Token fetch error: ${tokenResponse.status}`);
-        }
-
-        const tokenData = await tokenResponse.json();
-        setToken(tokenData);
-
-        // Fetch user's basic info using the token
-        const basicInfoResponse = await fetch("/api/getUserInfo", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!basicInfoResponse.ok) {
-          throw new Error(`API error: ${basicInfoResponse.status}`);
-        }
-
-        const userData = await basicInfoResponse.json();
-        setBasicInfo(userData);
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
-      }
-    }
-
-    fetchData();
-  }, [router]);
+  /* ---------- state: news / tab ---------- */
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [, setLoadingNews] = useState(true);
+  const [, setErrorNews] = useState<string | null>(null);
 
   const [selectedTab, setSelectedTab] = useState<TabType>("news");
   const tabs: TabType[] = ["news", "documents", "articles"];
-  const locale = useLocale();
 
-  const t = useTranslations("HomePage");
+  /* ---------- fetch news on mount -------- */
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch("/api/news");
+        if (!res.ok) throw new Error("Failed to fetch news");
+        const api = await res.json();
 
+        type NewsApiItem = {
+          TitleThai?: string;
+          TitleEnglish?: string;
+          DetailThai?: string;
+          DetailEnglish?: string;
+          Images?: { IsCover?: boolean; SourceLink?: string }[];
+          NewsID: string | number;
+        };
+
+        const isThai = locale === "th";
+
+        const mapped: NewsItem[] = (api.data as NewsApiItem[]).map((n) => ({
+          title: isThai
+            ? n.TitleThai ?? n.TitleEnglish ?? "ไม่มีชื่อ"
+            : n.TitleEnglish ?? n.TitleThai ?? "Untitled",
+          description:
+            (isThai
+              ? n.DetailThai ?? n.DetailEnglish
+              : n.DetailEnglish ?? n.DetailThai
+            )
+              ?.replace(/<[^>]+>/g, "")
+              .slice(0, 200) ?? "",
+          imageUrl:
+            n.Images?.find((img) => img.IsCover)?.SourceLink ??
+            n.Images?.[0]?.SourceLink ??
+            "/placeholder.jpg",
+          link: `/news/${n.NewsID}`,
+        }));
+
+        setNewsItems(mapped);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setErrorNews(err.message);
+        } else {
+          setErrorNews("An unknown error occurred");
+        }
+      } finally {
+        setLoadingNews(false);
+      }
+    };
+
+    fetchNews();
+  }, [locale]); // 💡 เพิ่ม dependency เพื่อให้เปลี่ยนภาษาทันทีเมื่อ locale เปลี่ยน
+
+  /* ---------- data per tab --------------- */
+  const tabData: Record<TabType, NewsItem[]> = {
+    news: newsItems,
+    documents: PublicDoc,
+    articles: Block,
+  };
+
+  /* ---------- highlight services ---------- */
   const HighlightServices = [
     {
       icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
@@ -197,13 +178,13 @@ export default function HomePage() {
                   alt="Angkaew"
                   fill
                   style={{ objectFit: "cover" }}
-                  className="rounded-xl"
+                  className="rounded-4xl"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r to-transparent flex flex-col justify-center px-6 sm:px-8">
-                  <h2 className="text-white text-2xl sm:text-3xl font-bold mb-4">
+                  <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4">
                     {t("vehicle")}
                   </h2>
-                  <p className="text-white text-xs sm:text-sm sm:text-base max-w-md mb-6">
+                  <p className="text-black text-xs sm:text-sm sm:text-base max-w-md mb-6">
                     {t("vehicle_title")}
                   </p>
                   <Link
@@ -211,7 +192,8 @@ export default function HomePage() {
                     className="w-full sm:w-auto"
                     style={{ maxWidth: "200px" }}
                   >
-                    <button className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
+                    <button className="flex bg-[#380478] font-bold text-white px-4 py-2 rounded-xl text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
+                      <CarFront className="mr-2" />
                       {t("vehicle_btn")}
                     </button>
                   </Link>
@@ -220,6 +202,7 @@ export default function HomePage() {
             </section>
           </motion.div>
 
+<<<<<<< HEAD
           {/* Login Section */}
           <motion.div
             initial={{ opacity: 0, y: 100 }}
@@ -259,6 +242,8 @@ export default function HomePage() {
             </section>
           </motion.div>
 
+=======
+>>>>>>> Mai's-Branch
           {/* Highlight Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -363,45 +348,14 @@ export default function HomePage() {
               </motion.div>
 
               <div className="flex justify-end">
-                <Link href="#">
-                  <button className="bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
+                <Link href="/news">
+                  <button className="font-bold bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out">
                     {t("more")}
                   </button>
                 </Link>
               </div>
             </section>
           </motion.div>
-
-          {/* CMU Mobile Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            <section className="px-6 py-8 bg-white flex flex-col md:flex-row items-center justify-center gap-8 max-w-7xl mx-auto">
-              <div className="md:w-1/2 flex justify-center">
-                <Image
-                  src="/smartphone.png"
-                  width={400}
-                  height={400}
-                  alt="Smartphone"
-                  className="h-48 object-contain"
-                />
-              </div>
-              <div className="md:w-1/2 p-4">
-                <Image
-                  src="/cmu_mobile.svg"
-                  width={400}
-                  height={150}
-                  alt="CMU Mobile Map"
-                  className="w-full object-contain rounded-xl hover:shadow-lg hover:cursor-pointer sm:scale-100 sm:hover:scale-105 scale-150 hover:scale-155 transition-transform duration-300 ease-in-out"
-                />
-              </div>
-            </section>
-          </motion.div>
-
-          
         </div>
       </main>
       <Footer />

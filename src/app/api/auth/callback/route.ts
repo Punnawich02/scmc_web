@@ -50,9 +50,31 @@ export async function GET(request: NextRequest) {
   } catch (err: unknown) {
   console.error("OAuth callback error:", err);
 
+<<<<<<< HEAD
   let message = "Unknown error";
   if (err instanceof Error) {
     message = err.message;
+=======
+    if (!tokenData.access_token) {
+      throw new Error("No access_token in response");
+    }
+
+    // Save the token to cookies
+    await saveToken(tokenData);
+
+    // Redirect to profile page
+    return NextResponse.redirect(new URL("/th/service/security/cctv/form", request.url));
+  } catch (error) {
+    console.error("Token exchange error:", error);
+    // Redirect to home with error message
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Failed to exchange code for token";
+    return NextResponse.redirect(
+      new URL(`/?error=${encodeURIComponent(errorMessage)}`, request.url)
+    );
+>>>>>>> Mai's-Branch
   }
 
   return NextResponse.redirect(

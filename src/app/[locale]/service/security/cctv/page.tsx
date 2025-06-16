@@ -7,15 +7,26 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Mai's-Branch
 const CCTVPage: React.FC = () => {
-  const t = useTranslations("SecurityPage");
+  const t = useTranslations("CCTVPage");
   const router = useRouter();
   const locale = useLocale();
 
+<<<<<<< HEAD
  const checkToken = async () => {
   try {
     const res = await fetch('/api/getToken', { credentials: 'include' });
+=======
+  const checkToken = async () => {
+    try {
+      const res = await fetch("/api/getToken", { credentials: "include" });
+      if (res.ok) {
+        router.push(`/${locale}/service/security/cctv/form`);
+>>>>>>> Mai's-Branch
 
     if (res.ok) {
       router.push(`/${locale}/service/security/cctv/inside?type=internal`);
@@ -53,6 +64,7 @@ const CCTVPage: React.FC = () => {
         >
           <button
             className="bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+<<<<<<< HEAD
             onClick={checkToken}
           >
             สำหรับบุคลากร / นักศึกษาในมช
@@ -62,8 +74,17 @@ const CCTVPage: React.FC = () => {
             id="สำหรับบุคคลภายนอก"
             className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
             onClick={() => router.push(`/${locale}/service/security/cctv/inside?type=external`)}
+=======
+            onClick= {checkToken}
+            >
+            {t("Insider")}
+            </button>
+          <button 
+          className="mt-4 bg-[#6869AA] text-white px-4 py-2 rounded-xl text-sm sm:text-base w-full hover:cursor-pointer hover:scale-105 hover:shadow-md transition-transform duration-300 ease-in-out"
+          onClick={() => router.push(`/${locale}/service/security/cctv/form`)}
+>>>>>>> Mai's-Branch
           >
-            สำหรับบุคคลภายนอก
+            {t("Outsider")}
           </button>
         </motion.div>
       </main>
