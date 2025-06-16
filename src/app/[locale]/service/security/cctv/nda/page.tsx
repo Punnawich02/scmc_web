@@ -3,17 +3,11 @@
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { motion } from "framer-motion";
-import React from "react";
-// import { useTranslations } from "next-intl";
-// import Link from "next/link";
 
-const PDPAPage: React.FC = () => {
-  //   const t = useTranslations("SecurityPage");
-  //   const locale = useLocale();
-
+const NDAPage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <Header title="ทดสอบ" />
+      <Header title="บันทึกตกลงไม่เปิดเผยข้อมูล" />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
         {/* Header */}
         <motion.div
@@ -216,4 +210,4 @@ const PDPAPage: React.FC = () => {
   );
 };
 
-export default PDPAPage;
+export default NDAPage;

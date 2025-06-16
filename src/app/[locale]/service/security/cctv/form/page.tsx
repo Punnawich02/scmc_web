@@ -5,14 +5,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import { useLocale } from "next-intl";
 
-const InsidePage = () => {
+const FormPage = () => {
   const t = useTranslations("CCTVRequestForm");
   const [token, setToken] = useState(null);
   const [basicInfo, setBasicInfo] = useState<BasicInfo | null>(null);
   const router = useRouter();
-  const locale = useLocale();
 
   interface BasicInfo {
     firstname_TH: string;
@@ -139,8 +137,8 @@ const InsidePage = () => {
                 </label>
                 <input
                   type="text"
-                  id="house_number"
-                  name="house_number"
+                  id="house_no"
+                  name="house_no"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                 />
               </div>
@@ -150,8 +148,8 @@ const InsidePage = () => {
                 </label>
                 <input
                   type="text"
-                  id="village_number"
-                  name="village_number"
+                  id="village"
+                  name="village"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                 />
               </div>
@@ -209,8 +207,8 @@ const InsidePage = () => {
                 </label>
                 <input
                   type="text"
-                  id="tel"
-                  name="tel"
+                  id="telephone"
+                  name="telephone"
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                 />
               </div>
@@ -224,8 +222,8 @@ const InsidePage = () => {
                 </label>
                 <input
                   type="text"
-                  id="status"
-                  name="status"
+                  id="currently"
+                  name="currently"
                   value={basicInfo ? basicInfo.itaccounttype_TH : undefined}
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                   readOnly={!!token}
@@ -237,8 +235,8 @@ const InsidePage = () => {
                 </label>
                 <input
                   type="text"
-                  id="id"
-                  name="id"
+                  id="citizen_id"
+                  name="citizen_id"
                   value={basicInfo ? basicInfo.student_id : undefined}
                   className="border border-[#d1d5db] w-full h-11 rounded-xl px-3 bg-[#f7f7fb] focus:ring-2 focus:ring-[#6869AA] transition"
                 />
@@ -384,11 +382,8 @@ const InsidePage = () => {
             {/* Submit button */}
             <div className="mt-8">
               <button
-                type="button"
+                type="submit"
                 className="bg-gradient-to-r from-[#6869AA] to-[#a1a2d6] text-white w-full py-3 rounded-xl shadow-lg hover:from-[#5757a6] hover:to-[#8889c7] hover:cursor-pointer transition font-bold text-lg tracking-wide"
-                onClick={() =>
-                  router.push(`/${locale}/service/security/cctv/nda`)
-                }
               >
                 {t("next")}
               </button>
@@ -401,4 +396,4 @@ const InsidePage = () => {
   );
 };
 
-export default InsidePage;
+export default FormPage;

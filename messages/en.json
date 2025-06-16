@@ -21,16 +21,16 @@
     "dev_by":"Development By"
   },
   "HomePage": {
-    "page_title": "Smart Campus Management Center, CMU",
-    "vehicle": "CMU Access Vehicle Registration",
-    "vehicle_title": "For individuals who wish to register their vehicles for campus access",
-    "vehicle_btn": "Vehicle Registration System",
-    "map": "Timetable and Map",
-    "cctv": "CCTV Footage",
+    "page_title": "Sustainable Campus Management Center",
+    "vehicle": "Sustainable Campus Management Center",
+    "vehicle_title": "The Sustainable Campus Management Center (SCMC) is the main agency driving the university towards becoming a sustainable smart city by integrating technology and innovation in physical, environmental, energy, transportation, and safety aspects. The center manages basic utilities such as electricity, water supply, and wastewater treatment, promotes clean energy usage, and develops smart transportation systems within the university to sustainably enhance the quality of life for students, staff, and the surrounding community.",
+    "vehicle_btn": "Access Vehicle Entry-Exit System",
+    "map": "Shuttle Timetable and Map",
+    "cctv": "Request CCTV Footage",
     "data": "Information Services",
     "util": "Utilities",
     "build": "Venue Request",
-    "news": "Activity News",
+    "news": "News & Activities",
     "documents": "Published Documents",
     "articles": "Articles",
     "more": "More +"
