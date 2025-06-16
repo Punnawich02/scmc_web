@@ -1,11 +1,12 @@
 "use client";
 
+import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
-import { Card, CardBody } from "@heroui/card";
 import { motion } from "framer-motion";
-import { useTranslations, useLocale } from 'next-intl';
-
+import { useTranslations, useLocale } from "next-intl";
+import Image from "next/image";
+import Link from "next/link";
 import {
   Database,
   BusFront,
@@ -14,97 +15,129 @@ import {
   HousePlug,
   UserRound,
 } from "lucide-react";
-import Link from "next/link";
 
 export default function ServicePage() {
-  const t = useTranslations('OurService');
+  const t = useTranslations("OurService");
   const locale = useLocale();
+
   const cardData = [
     {
-      title: t('data'),
+      title: t("data"),
       link: "/data",
-      description: t('data_title'),
-      icon: <Database className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      description: t("data_title"),
+      icon: <Database />,
     },
     {
-      title: t('transport'),
+      title: t("transport"),
       link: "/transport",
-      description: t('transport_title'),
-      icon: <BusFront className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      description: t("transport_title"),
+      icon: <BusFront />,
     },
     {
-      title: t('security'),
+      title: t("security"),
       link: "/security",
-      description: t('security_title'),
-      icon: <ShieldUser className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      description: t("security_title"),
+      icon: <ShieldUser />,
     },
     {
-      title: t('build'),
+      title: t("build"),
       link: "/building",
-      description: t('build_title'),
-      icon: <Building className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      description: t("build_title"),
+      icon: <Building />,
     },
     {
-      title: t('util'),
+      title: t("util"),
       link: "/utility",
-      description: t('util_title'),
-      icon: <HousePlug className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      description: t("util_title"),
+      icon: <HousePlug />,
     },
     {
-      title: t('personel'),
+      title: t("list_format"),
+      link: "/list_format",
+      description: t("list_format_title"),
+      icon: <HousePlug />,
+    },
+    {
+      title: t("personel"),
       link: "/personnel",
-      description: t('personel_title'),
-      icon: <UserRound className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      description: t("personel_title"),
+      icon: <UserRound />,
     },
   ];
-  
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
-      <Header title={t('page_title')} />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
-        <div>
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              {t('header')}
-            </h1>
-            <p className="text-gray-700 mb-4">
-              {t('title')}
-            </p>
-          </motion.div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 justify-center items-stretch max-w-5xl mx-auto">
-          {cardData.map((card, index) => (
-            <Link href={`/${locale}/service${card.link}`} key={index} className="h-full">
-              <motion.div
-                initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true, amount: 0.1 }}
-                className="h-full"
-              >
-                <Card
-                  key={index}
-                  className="hover:scale-105 transition-transform duration-300 ease-in-out hover:cursor-pointer h-full flex flex-col"
+      <Header title={t("page_title")} />
+      <main className="flex flex-col items-center px-4 py-12 max-w-7xl mx-auto w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full mb-8"
+        >
+          <h1 className="text-5xl font-extrabold text-[#6869AA] mb-4 w-full text-left">
+            {t("header")}
+          </h1>
+          <p className="text-gray-700 text-lg">{t("title")}</p>
+        </motion.div>
+
+        {/* ภาพพื้นหลัง */}
+        <div className="relative w-full rounded-3xl overflow-hidden min-h-[600px] flex flex-col items-center justify-center">
+          <Image
+            src="/service-bg.jpg"
+            alt="background"
+            className="absolute inset-0 w-full h-full object-cover"
+            fill
+          />
+          <div className="absolute inset-0 bg-[#1F4788]/60" />
+
+          {/* การ์ด 6 ใบแรก */}
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit px-8">
+            {cardData.slice(0, 6).map((card, index) => (
+              <Link href={`/${locale}/service${card.link}`} key={index}>
+                <motion.div
+                  initial={{ opacity: 0, y: 100 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  className="flex items-center gap-4 w-[280px] h-[120px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
                 >
-                  <CardBody className="flex flex-col items-center lg:items-start gap-4 p-6 bg-[#9799E7] rounded-xl w-full h-full">
-                    <div className="w-24 h-24 rounded-full bg-[#5759BB] flex items-center justify-center">
-                      {card.icon}
-                    </div>
-                    <h2 className="text-lg font-bold text-white text-center sm:text-left min-h-[3rem] lg:min-h-[1rem]">
-                      {card.title}
-                    </h2>
-                    <p className="text-sm text-white text-center sm:text-left flex-grow">
-                      {card.description}
-                    </p>
-                  </CardBody>
-                </Card>
-              </motion.div>
-            </Link>
-          ))}
+                  <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
+                    {React.cloneElement(card.icon, {
+                      className: "w-10 h-10 text-white",
+                    })}
+                  </div>
+                  <div className="text-white text-lg font-bold">
+                    {card.title}
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+
+          {/* การ์ดใบสุดท้าย (อยู่กลาง) */}
+          {cardData.length > 6 && (
+            <div className="relative z-10 mt-6 flex justify-center w-full">
+              <Link href={`/${locale}/service${cardData[6].link}`}>
+                <motion.div
+                  initial={{ opacity: 0, y: 100 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 6 * 0.1 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  className="flex items-center gap-4 w-[280px] h-[120px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                >
+                  <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
+                    {React.cloneElement(cardData[6].icon, {
+                      className: "w-10 h-10 text-white",
+                    })}
+                  </div>
+                  <div className="text-white text-lg font-bold">
+                    {cardData[6].title}
+                  </div>
+                </motion.div>
+              </Link>
+            </div>
+          )}
         </div>
       </main>
       <Footer />

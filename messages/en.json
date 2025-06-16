@@ -49,6 +49,8 @@
     "build_title": "Comprehensive care and maintenance of university buildings",
     "util": "Utilities",
     "util_title": "Electricity, water supply, and other basic services",
+    "list_format":"Land use approval request/list format",
+    "list_format_title":"",
     "personel": "For CMU Staff",
     "personel_title": "Support services and facilities for university personnel"
   },
