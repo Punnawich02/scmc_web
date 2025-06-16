@@ -3,7 +3,6 @@
 import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
-import { Card, CardBody } from "@heroui/card";
 import { Wrench, MessageSquare, Shrub } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";

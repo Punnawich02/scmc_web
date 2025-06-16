@@ -1,10 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Card, CardBody } from "@heroui/card";
-import { Eye, User } from "lucide-react";
 import { motion } from "framer-motion";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
