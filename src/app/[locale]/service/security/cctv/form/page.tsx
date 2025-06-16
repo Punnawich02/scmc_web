@@ -2,121 +2,9 @@
 import Header from "../../../../Component/Header";
 import Footer from "../../../../Component/Footer";
 import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault();
-  const formData = new FormData(event.currentTarget);
-  const data = Object.fromEntries(formData.entries());
-  
-  try {
-    let userId;
-    
-    // Check if user exists
-    const checkResponse = await fetch(`http://localhost:3000/api/users/${data.citizen_id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    
-    if (checkResponse.ok) {
-      // User exists, get their ID
-      const userData = await checkResponse.json();
-      userId = userData.user_id;
-      const updateResponse = await fetch(`http://localhost:3000/api/users/${data.citizen_id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prefix: data.prefix || "mr",
-          name: data.name,
-          age: parseInt(String(data.age)) || 0,
-          house_no: data.house_no || "",
-          village: data.village || "",
-          road: data.road || "",
-          sub_district: data.sub_district || "",
-          district: data.district || "",
-          province: data.province || "",
-          telephone: data.telephone || "",
-          currently: data.currently || "",
-        }),
-      });
-
-      if (!updateResponse.ok) {
-        const errorData = await updateResponse.json();
-        throw new Error(`Failed to update user: ${errorData.details || "Unknown error"}`);
-      }
-    } else {
-      // User doesn't exist, create new user
-      const createResponse = await fetch("http://localhost:3000/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prefix: data.prefix || "mr",
-          name: data.name,
-          age: parseInt(String(data.age)) || 0,
-          house_no: data.house_no || "",
-          village: data.village || "",
-          road: data.road || "",
-          sub_district: data.sub_district || "",
-          district: data.district || "",
-          province: data.province || "",
-          telephone: data.telephone || "",
-          currently: data.currently || "",
-          citizen_id: data.citizen_id || "",
-        }),
-      });
-      
-      if (!createResponse.ok) {
-        const errorData = await createResponse.json();
-        throw new Error(`Failed to create user: ${errorData.details || "Unknown error"}`);
-      }
-      
-      const userRes = await createResponse.json();
-      userId = userRes.user_id;
-      console.log("New user created with ID:", userId);
-    }
-    
-    // Create form associated with the user (existing or newly created)
-    const response_form = await fetch("http://localhost:3000/api/form", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: userId,
-        request_reason: data.reason || "",
-        accident_area: data.area || "",
-        accident_date: data.accident_date || "",
-        accident_time: data.accident_time || "",
-        security_noti_date: data.security_noti_date || "",
-        police_noti_date: data.police_noti_date || "",
-        police_noti_time: data.police_noti_time || "",
-        cctv_area_request1: data.area_req_1 || "",
-        cctv_area_request2: data.area_req_2 || "",
-        cctv_area_request3: data.area_req_3 || "",
-      }),
-    });
-    
-    if (!response_form.ok) {
-      const errorData = await response_form.json();
-      throw new Error(`Failed to submit form: ${errorData.details || "Unknown error"}`);
-    }
-    
-    alert("Data submitted successfully!");
-  } catch (error) {
-    alert(`Error: ${error instanceof Error ? error.message : "Unknown error"}`);
-    console.error(error);
-  } finally {
-    redirect("/th/service/security/cctv/nda");
-  }
-};
 
 const FormPage = () => {
   const t = useTranslations("CCTVRequestForm");
@@ -194,10 +82,7 @@ const FormPage = () => {
           viewport={{ once: true, amount: 0.1 }}
           className="h-full bg-gradient-to-br from-[#ece9f6] to-[#d9d9d9] rounded-2xl shadow-lg p-8"
         >
-          <form
-            className="flex flex-col gap-8 mx-auto w-full bg-white bg-opacity-80 rounded-2xl shadow-xl p-10 border border-[#ece9f6]"
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col gap-8 mx-auto w-full bg-white bg-opacity-80 rounded-2xl shadow-xl p-10 border border-[#ece9f6]">
             {/* Row 1: Prefix, Name-Surname, Age */}
             <div className="grid grid-cols-12 gap-6 items-end">
               <div className="col-span-2">
