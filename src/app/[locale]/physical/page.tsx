@@ -47,16 +47,16 @@ export default function PhysicalPage() {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
     >
-      <Link href={card.link}>
-        <div className="flex items-center gap-4 w-[300px] h-[120px] bg-white/30 backdrop-blur-md rounded-2xl shadow-lg hover:scale-105 transition-transform px-6">
-          <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center">
-            {React.cloneElement(card.icon, { className: "w-8 h-8 text-white" })}
+        <Link href={card.link}>
+          <div className="flex items-center gap-4 w-[340px] h-[140px] bg-white/30 backdrop-blur-md rounded-2xl shadow-lg hover:scale-105 transition-transform px-6 justify-center">
+            <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center">
+              {React.cloneElement(card.icon, { className: "w-8 h-8 text-white" })}
+            </div>
+            <div className="text-white text-lg font-bold">
+              {card.title}
+            </div>
           </div>
-          <div className="text-white text-lg font-bold">
-            {card.title}
-          </div>
-        </div>
-      </Link>
+        </Link>
     </motion.div>
   ))}
 </div>
