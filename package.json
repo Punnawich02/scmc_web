@@ -19,6 +19,7 @@
     "next-intl": "^4.0.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "recharts": "^2.15.3",
     "session": "^0.1.0"
   },
   "devDependencies": {
