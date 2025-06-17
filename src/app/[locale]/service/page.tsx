@@ -42,7 +42,7 @@ export default function ServicePage() {
     {
       title: t("build"),
       link: "/building",
-      description: t("build_title"),
+      description: t("security_title"),
       icon: <Building />,
     },
     {
@@ -73,16 +73,15 @@ export default function ServicePage() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full mb-8"
+          className="w-full mb-9"
         >
-          <h1 className="text-5xl font-extrabold text-[#6869AA] mb-4 w-full text-left">
+          <h1 className="text-5xl font-extrabold text-[#6869AA] w-full text-left">
             {t("header")}
           </h1>
-          <p className="text-gray-700 text-lg">{t("title")}</p>
         </motion.div>
 
         {/* ภาพพื้นหลัง */}
-        <div className="relative w-full rounded-3xl overflow-hidden min-h-[1000px] flex flex-col items-center justify-center">
+        <div className="relative w-full rounded-3xl overflow-hidden min-h-[850px] flex flex-col items-center justify-center">
           <Image
             src="/service-bg.jpg"
             alt="background"
@@ -96,19 +95,20 @@ export default function ServicePage() {
             {cardData.slice(0, 6).map((card, index) => (
               <Link href={`/${locale}/service${card.link}`} key={index}>
                 <motion.div
-                  initial={{ opacity: 0, y: 100 }}
+                  initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  className="flex items-center gap-4 w-[340px] h-[120px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                  viewport={{ once: true }}
                 >
-                  <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
-                    {React.cloneElement(card.icon, {
-                      className: "w-10 h-10 text-white",
-                    })}
-                  </div>
-                  <div className="text-white text-lg font-bold">
-                    {card.title}
+                  <div className="flex items-center gap-4 w-[340px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6">
+                    <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
+                      {React.cloneElement(card.icon, {
+                        className: "w-10 h-10 text-white",
+                      })}
+                    </div>
+                    <div className="text-white text-lg font-bold">
+                      {card.title}
+                    </div>
                   </div>
                 </motion.div>
               </Link>
@@ -120,11 +120,11 @@ export default function ServicePage() {
             <div className="relative z-10 mt-6 flex justify-center w-full">
               <Link href={`/${locale}/service${cardData[6].link}`}>
                 <motion.div
-                  initial={{ opacity: 0, y: 100 }}
+                  initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 6 * 0.1 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  className="flex items-center gap-6 min-w-[340px] w-full max-w-[400px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                  viewport={{ once: true }}
+                  className="flex items-center gap-6  w-[340px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
                 >
                   <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
                     {React.cloneElement(cardData[6].icon, {

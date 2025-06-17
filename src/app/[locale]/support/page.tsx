@@ -6,6 +6,8 @@ import Footer from "../Component/Footer";
 import { Wrench, MessageSquare, Shrub } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { useLocale } from "next-intl";
 import Link from "next/link";
 
 export default function SupportPage() {
@@ -16,77 +18,97 @@ export default function SupportPage() {
       title: t("fix"),
       description: t("fix_title"),
       link: "/support/fix",
-      icon: <Wrench className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      icon: <Wrench />,
     },
     {
       title: t("comment"),
       description: t("comment_title"),
       link: "#comment",
-      icon: (
-        <MessageSquare className="w-16 h-16" color="#FFF" strokeWidth={1.5} />
-      ),
+      icon: <MessageSquare />,
     },
     {
       title: t("sdg"),
       description: t("sdg_title"),
       link: "#sdg",
-      icon: <Shrub className="w-16 h-16" color="#FFF" strokeWidth={1.5} />,
+      icon: <Shrub />,
     },
   ];
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
+      <main className="flex flex-col items-center px-4 py-12 max-w-7xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          className="w-full mb-9"
         >
-          <div>
-            <h1 className="text-2xl font-bold mb-4 mt-4 text-black">
-              {t("header")}
-            </h1>
-            <p className="text-gray-700 mb-4">{t("title")}</p>
-          </div>
-          <div className="relative w-full min-h-[700px] sm:h-[500px] flex items-center justify-center bg-[url('/support/bg-support.jpg')] bg-cover bg-center rounded-4xl overflow-hidden">
-            <div className="absolute inset-0 bg-[#1112438A] backdrop-blur-[3px]" />
-            <div className="relative flex flex-col items-center justify-center gap-8 z-10">
-              <div className="flex flex-col sm:flex-row gap-8">
-                {cardData.slice(0, 2).map((card, index) => (
-                  <Link href={card.link} key={index}>
-                    <div className="w-[300px] transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
-                      <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-4xl bg-white/30 backdrop-blur-lg shadow-lg">
-                        <div className="bg-[#5759BB] rounded-full w-20 h-20 flex items-center justify-center shrink-0">
-                          {card.icon}
-                        </div>
-                        <div className="text-white text-center sm:text-left">
-                          <h2 className="text-lg font-bold">{card.title}</h2>
-                        </div>
-                      </div>
+          <h1 className="text-5xl font-extrabold text-[#6869AA] w-full text-left">
+            {t("header")}
+          </h1>
+        </motion.div>
+        {/* /support/bg-support.jpg */}
+
+        {/* ภาพพื้นหลัง */}
+        <div className="relative w-full rounded-3xl overflow-hidden min-h-[500px] flex flex-col items-center justify-center">
+          <Image
+            src="/support/bg-support.jpg"
+            alt="background"
+            className="absolute inset-0 w-full h-full object-cover"
+            fill
+          />
+          <div className="absolute inset-0 bg-[#1F4788]/60" />
+
+          {/* การ์ด 2 ใบแรก */}
+          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit px-8">
+            {cardData.slice(0, 2).map((card, index) => (
+              <Link href={""} key={index}>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="flex items-center gap-4 w-[340px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6">
+                    <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
+                      {React.cloneElement(card.icon, {
+                        className: "w-10 h-10 text-white",
+                      })}
                     </div>
-                  </Link>
-                ))}
-              </div>
-              <div>
-                <Link href={cardData[2].link}>
-                  <div className="w-[300px] transition-transform transform hover:-translate-y-1 hover:scale-105 duration-300">
-                    <div className="flex flex-col sm:flex-row items-center sm:items-center justify-start gap-6 px-8 py-6 rounded-4xl bg-white/30 backdrop-blur-lg shadow-lg">
-                      <div className="bg-[#5759BB] rounded-full w-20 h-20 flex items-center justify-center shrink-0">
-                        {cardData[2].icon}
-                      </div>
-                      <div className="text-white text-center sm:text-left">
-                        <h2 className="text-lg font-bold">
-                          {cardData[2].title}
-                        </h2>
-                      </div>
+                    <div className="text-white text-lg font-bold">
+                      {card.title}
                     </div>
                   </div>
-                </Link>
-              </div>
-            </div>
+                </motion.div>
+              </Link>
+            ))}
           </div>
-        </motion.div>
+
+          {/* การ์ดใบสุดท้าย (อยู่กลาง) */}
+          {cardData.length > 2 && (
+            <div className="relative z-10 mt-6 flex justify-center w-full">
+              <Link href={``}>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 3 * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-6  w-[340px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                >
+                  <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
+                    {React.cloneElement(cardData[2].icon, {
+                      className: "w-10 h-10 text-white",
+                    })}
+                  </div>
+                  <div className="text-white text-lg font-bold">
+                    {cardData[2].title}
+                  </div>
+                </motion.div>
+              </Link>
+            </div>
+          )}
+        </div>
       </main>
 
       <Footer />
