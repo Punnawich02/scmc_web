@@ -82,7 +82,7 @@ export default function ServicePage() {
         </motion.div>
 
         {/* ภาพพื้นหลัง */}
-        <div className="relative w-full rounded-3xl overflow-hidden min-h-[600px] flex flex-col items-center justify-center">
+        <div className="relative w-full rounded-3xl overflow-hidden min-h-[1000px] flex flex-col items-center justify-center">
           <Image
             src="/service-bg.jpg"
             alt="background"
@@ -100,7 +100,7 @@ export default function ServicePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.1 }}
-                  className="flex items-center gap-4 w-[280px] h-[120px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                  className="flex items-center gap-4 w-[340px] h-[120px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
                 >
                   <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
                     {React.cloneElement(card.icon, {
@@ -124,7 +124,7 @@ export default function ServicePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 6 * 0.1 }}
                   viewport={{ once: true, amount: 0.1 }}
-                  className="flex items-center gap-4 w-[280px] h-[120px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                  className="flex items-center gap-6 min-w-[340px] w-full max-w-[400px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
                 >
                   <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
                     {React.cloneElement(cardData[6].icon, {
