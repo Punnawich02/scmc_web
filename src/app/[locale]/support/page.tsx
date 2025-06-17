@@ -7,7 +7,6 @@ import { Wrench, MessageSquare, Shrub } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useLocale } from "next-intl";
 import Link from "next/link";
 
 export default function SupportPage() {
