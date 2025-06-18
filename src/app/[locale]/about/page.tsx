@@ -76,7 +76,7 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-6xl font-bold mb-1 mt-10 text-black">
+            <h1 className="text-4xl sm:text-6xl font-bold mb-1 text-[#6869AA]">
               {t("header")}
             </h1>
           </motion.div>
