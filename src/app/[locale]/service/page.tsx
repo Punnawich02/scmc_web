@@ -52,12 +52,6 @@ export default function ServicePage() {
       icon: <HousePlug />,
     },
     {
-      title: t("list_format"),
-      link: "/list_format",
-      description: t("list_format_title"),
-      icon: <HousePlug />,
-    },
-    {
       title: t("personel"),
       link: "/personnel",
       description: t("personel_title"),
@@ -116,7 +110,7 @@ export default function ServicePage() {
             ))}
           </div>
 
-          {/* การ์ดใบสุดท้าย (อยู่กลาง) - ปรับขนาด */}
+          {/* การ์ดใบสุดท้าย (อยู่กลาง) - ปรับขนาด
           {cardData.length > 6 && (
             <div className="relative mx-4 sm:mx-10 md:mx-0 z-10 mt-4 sm:mt-6 flex justify-center w-full pb-6 sm:pb-10 md:pt-0">
               <Link href={`/${locale}/service${cardData[6].link}`}>
@@ -139,7 +133,7 @@ export default function ServicePage() {
                 </motion.div>
               </Link>
             </div>
-          )}
+          )} */}
         </div>
       </main>
       <Footer />
