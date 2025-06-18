@@ -75,7 +75,7 @@ export default function ServicePage() {
         </motion.div>
 
         {/* ภาพพื้นหลัง - ปรับให้ responsive */}
-        <div className="relative w-full rounded-3xl overflow-hidden min-h-[600px] sm:min-h-[700px] md:min-h-[850px] flex flex-col items-center justify-center">
+        <div className="relative w-full rounded-3xl overflow-hidden min-h-[600px] sm:min-h-[700px] md:min-h-[700px] flex flex-col items-center justify-center">
           <Image
             src="/service-bg.jpg"
             alt="background"
