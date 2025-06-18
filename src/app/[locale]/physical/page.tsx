@@ -4,7 +4,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { Map, Building2, TreeDeciduous, Zap } from "lucide-react";
+import { Map, Building2, TreeDeciduous } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -12,10 +12,21 @@ export default function PhysicalPage() {
   const t = useTranslations("PhysicalPage");
 
   const cardData = [
-    { title: t("map"), link: "#map", icon: <Map /> },
-    { title: t("build"), link: "#build", icon: <Building2 /> },
-    { title: t("tree"), link: "#tree", icon: <TreeDeciduous /> },
-    { title: t("facilities"), link: "#facilities", icon: <Zap /> },
+    { 
+      title: t("map"), 
+      link: "#map", 
+      icon: <Map /> 
+    },
+    { 
+      title: t("build"), 
+      link: "#build", 
+      icon: <Building2 /> 
+    },
+    { 
+      title: t("tree"), 
+      link: "https://buildings.oop.cmu.ac.th/plant/", 
+      icon: <TreeDeciduous /> 
+    },
   ];
 
   return (
