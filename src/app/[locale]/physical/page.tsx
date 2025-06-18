@@ -12,20 +12,20 @@ export default function PhysicalPage() {
   const t = useTranslations("PhysicalPage");
 
   const cardData = [
-    { 
-      title: t("map"), 
-      link: "#map", 
-      icon: <Map /> 
+    {
+      title: t("map"),
+      link: "#map",
+      icon: <Map />,
     },
-    { 
-      title: t("build"), 
-      link: "#build", 
-      icon: <Building2 /> 
+    {
+      title: t("build"),
+      link: "#build",
+      icon: <Building2 />,
     },
-    { 
-      title: t("tree"), 
-      link: "https://buildings.oop.cmu.ac.th/plant/", 
-      icon: <TreeDeciduous /> 
+    {
+      title: t("tree"),
+      link: "https://buildings.oop.cmu.ac.th/plant/",
+      icon: <TreeDeciduous />,
     },
   ];
 
@@ -43,42 +43,64 @@ export default function PhysicalPage() {
             {t("header")}
           </h1>
         </motion.div>
-        <div className="relative w-full rounded-3xl overflow-hidden min-h-[500px] flex justify-center items-center">
-          {/* พื้นหลังภาพ */}
+        {/* ภาพพื้นหลัง */}
+        <div className="relative w-full rounded-3xl overflow-hidden min-h-[500px] flex flex-col items-center justify-center">
           <Image
             src="/physical.jpg"
             alt="background"
             className="absolute inset-0 w-full h-full object-cover"
             fill
           />
-          {/* overlay ทับ */}
-          <div className="absolute inset-0 bg-[#5759BB]/50" />
+          <div className="absolute inset-0 bg-[#1F4788]/60" />
 
-          {/* การ์ดข้อมูล */}
-          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit">
-            {cardData.map((card, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <Link href={card.link}>
-                  <div className="flex items-center gap-4 w-[340px] h-[140px] bg-white/30 backdrop-blur-md rounded-2xl shadow-lg hover:scale-105 transition-transform px-6 justify-center">
-                    <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center">
+          {/* การ์ด 2 ใบแรก */}
+          <div className="relative justify-items-center mx-10 sm:mx-0 z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit px-8">
+            {cardData.slice(0, 2).map((card, index) => (
+              <Link href={""} key={index}>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <div className="flex items-center gap-4 w-[500px] sm:w-[260px] md:w-[340px] h-[100px] sm:h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6">
+                    <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
                       {React.cloneElement(card.icon, {
-                        className: "w-8 h-8 text-white",
+                        className: "w-10 h-10 text-white",
                       })}
                     </div>
                     <div className="text-white text-lg font-bold">
                       {card.title}
                     </div>
                   </div>
-                </Link>
-              </motion.div>
+                </motion.div>
+              </Link>
             ))}
           </div>
+
+          {/* การ์ดใบสุดท้าย (อยู่กลาง) */}
+          {cardData.length > 2 && (
+            <div className="relative mx-10 sm:mx-0 z-10 mt-6 flex justify-center w-full">
+              <Link href={``}>
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 3 * 0.1 }}
+                  viewport={{ once: true }}
+                  className="flex items-center gap-6  w-[500px] sm:w-[340px] h-[100px] sm:h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                >
+                  <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
+                    {React.cloneElement(cardData[2].icon, {
+                      className: "w-10 h-10 text-white",
+                    })}
+                  </div>
+                  <div className="text-white text-lg font-bold">
+                    {cardData[2].title}
+                  </div>
+                </motion.div>
+              </Link>
+            </div>
+          )}
         </div>
       </main>
       <Footer />

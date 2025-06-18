@@ -60,7 +60,7 @@ export default function SupportPage() {
           <div className="absolute inset-0 bg-[#1F4788]/60" />
 
           {/* การ์ด 2 ใบแรก */}
-          <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit px-8">
+          <div className="relative justify-items-center mx-10 sm:mx-0 z-10 grid grid-cols-1 sm:grid-cols-2 gap-6 w-fit px-8">
             {cardData.slice(0, 2).map((card, index) => (
               <Link href={""} key={index}>
                 <motion.div
@@ -69,7 +69,7 @@ export default function SupportPage() {
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="flex items-center gap-4 w-[340px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6">
+                  <div className="flex items-center gap-4 w-[500px] sm:w-[260px] md:w-[340px] h-[100px] sm:h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6">
                     <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
                       {React.cloneElement(card.icon, {
                         className: "w-10 h-10 text-white",
@@ -86,14 +86,14 @@ export default function SupportPage() {
 
           {/* การ์ดใบสุดท้าย (อยู่กลาง) */}
           {cardData.length > 2 && (
-            <div className="relative z-10 mt-6 flex justify-center w-full">
+            <div className="relative mx-10 sm:mx-0 z-10 mt-6 flex justify-center w-full">
               <Link href={``}>
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 3 * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex items-center gap-6  w-[340px] h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
+                  className="flex items-center gap-6  w-[500px] sm:w-[340px] h-[100px] sm:h-[140px] bg-white/40 backdrop-blur-md rounded-3xl shadow-lg hover:scale-105 transition-transform px-6"
                 >
                   <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center flex-shrink-0">
                     {React.cloneElement(cardData[2].icon, {

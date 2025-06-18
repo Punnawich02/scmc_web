@@ -128,12 +128,12 @@ export default function AboutPage() {
           </section>
 
           {/* Image Gallery */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
+          <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-5">
             {["about-2.jpg", "about-3.jpg", "about-4.jpg", "XDDD.jpg"].map(
               (img, i) => (
                 <div
                   key={i}
-                  className="relative w-[258px] h-[250px] rounded-2xl overflow-hidden"
+                  className="relative w-[170px] sm:w-[200px] md:w-[258px] h-[170px] sm:h-[200px] md:h-[250px] rounded-2xl overflow-hidden"
                 >
                   <Image
                     src={`/about/${img}`}
