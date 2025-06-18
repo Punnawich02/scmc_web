@@ -278,7 +278,7 @@ export default function HomePage() {
                   </div>
 
                   {/* Desktop Layout - Grid */}
-                  <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
+                  <div className="hidden ml-40 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
                     {HighlightServices.map((service, index) => (
                       <Link key={index} href={`${service.link}`}>
                         <motion.div

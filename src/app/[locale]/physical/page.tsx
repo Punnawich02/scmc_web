@@ -87,7 +87,7 @@ export default function PhysicalPage() {
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 3 * 0.1 }}
+                  transition={{ duration: 0.8, delay: 0.1 }}
                   viewport={{ once: true }}
                   className="flex items-center gap-3 sm:gap-6 w-[280px] sm:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/40 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6"
                 >
