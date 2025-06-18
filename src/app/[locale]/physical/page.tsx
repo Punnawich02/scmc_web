@@ -2,7 +2,7 @@
 import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { Map, Building2, TreeDeciduous, Zap } from "lucide-react";
 import Image from "next/image";
@@ -10,12 +10,13 @@ import { motion } from "framer-motion";
 
 export default function PhysicalPage() {
   const t = useTranslations("PhysicalPage");
+  const locale = useLocale();
 
   const cardData = [
-    { title: t("map"), link: "#map", icon: <Map /> },
-    { title: t("build"), link: "#build", icon: <Building2 /> },
-    { title: t("tree"), link: "#tree", icon: <TreeDeciduous /> },
-    { title: t("facilities"), link: "#facilities", icon: <Zap /> },
+    { title: t("map"), link: "/map", icon: <Map /> },
+    { title: t("build"), link: "/build", icon: <Building2 /> },
+    { title: t("tree"), link: "/tree", icon: <TreeDeciduous /> },
+    { title: t("facilities"), link: "/facilities", icon: <Zap /> },
   ];
 
   return (
@@ -47,7 +48,7 @@ export default function PhysicalPage() {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       viewport={{ once: true }}
     >
-        <Link href={card.link}>
+        <Link href={`/${locale}/physical/${card.link}`}>
           <div className="flex items-center gap-4 w-[340px] h-[140px] bg-white/30 backdrop-blur-md rounded-2xl shadow-lg hover:scale-105 transition-transform px-6 justify-center">
             <div className="bg-[#5759BB] rounded-full p-4 flex items-center justify-center">
               {React.cloneElement(card.icon, { className: "w-8 h-8 text-white" })}
