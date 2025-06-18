@@ -203,7 +203,7 @@ export default function HomePage() {
 
                 {/* Content overlay */}
                 <div className="absolute inset-0 flex flex-col justify-center px-4 xs:px-5 sm:px-8 md:px-10">
-                  <div className="max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg">
+                  <div className="max-w-xs xs:max-w-sm sm:max-w-md md:max-w-2xl">
                     <h2 className="text-white text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                       {t("vehicle")}
                     </h2>
