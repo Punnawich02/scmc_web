@@ -5,7 +5,14 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BusFront, Mountain, Database, HousePlug, Building, CarFront } from "lucide-react";
+import {
+  BusFront,
+  Mountain,
+  Database,
+  HousePlug,
+  Building,
+  CarFront,
+} from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -79,7 +86,6 @@ export default function HomePage() {
   const [selectedTab, setSelectedTab] = useState<TabType>("news");
   const tabs: TabType[] = ["news", "documents", "articles"];
 
-  
   /* --------------------------- fetch news on mount ------------------------- */
   useEffect(() => {
     const fetchNews = async () => {
@@ -105,8 +111,9 @@ export default function HomePage() {
             ? n.TitleThai ?? n.TitleEnglish ?? "ไม่มีชื่อ"
             : n.TitleEnglish ?? n.TitleThai ?? "Untitled",
           description:
-            (
-              isThai ? n.DetailThai ?? n.DetailEnglish : n.DetailEnglish ?? n.DetailThai
+            (isThai
+              ? n.DetailThai ?? n.DetailEnglish
+              : n.DetailEnglish ?? n.DetailThai
             )
               ?.replace(/<[^>]+>/g, "")
               .slice(0, 200) ?? "",
@@ -165,8 +172,6 @@ export default function HomePage() {
     },
   ];
 
-
-
   /* ------------------------------------------------------------------------ */
   /*                                 JSX                                       */
   /* ------------------------------------------------------------------------ */
@@ -176,34 +181,46 @@ export default function HomePage() {
       <Header title={t("page_title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
         <div className="w-full max-w-7xl mx-auto px-4">
-          {/* Vehicle Section */}
+          {/* Vehicle Section - Mobile Optimized */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <section className="relative w-full max-w-7xl mx-auto mb-6">
-              <div className="relative w-full h-[300px] sm:h-[400px]">
+            <section className="relative w-full max-w-7xl mx-auto mb-6 px-4 sm:px-6">
+              <div className="relative w-full h-[400px] xs:h-[280px] sm:h-[350px] md:h-[450px]">
                 <Image
                   src="/DSC06224.jpg"
                   alt="Angkaew"
                   fill
                   style={{ objectFit: "cover" }}
-                  className="rounded-4xl"
+                  className="rounded-2xl sm:rounded-3xl md:rounded-4xl"
+                  priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-r to-transparent flex flex-col justify-center px-6 sm:px-8">
-                  <h2 className="text-black text-2xl sm:text-3xl font-bold mb-4">
-                    {t("vehicle")}
-                  </h2>
-                  <p className="text-black text-xs sm:text-sm sm:text-base max-w-md mb-6">
-                    {t("vehicle_title")}
-                  </p>
-                  <Link href="/api/login" className="w-full sm:w-auto" style={{ maxWidth: "200px" }}>
-                    <button className="flex bg-[#380478] font-bold text-white px-4 py-2 rounded-xl text-sm sm:text-base w-max hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out">
-                      <CarFront className="mr-2" />
-                      {t("vehicle_btn")}
-                    </button>
-                  </Link>
+
+                {/* Overlay gradient for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-transparent sm:bg-gradient-to-r sm:from-black/40 sm:via-black/20 sm:to-transparent rounded-2xl sm:rounded-3xl md:rounded-4xl" />
+
+                {/* Content overlay */}
+                <div className="absolute inset-0 flex flex-col justify-center px-4 xs:px-5 sm:px-8 md:px-10">
+                  <div className="max-w-xs xs:max-w-sm sm:max-w-md md:max-w-lg">
+                    <h2 className="text-white text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-tight drop-shadow-lg">
+                      {t("vehicle")}
+                    </h2>
+
+                    <p className="text-white/90 text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
+                      {t("vehicle_title")}
+                    </p>
+
+                    <Link href="/api/login" className="inline-block">
+                      <button className="flex items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px]">
+                        <CarFront className="mr-1 xs:mr-1.5 sm:mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
+                        <span className="whitespace-nowrap">
+                          {t("vehicle_btn")}
+                        </span>
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </section>
@@ -216,34 +233,78 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <section className="pb-6">
-              <div className="relative mx-auto mt-10 max-w-7xl">
-                <div className="grid sm:flex bg-[#FAAF39D1] rounded-xl py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-sm font-medium">
-                  {HighlightServices.map((service, index) => (
-                    <Link key={index} href={`${service.link}`}>
-                      <motion.div
-                        initial={{ opacity: 0, y: 100 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true, amount: 0.1 }}
-                      >
-                        <div
-                          key={index}
-                          className="flex flex-col items-center min-w-[100px] max-w-[140px] hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out sm:flex-grow sm:max-w-none"
-                        >
-                          <div className="w-20 h-20 rounded-xl bg-white flex items-center justify-center">
-                            {service.icon}
-                          </div>
-                          <span className="text-white pt-2">{service.label}</span>
-                        </div>
-                      </motion.div>
-                    </Link>
-                  ))}
-                </div>
+              <div className="relative mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="bg-[#6869AA] rounded-xl sm:rounded-2xl lg:rounded-3xl py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 shadow-lg">
+                  {/* Header */}
+                  <div className="text-left sm:text-center mb-6 sm:mb-8 lg:mb-10">
+                    <h2 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold">
+                      Highlight Services
+                    </h2>
+                  </div>
 
-                <div className="absolute -top-4 left-0 bg-white text-yellow-700 px-4 py-2 rounded-tr-xl rounded-bl-xl shadow text-sm ml-1 font-semibold">
-                  Highlight
-                  <br />
-                  Services
+                  {/* Mobile Layout - Vertical List */}
+                  <div className="block sm:hidden space-y-3 ">
+                    {HighlightServices.map((service, index) => (
+                      <Link key={index} href={`${service.link}`}>
+                        <motion.div
+                          initial={{ opacity: 0, x: -50 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.6, delay: index * 0.1 }}
+                          viewport={{ once: true, amount: 0.1 }}
+                          className="group pt-3"
+                        >
+                          <div
+                            className={`flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg bg-white hover:bg-[#faaf38]`}
+                          >
+                            {/* Icon */}
+                            <div
+                              className={`w-8 h-8 flex items-center justify-center bg-white rounded-md shadow-md hover:shadow-lg ${
+                                index === 0 ? "text-white" : "text-[#6869AA]"
+                              }`}
+                            >
+                              {service.icon}
+                            </div>
+
+                            {/* Label */}
+                            <span
+                              className={`font-medium text-base text-[#6869AA]`}
+                            >
+                              {service.label}
+                            </span>
+                          </div>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Desktop Layout - Grid */}
+                  <div className="hidden sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
+                    {HighlightServices.map((service, index) => (
+                      <Link key={index} href={`${service.link}`}>
+                        <motion.div
+                          initial={{ opacity: 0, y: 100 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.8, delay: index * 0.1 }}
+                          viewport={{ once: true, amount: 0.1 }}
+                          className="group"
+                        >
+                          <div className="flex flex-col items-center space-y-3 sm:space-y-4 p-2 sm:p-3 lg:p-4 rounded-lg hover:bg-white/10 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                            {/* Icon Container */}
+                            <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
+                              <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl">
+                                {service.icon}
+                              </div>
+                            </div>
+
+                            {/* Label */}
+                            <span className="text-white text-xs sm:text-sm lg:text-base font-medium text-center leading-tight group-hover:text-opacity-90 transition-colors duration-300">
+                              {service.label}
+                            </span>
+                          </div>
+                        </motion.div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
             </section>
@@ -299,14 +360,16 @@ export default function HomePage() {
                       {/* Always show data in the first available slots */}
                       {Array.from({ length: 4 }).map((_, index) => {
                         const item = tabData[selectedTab][index];
-                        
+
                         if (item) {
                           // Render actual content
                           return (
                             <Link
                               key={`content-${index}`}
                               href={item.link}
-                              className={loadingNews ? "pointer-events-none" : ""}
+                              className={
+                                loadingNews ? "pointer-events-none" : ""
+                              }
                               prefetch={false}
                             >
                               <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full w-full">
@@ -333,7 +396,11 @@ export default function HomePage() {
                         } else {
                           // Render invisible placeholder to maintain grid structure
                           return (
-                            <div key={`placeholder-${index}`} className="invisible" aria-hidden="true">
+                            <div
+                              key={`placeholder-${index}`}
+                              className="invisible"
+                              aria-hidden="true"
+                            >
                               <div className="bg-white rounded-xl overflow-hidden shadow-sm flex flex-col h-full w-full">
                                 <div className="w-full h-40 bg-gray-100"></div>
                                 <div className="p-3 flex flex-col flex-grow">
@@ -351,7 +418,11 @@ export default function HomePage() {
               </motion.div>
 
               <div className="flex justify-end">
-                <Link href="/news" prefetch={false} className={loadingNews ? "pointer-events-none" : ""}>
+                <Link
+                  href="/news"
+                  prefetch={false}
+                  className={loadingNews ? "pointer-events-none" : ""}
+                >
                   <button
                     disabled={loadingNews}
                     className="font-bold bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out disabled:opacity-50 disabled:pointer-events-none"
