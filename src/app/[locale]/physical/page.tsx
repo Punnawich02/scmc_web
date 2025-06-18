@@ -2,7 +2,7 @@
 import React from "react";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
 import { Map, Building2, TreeDeciduous } from "lucide-react";
 import Image from "next/image";
@@ -10,16 +10,17 @@ import { motion } from "framer-motion";
 
 export default function PhysicalPage() {
   const t = useTranslations("PhysicalPage");
+  const locale = useLocale();
 
   const cardData = [
     {
       title: t("map"),
-      link: "#map",
+      link: `/${locale}/physical/map`,
       icon: <Map />,
     },
     {
       title: t("build"),
-      link: "#build",
+      link: `/${locale}/physical/building`,
       icon: <Building2 />,
     },
     {
@@ -57,7 +58,7 @@ export default function PhysicalPage() {
           {/* การ์ด 2 ใบแรก - ปรับ layout และขนาด */}
           <div className="relative justify-items-center mx-4 sm:mx-10 md:mx-0 z-10 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 w-fit px-4 sm:px-8">
             {cardData.slice(0, 2).map((card, index) => (
-              <Link href={""} key={index}>
+              <Link href={`${card.link}`} key={index}>
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -83,7 +84,7 @@ export default function PhysicalPage() {
           {/* การ์ดใบสุดท้าย (อยู่กลาง) - ปรับขนาด */}
           {cardData.length > 2 && (
             <div className="relative mx-4 sm:mx-10 md:mx-0 z-10 mt-4 sm:mt-6 flex justify-center w-full pb-6 sm:pb-0">
-              <Link href={``}>
+              <Link href={`${cardData[2].link}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
