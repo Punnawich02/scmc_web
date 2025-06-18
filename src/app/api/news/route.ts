@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const newsUrl = process.env.NEXT_PUBLIC_NEWS_URL;
+  const newsUrl = process.env.NEWS_CMU_API;
   
   if (!newsUrl) {
     return NextResponse.json({ error: 'News URL not configured' }, { status: 500 });

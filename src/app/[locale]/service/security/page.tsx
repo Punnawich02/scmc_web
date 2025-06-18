@@ -25,7 +25,7 @@ const SecurityPage: React.FC = () => {
 
   return (
     <div className="flex min-h-screen flex-col bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] font-[Prompt] text-gray-800">
-      <Header title={t("page_title")}/>
+      <Header title={t("page_title")} />
 
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
         {/* hero */}
@@ -36,20 +36,20 @@ const SecurityPage: React.FC = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="mb-8"
         >
-          <div className="relative flex flex-col lg:flex-row lg:items-center gap-4 overflow-hidden rounded-3xl bg-[#9799E7] px-6 py-8 shadow-md sm:px-10 sm:py-12">
-            {/* icon */}
-            <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-              <ShieldUser className="h-10 w-10 text-white" aria-hidden="true" />
-            </div>
+          <div className="rounded-2xl bg-[#8F90E5] p-6 shadow-lg">
+            <div className="relative flex flex-col sm:flex-row items-center sm:items-start">
+              {/* Icon */}
+              <div className="bg-[#5759BB] rounded-full p-4 shadow-lg sm:absolute sm:top-0 sm:left-0 mb-4 sm:mb-0">
+                <ShieldUser className="w-10 h-10 text-white" />
+              </div>
 
-            {/* heading + subtitle */}
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:flex-1">
-              <h1 className="text-2xl font-bold leading-snug text-white sm:text-3xl">
-                {t("header")}
-              </h1>
-              <p className="mt-1 text-sm text-white/90 sm:text-base lg:mt-0 lg:ml-auto lg:text-right">
-                {t("table")}
-              </p>
+              {/* ข้อความ */}
+              <div className="sm:ml-24 text-center sm:text-left">
+                <h1 className="text-white font-extrabold text-3xl leading-snug mb-2">
+                  {t("header")}
+                </h1>
+                <p className="text-white/90 text-base max-w-xl">{t("title")}</p>
+              </div>
             </div>
           </div>
         </motion.section>
@@ -57,7 +57,7 @@ const SecurityPage: React.FC = () => {
         {/* tabs */}
         <section>
           {/* tab list */}
-          <div className="flex flex-wrap gap-2 border-b border-gray-200">
+          <div className="flex flex-wrap gap-2 border-b-3 border-gray-200">
             {tabs.map((tab) => (
               <button
                 key={tab.key}
@@ -96,9 +96,7 @@ const SecurityPage: React.FC = () => {
                   </p>
                 )}
                 {activeTab === "transit" && (
-                  <p className="text-gray-700">
-                    {t("transit_placeholder")}
-                  </p>
+                  <p className="text-gray-700">{t("transit_placeholder")}</p>
                 )}
               </motion.div>
             </AnimatePresence>
