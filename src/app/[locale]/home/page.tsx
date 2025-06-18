@@ -5,7 +5,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Cctv, FileText, Waves, Building, Map, CarFront } from "lucide-react";
+import { BusFront, Mountain, Database, HousePlug, Building, CarFront } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
 
@@ -139,33 +139,31 @@ export default function HomePage() {
   /* --------------------------- highlight services -------------------------- */
   const HighlightServices = [
     {
-      icon: <Map className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-      link: "/service/transport",
+      icon: <BusFront className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      link: `/${locale}/service/transport`,
       label: t("map"),
     },
     {
-      icon: <Cctv className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-      link: "/service/security",
-      label: t("cctv"),
+      icon: <Mountain className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      link: "https://mis.cmu.ac.th/CMUBuildings/",
+      label: t("request"),
     },
     {
-      icon: <FileText className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-      link: "/service/data",
+      icon: <Database className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      link: `/${locale}/service/data`,
       label: t("data"),
     },
     {
-      icon: <Waves className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-      link: "/service/utility",
+      icon: <HousePlug className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      link: `/${locale}/service/utility`,
       label: t("util"),
     },
     {
-      icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={1.5} />,
-      link: "/service/building",
-      label: t("build"),
+      icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      link: "https://buildings.oop.cmu.ac.th/bookingarea/",
+      label: t("reserve"),
     },
   ];
-
-
 
   /* ------------------------------------------------------------------------ */
   /*                                 JSX                                       */
@@ -219,7 +217,7 @@ export default function HomePage() {
               <div className="relative mx-auto mt-10 max-w-7xl">
                 <div className="grid sm:flex bg-[#FAAF39D1] rounded-xl py-6 px-6 shadow-lg flex-wrap justify-center sm:justify-around gap-6 text-center text-sm font-medium">
                   {HighlightServices.map((service, index) => (
-                    <Link key={index} href={`/${locale}${service.link}`}>
+                    <Link key={index} href={`${service.link}`}>
                       <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
