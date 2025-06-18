@@ -19,58 +19,63 @@ const DataPage: React.FC = () => {
   const [selectedGraph, setSelectedGraph] = useState(graphOptions[0]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] font-[Prompt]">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] font-[Prompt] text-gray-800">
       <Header title={t("page_title")} />
-      <main className="flex flex-col items-center px-2 sm:px-4 py-8 sm:py-12 max-w-7xl mx-auto w-full">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
         {/* Header Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full bg-[#9799E7] rounded-3xl px-4 py-8 sm:px-10 sm:py-12 flex flex-col sm:flex-row items-center gap-6 shadow-xl"
+        <motion.section
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="mb-8"
         >
-          <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full bg-[#] flex items-center justify-center flex-shrink-0 shadow-lg">
-            <Database className="w-12 h-12 sm:w-16 sm:h-16 text-white" />
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full text-white">
-            <h1 className="text-3xl sm:text-5xl font-extrabold mb-2 sm:mb-0 whitespace-nowrap drop-shadow-lg">
-              {t("header")}
-            </h1>
-            <p className="text-base sm:text-lg sm:ml-8 sm:flex-1 text-white/90 mt-2 sm:mt-0">
-              {t("table")}
-            </p>
-          </div>
-        </motion.div>
+          <div className="rounded-2xl bg-[#8F90E5] p-6 shadow-lg">
+            <div className="relative flex flex-col sm:flex-row items-center sm:items-start">
+              {/* Icon */}
+              <div className="bg-[#5759BB] rounded-full p-4 shadow-lg sm:absolute sm:top-0 sm:left-0 mb-4 sm:mb-0">
+                <Database className="w-10 h-10 text-white" />
+              </div>
 
+              {/* ข้อความ */}
+              <div className="sm:ml-24 text-center sm:text-left">
+                <h1 className="text-white font-extrabold text-3xl leading-snug mb-2">
+                  {t("header")}
+                </h1>
+                <p className="text-white/90 text-base max-w-xl">{t("title")}</p>
+              </div>
+            </div>
+          </div>
+        </motion.section>
         {/* Dropdown */}
         <div className="mt-8 w-full">
-            <details className="w-full group">
+          <details className="w-full group">
             <summary className="w-full flex items-center justify-between bg-[#E9EAFF] border-3 border-[#8586D1] rounded-full px-4 py-2 shadow hover:shadow-md focus:outline-none cursor-pointer list-none">
               <h2 className="text-base font-semibold text-[#22223b] flex-1 text-center">
-              {t(selectedGraph.key)}
+                {t(selectedGraph.key)}
               </h2>
               <ChevronDown className="text-[#6366F1] ml-1 w-5 h-5 transition-transform group-open:rotate-180" />
             </summary>
             <div className="mt-3 px-4 py-2 bg-white rounded-2xl shadow">
               <ul className="space-y-2">
-              {graphOptions.map((option) => (
-                <li key={option.key}>
-                <button
-                  className={`w-full text-left font-medium ${
-                  selectedGraph.key === option.key
-                    ? "text-[#6366F1]"
-                    : "text-[#22223b] hover:text-[#6366F1]"
-                  }`}
-                  onClick={() => setSelectedGraph(option)}
-                  type="button"
-                >
-                  {t(option.key)}
-                </button>
-                </li>
-              ))}
+                {graphOptions.map((option) => (
+                  <li key={option.key}>
+                    <button
+                      className={`w-full text-left font-medium ${
+                        selectedGraph.key === option.key
+                          ? "text-[#6366F1]"
+                          : "text-[#22223b] hover:text-[#6366F1]"
+                      }`}
+                      onClick={() => setSelectedGraph(option)}
+                      type="button"
+                    >
+                      {t(option.key)}
+                    </button>
+                  </li>
+                ))}
               </ul>
             </div>
-            </details>
+          </details>
 
           {/* Content */}
           <div className="mt-6">
