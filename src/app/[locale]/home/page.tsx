@@ -265,7 +265,7 @@ export default function HomePage() {
                           className="group pt-3"
                         >
                           <div
-                            className={`flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg bg-white hover:bg-[#faaf38]`}
+                            className={`flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg bg-white`}
                           >
                             {/* Icon */}
                             <div
@@ -299,7 +299,7 @@ export default function HomePage() {
                           viewport={{ once: true, amount: 0.1 }}
                           className="group"
                         >
-                          <div className="flex flex-col items-center space-y-3 sm:space-y-4 p-2 sm:p-3 lg:p-4 rounded-lg hover:bg-white/10 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
+                          <div className="flex flex-col items-center space-y-3 sm:space-y-4 p-2 sm:p-3 lg:p-4 rounded-lg hover:bg-yellow-500 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
                             {/* Icon Container */}
                             <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
                               <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl">

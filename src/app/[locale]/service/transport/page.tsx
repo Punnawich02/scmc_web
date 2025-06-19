@@ -20,7 +20,7 @@ const TransportPage: React.FC = () => {
   const [selectedGraph, setSelectedGraph] = useState(graphOptions[0]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] font-[Prompt] text-gray-800">
+    <div className="flex min-h-screen flex-col font-[Prompt] text-gray-800">
       <Header title={t("page_title")} />
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
         {/* Header Card */}
