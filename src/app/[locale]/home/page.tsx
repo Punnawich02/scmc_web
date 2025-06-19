@@ -179,7 +179,7 @@ export default function HomePage() {
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
-      <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full">
+      <main className="flex flex-col gap-8  py-6 w-full">
         <div className="w-full max-w-7xl mx-auto px-4">
           {/* Vehicle Section - Mobile Optimized */}
           <motion.div
@@ -188,7 +188,13 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <section className="relative w-full max-w-7xl mx-auto mb-6 px-4 sm:px-6">
-              <div className="relative w-full h-[400px] xs:h-[280px] sm:h-[350px] md:h-[450px]">
+              <div
+                className={`relative w-full ${
+                  locale === "en"
+                    ? "h-[450px] xs:h-[280px] sm:h-[350px] md:h-[450px]"
+                    : "h-[400px] xs:h-[280px] sm:h-[350px] md:h-[450px]"
+                }`}
+              >
                 <Image
                   src="/DSC06224.jpg"
                   alt="Angkaew"
