@@ -172,61 +172,74 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             <Menu className="w-10 h-10" color="#6869AA" />
           </button>
 
-          {/* Mobile Menu */}
-          <AnimatePresence>
+            {/* Mobile Menu */}
+            <AnimatePresence>
             {isNavOpen && (
               <motion.div
-                initial={{ x: "100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ type: "spring", stiffness: 70, damping: 15 }}
-                className="fixed top-0 right-0 h-full sm:w-1/3 w-1/2 bg-white shadow-lg z-50 p-6 lg:hidden rounded-l-2xl"
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", stiffness: 70, damping: 15 }}
+              className="fixed top-0 right-0 h-full sm:w-1/3 w-1/2 bg-white shadow-lg z-50 p-6 lg:hidden rounded-l-2xl"
+              ref={(ref) => {
+                // Attach ref for outside click detection
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (window as any).mobileMenuRef = ref;
+              }}
               >
-                <button
-                  className="text-gray-500 focus:outline-none mb-6 hover:cursor-pointer hover:text-red-500"
-                  aria-label="Close navigation"
-                  onClick={toggleNav}
+              <button
+                className="text-gray-500 focus:outline-none mb-6 hover:cursor-pointer hover:text-red-500"
+                aria-label="Close navigation"
+                onClick={toggleNav}
+              >
+                Close
+              </button>
+
+              <nav className="flex flex-col space-y-4">
+                {nav_bar.map((item, index) => (
+                <Link
+                  key={index}
+                  href={`/${lang}${item.link}`}
+                  className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl p-2
+                  ${pathname === item.link ? "font-bold" : ""}
+                  text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
                 >
-                  Close
-                </button>
+                  {item.show}
+                </Link>
+                ))}
 
-                <nav className="flex flex-col space-y-4">
-                  {nav_bar.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={`/${lang}${item.link}`}
-                      className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl p-2
-                        ${pathname === item.link ? "font-bold" : ""}
-                        text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                    >
-                      {item.show}
-                    </Link>
-                  ))}
-
-                  {/* Language Switcher - Mobile */}
-                  <button
-                    onClick={switchLocale}
-                    className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6 rounded-xl p-2"
+                {/* Language Switcher - Mobile */}
+                <button
+                onClick={switchLocale}
+                className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6 rounded-xl p-2"
+                >
+                <div className="flex items-center space-x-2 hover:cursor-pointer">
+                  <Image
+                  src={icon_src}
+                  alt="Language flag"
+                  width={18}
+                  height={18}
+                  />
+                  <span
+                  id="language-text"
+                  className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400] ml-2"
                   >
-                    <div className="flex items-center space-x-2 hover:cursor-pointer">
-                      <Image
-                        src={icon_src}
-                        alt="Language flag"
-                        width={18}
-                        height={18}
-                      />
-                      <span
-                        id="language-text"
-                        className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400] ml-2"
-                      >
-                        {targetLang}
-                      </span>
-                    </div>
-                  </button>
-                </nav>
+                  {targetLang}
+                  </span>
+                </div>
+                </button>
+              </nav>
               </motion.div>
             )}
-          </AnimatePresence>
+            </AnimatePresence>
+            {/* Overlay for outside click */}
+            {isNavOpen && (
+            <div
+              className="fixed inset-0 z-40 lg:hidden"
+              style={{ background: "rgba(0,0,0,0.01)" }}
+              onClick={toggleNav}
+            />
+            )}
         </div>
 
         {/* Desktop Navigation with Sliding Indicator */}

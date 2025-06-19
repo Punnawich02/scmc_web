@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
             <p>SCMC : Smart Campus Management Center</p>
             <p>{t("cmut")} (@korsormorchor)</p>
             <br/>
-            <p>{t("dev_by")} Punnawich</p>
+            <p className="hidden">{t("dev_by")} Punnawich, Pichapa, Borwonpak, Natanan</p>
           </div>
           {/* Google Map Section */}
           <div className="flex justify-center sm:justify-end sm:me-10">
