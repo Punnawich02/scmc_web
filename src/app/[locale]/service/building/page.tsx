@@ -33,39 +33,40 @@ const BuildingPage: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-[80%]"
+          className="w-full md:w-[80%]"
         >
           {/* กล่องหลัก */}
-          <div className="rounded-2xl bg-[#8F90E5] p-6 shadow-lg">
+          <div className="rounded-3xl bg-[#8F90E5] p-6 shadow-lg">
             {/* หัวเรื่อง */}
-            <div className="relative mb-10 flex flex-col sm:flex-row items-center sm:items-start">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               {/* Icon */}
-              <div className="bg-[#5759BB] rounded-full p-4 shadow-lg sm:absolute sm:top-0 sm:left-0 mb-4 sm:mb-0">
+              <div className="bg-white/20 rounded-full p-3 shadow-lg backdrop-blur-sm">
                 <Building2 className="w-10 h-10 text-white" />
               </div>
 
               {/* ข้อความ */}
-              <div className="sm:ml-24 text-center sm:text-left">
-                <h1 className="text-white font-extrabold text-3xl leading-snug mb-2">
-                  {t("header")}
-                </h1>
-                <p className="text-white/90 text-base max-w-xl">{t("title")}</p>
-              </div>
+
+              <h1 className="text-white font-bold text-2xl mb-1 text-center sm:text-start sm:text-3xl">
+                {t("header")}
+              </h1>
+              <p className="text-white/80 text-sm leading-relaxed">
+                {t("title")}
+              </p>
             </div>
 
-            {/* การ์ด 2 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* การ์ด 2 บน 1 ล่าง */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4  px-0 sm:px-9 py-4 sm:p-6">
               {cardData.map(({ title, link, icon }, i) => (
                 <div
                   key={i}
                   className={i === 2 ? "sm:col-span-2 flex justify-center" : ""}
                 >
                   <Link href={link} className="sm:w-[50%] w-full">
-                    <div className="bg-white/40 rounded-xl p-6 flex items-center gap-6 hover:scale-105 transition-transform">
-                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[#5759BB] aspect-square">
+                    <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-105 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
+                      <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
                         {icon}
-                        </div>
-                      <span className="text-white font-semibold text-lg">
+                      </div>
+                      <span className="text-white text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
                         {title}
                       </span>
                     </div>
