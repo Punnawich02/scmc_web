@@ -82,6 +82,8 @@ export default function HomePage() {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [loadingNews, setLoadingNews] = useState(true);
   const [, setErrorNews] = useState<string | null>(null);
+  const [newsLimit, setNewsLimit] = useState(4);
+  const pageSize = 4;
 
   const [selectedTab, setSelectedTab] = useState<TabType>("news");
   const tabs: TabType[] = ["news", "documents", "articles"];
@@ -101,7 +103,7 @@ export default function HomePage() {
           DetailThai?: string;
           DetailEnglish?: string;
           Images?: { IsCover?: boolean; SourceLink?: string }[];
-          NewsID: string | number;
+          SourceLinkThai: string | number;
         };
 
         const isThai = locale === "th";
@@ -121,7 +123,7 @@ export default function HomePage() {
             n.Images?.find((img) => img.IsCover)?.SourceLink ??
             n.Images?.[0]?.SourceLink ??
             "/placeholder.jpg",
-          link: `/news/${n.NewsID}`,
+          link: String(n.SourceLinkThai),
         }));
 
         setNewsItems(mapped);
@@ -171,6 +173,9 @@ export default function HomePage() {
       label: t("reserve"),
     },
   ];
+
+  const totalNews = tabData.news.length;
+  const hasMore = selectedTab === "news" && newsLimit < totalNews;
 
   /* ------------------------------------------------------------------------ */
   /*                                 JSX                                       */
@@ -358,78 +363,60 @@ export default function HomePage() {
                   <div className="w-full min-h-[240px] mb-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
                       {/* Always show data in the first available slots */}
-                      {Array.from({ length: 4 }).map((_, index) => {
-                        const item = tabData[selectedTab][index];
-
-                        if (item) {
-                          // Render actual content
-                          return (
-                            <Link
-                              key={`content-${index}`}
-                              href={item.link}
-                              className={
-                                loadingNews ? "pointer-events-none" : ""
-                              }
-                              prefetch={false}
-                            >
-                              <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full w-full">
-                                <Image
-                                  src={item.imageUrl}
-                                  alt={item.title}
-                                  width={271}
-                                  height={163}
-                                  className="w-full h-40 object-cover"
-                                />
-                                <div className="p-3 flex flex-col flex-grow">
-                                  <h4 className="text-sm font-medium mb-1 text-black line-clamp-2 min-h-[3em]">
-                                    {item.title}
-                                  </h4>
-                                  <p className="text-xs text-gray-600 mb-3 line-clamp-3 flex-grow min-h-[3rem]">
-                                    {item.description.length > 140
-                                      ? `${item.description.slice(0, 140)}...`
-                                      : item.description}
-                                  </p>
-                                </div>
-                              </div>
-                            </Link>
-                          );
-                        } else {
-                          // Render invisible placeholder to maintain grid structure
-                          return (
-                            <div
-                              key={`placeholder-${index}`}
-                              className="invisible"
-                              aria-hidden="true"
-                            >
-                              <div className="bg-white rounded-xl overflow-hidden shadow-sm flex flex-col h-full w-full">
-                                <div className="w-full h-40 bg-gray-100"></div>
-                                <div className="p-3 flex flex-col flex-grow">
-                                  <div className="text-sm font-medium mb-1 min-h-[3em] bg-gray-100 rounded"></div>
-                                  <div className="text-xs mb-3 flex-grow min-h-[3rem] bg-gray-100 rounded"></div>
-                                </div>
+                      {tabData[selectedTab]
+                        .slice(
+                          0,
+                          selectedTab === "news"
+                            ? newsLimit
+                            : tabData[selectedTab].length
+                        )
+                        .map((item, index) => (
+                          <Link
+                            key={item.link ?? index}
+                            href={item.link}
+                            className={loadingNews ? "pointer-events-none" : ""}
+                            prefetch={false}
+                          >
+                            <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full w-full">
+                              <Image
+                                src={item.imageUrl}
+                                alt={item.title}
+                                width={271}
+                                height={163}
+                                className="w-full h-40 object-cover"
+                              />
+                              <div className="p-3 flex flex-col flex-grow">
+                                <h4 className="text-sm font-medium mb-1 text-black line-clamp-2 min-h-[3em]">
+                                  {item.title}
+                                </h4>
+                                <p className="text-xs text-gray-600 mb-3 line-clamp-3 flex-grow min-h-[3rem]">
+                                  {item.description.length > 140
+                                    ? `${item.description.slice(0, 140)}…`
+                                    : item.description}
+                                </p>
                               </div>
                             </div>
-                          );
-                        }
-                      })}
+                          </Link>
+                        ))}
                     </div>
                   </div>
                 )}
               </motion.div>
 
               <div className="flex justify-end">
-                <Link
-                  href="/news"
-                  prefetch={false}
-                  className={loadingNews ? "pointer-events-none" : ""}
-                >
+                {hasMore && (
                   <button
                     disabled={loadingNews}
-                    className="font-bold bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:cursor-pointer hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out disabled:opacity-50 disabled:pointer-events-none"
+                    onClick={() =>
+                      setNewsLimit((prev) =>
+                        Math.min(prev + pageSize, totalNews)
+                      )
+                    }
+                    className="font-bold bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out disabled:opacity-50"
                   >
-                    {t("more")}
+                    {loadingNews ? t("loading") : t("more")}
                   </button>
-                </Link>
+                )}
               </div>
             </section>
           </motion.div>

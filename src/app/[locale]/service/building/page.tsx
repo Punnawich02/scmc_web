@@ -26,9 +26,9 @@ const BuildingPage: React.FC = () => {
   ];
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
+    <div className="flex min-h-screen bg-white flex-col font-[Prompt] text-gray-800">
       <Header title={t("page_title")} />
-      <main className="flex flex-col items-center px-4 py-6 w-full mx-auto">
+      <main className="flex flex-col items-center px-4 py-6 w-full mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}

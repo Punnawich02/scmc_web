@@ -24,9 +24,8 @@ const SecurityPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].key);
 
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] font-[Prompt] text-gray-800">
+    <div className="flex min-h-screen flex-col bg-white font-[Prompt] text-gray-800">
       <Header title={t("page_title")} />
-
       <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
         {/* hero */}
         <motion.section
