@@ -46,50 +46,51 @@ const DataPage: React.FC = () => {
               </div>
             </div>
           </div>
-        </motion.section>
-        {/* Dropdown */}
-        <div className="mt-8 w-full">
-          <details className="w-full group">
-            <summary className="w-full flex items-center justify-between bg-[#E9EAFF] border-3 border-[#8586D1] rounded-full px-4 py-2 shadow hover:shadow-md focus:outline-none cursor-pointer list-none">
-              <h2 className="text-base font-semibold text-[#22223b] flex-1 text-center">
-                {t(selectedGraph.key)}
-              </h2>
-              <ChevronDown className="text-[#6366F1] ml-1 w-5 h-5 transition-transform group-open:rotate-180" />
-            </summary>
-            <div className="mt-3 px-4 py-2 bg-white rounded-2xl shadow">
-              <ul className="space-y-2">
-                {graphOptions.map((option) => (
-                  <li key={option.key}>
-                    <button
-                      className={`w-full text-left font-medium ${
-                        selectedGraph.key === option.key
-                          ? "text-[#6366F1]"
-                          : "text-[#22223b] hover:text-[#6366F1]"
-                      }`}
-                      onClick={() => setSelectedGraph(option)}
-                      type="button"
-                    >
-                      {t(option.key)}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </details>
 
-          {/* Content */}
-          <div className="mt-6">
-            <div className="flex flex-row justify-center">
-              <Image
-                src={selectedGraph.src}
-                width={1000}
-                height={250}
-                alt={selectedGraph.alt}
-                className="w-full h-auto"
-              />
+          {/* Dropdown */}
+          <div className="mt-8 w-full">
+            <details className="w-full group">
+              <summary className="w-full flex items-center justify-between bg-[#E9EAFF] border-3 border-[#8586D1] rounded-full px-4 py-2 shadow hover:shadow-md focus:outline-none cursor-pointer list-none">
+                <h2 className="text-base font-semibold text-[#22223b] flex-1 text-center">
+                  {t(selectedGraph.key)}
+                </h2>
+                <ChevronDown className="text-[#6366F1] ml-1 w-5 h-5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="mt-3 px-4 py-2 bg-white rounded-2xl shadow">
+                <ul className="space-y-2">
+                  {graphOptions.map((option) => (
+                    <li key={option.key}>
+                      <button
+                        className={`w-full text-left font-medium ${
+                          selectedGraph.key === option.key
+                            ? "text-[#6366F1]"
+                            : "text-[#22223b] hover:text-[#6366F1] hover:cursor-pointer"
+                        }`}
+                        onClick={() => setSelectedGraph(option)}
+                        type="button"
+                      >
+                        {t(option.key)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+
+            {/* Content */}
+            <div className="mt-6">
+              <div className="flex flex-row justify-center">
+                <Image
+                  src={selectedGraph.src}
+                  width={1000}
+                  height={250}
+                  alt={selectedGraph.alt}
+                  className="w-full h-auto"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </motion.section>
       </main>
       <Footer />
     </div>

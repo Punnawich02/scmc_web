@@ -1,68 +1,101 @@
 "use client";
 
-import React, { useState } from "react";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
-import { BusFront, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
+import React, { useState } from "react";
 import { useTranslations } from "next-intl";
+import { ChevronDown, Database } from "lucide-react";
+import Image from "next/image";
 
-export default function TransportPage() {
+const graphOptions = [
+  { key: "option1", src: "/mon_fri.svg", alt: "Monday - Friday" },
+  { key: "option2", src: "/sat_sun.svg", alt: "Saturday - Sunday" },
+  { key: "option3", src: "/suandok.svg", alt: "CMU - Suandok" },
+  { key: "option4", src: "/maehea.svg", alt: "CMU - Maehea" },
+];
+
+const TransportPage: React.FC = () => {
   const t = useTranslations("TransportPage");
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedGraph, setSelectedGraph] = useState(graphOptions[0]);
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-[#f5f7fa] to-[#c3cfe2] font-[Prompt] text-gray-800">
       <Header title={t("page_title")} />
-
-      <main className="flex flex-col items-center px-4 py-12 max-w-7xl mx-auto w-full">
-        {/* ส่วนหัวไอคอน + ข้อความ */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full bg-[#9799E7] rounded-2xl px-6 py-8 sm:px-12 sm:py-10 flex items-center gap-8"
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
+        {/* Header Card */}
+        <motion.section
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="mb-8"
         >
-          <div className="w-28 h-28 rounded-full bg-[#5759BB] flex items-center justify-center flex-shrink-0">
-            <BusFront className="w-14 h-14 text-white" />
-          </div>
+          <div className="rounded-2xl bg-[#8F90E5] p-6 shadow-lg">
+            <div className="relative flex flex-col sm:flex-row items-center sm:items-start">
+              {/* Icon */}
+              <div className="bg-[#5759BB] rounded-full p-4 shadow-lg sm:absolute sm:top-0 sm:left-0 mb-4 sm:mb-0">
+                <Database className="w-10 h-10 text-white" />
+              </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full text-white">
-            <h1 className="text-4xl sm:text-6xl font-bold mb-2 sm:mb-0 whitespace-nowrap">
-              {t("header")}
-            </h1>
-            <p className="text-base sm:text-lg sm:ml-6 sm:flex-1 text-white">
-              {t("table")}
-            </p>
-          </div>
-        </motion.div>
-
-        {/* Dropdown */}
-        <div className="mt-10 w-full max-w-5xl">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="w-full flex items-center justify-between bg-[#EFEFFF] border border-[#8586D1] rounded-full px-6 py-3 transition-all"
-          >
-            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-center w-full text-black">
-              {t("table")}
-            </h2>
-            <ChevronDown
-              className={`text-[#8586D1] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
-            />
-          </button>
-
-          {/* เนื้อหาเมื่อเปิด */}
-          {isOpen && (
-            <div className="mt-6">
-              <p className="text-gray-700 text-center">
-                🚍 ตารางเดินรถ ขส.มช. จะมาแสดงที่นี่ เช่น รูปภาพ หรือ component ตาราง
-              </p>
+              {/* ข้อความ */}
+              <div className="sm:ml-24 text-center sm:text-left">
+                <h1 className="text-white font-extrabold text-3xl leading-snug mb-2">
+                  {t("header")}
+                </h1>
+                <p className="text-white/90 text-base max-w-xl">{t("title")}</p>
+              </div>
             </div>
-          )}
-        </div>
-      </main>
+          </div>
 
+          {/* Dropdown */}
+          <div className="mt-8 w-full">
+            <details className="w-full group">
+              <summary className="w-full flex items-center justify-between bg-[#E9EAFF] border-3 border-[#8586D1] rounded-full px-4 py-2 shadow hover:shadow-md focus:outline-none cursor-pointer list-none">
+                <h2 className="text-base font-semibold text-[#22223b] flex-1 text-center">
+                  {t(selectedGraph.key)}
+                </h2>
+                <ChevronDown className="text-[#6366F1] ml-1 w-5 h-5 transition-transform group-open:rotate-180" />
+              </summary>
+              <div className="mt-3 px-4 py-2 bg-white rounded-2xl shadow">
+                <ul className="space-y-2">
+                  {graphOptions.map((option) => (
+                    <li key={option.key}>
+                      <button
+                        className={`w-full text-left font-medium ${
+                          selectedGraph.key === option.key
+                            ? "text-[#6366F1]"
+                            : "text-[#22223b] hover:text-[#6366F1] hover:cursor-pointer"
+                        }`}
+                        onClick={() => setSelectedGraph(option)}
+                        type="button"
+                      >
+                        {t(option.key)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </details>
+
+            {/* Content */}
+            <div className="mt-6">
+              <div className="flex flex-row justify-center">
+                <Image
+                  src={selectedGraph.src}
+                  width={1000}
+                  height={250}
+                  alt={selectedGraph.alt}
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+          </div>
+        </motion.section>
+      </main>
       <Footer />
     </div>
   );
-}
+};
+
+export default TransportPage;

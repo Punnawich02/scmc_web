@@ -15,19 +15,16 @@ export default function SupportPage() {
   const cardData = [
     {
       title: t("fix"),
-      description: t("fix_title"),
       link: "/support/fix",
       icon: <Wrench />,
     },
     {
       title: t("comment"),
-      description: t("comment_title"),
       link: "#comment",
       icon: <MessageSquare />,
     },
     {
       title: t("sdg"),
-      description: t("sdg_title"),
       link: "#sdg",
       icon: <Shrub />,
     },

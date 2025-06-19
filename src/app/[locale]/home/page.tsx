@@ -152,7 +152,7 @@ export default function HomePage() {
     },
     {
       icon: <Mountain className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
-      link: "https://mis.cmu.ac.th/CMUBuildings/",
+      link: process.env.NEXT_PUBLIC_CMU_BUILDING,
       label: t("request"),
     },
     {
@@ -167,7 +167,7 @@ export default function HomePage() {
     },
     {
       icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
-      link: "https://buildings.oop.cmu.ac.th/bookingarea/",
+      link: process.env.NEXT_PUBLIC_CMU_BOOKING_AREA,
       label: t("reserve"),
     },
   ];

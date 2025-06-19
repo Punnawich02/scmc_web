@@ -25,7 +25,7 @@ export default function PhysicalPage() {
     },
     {
       title: t("tree"),
-      link: "https://buildings.oop.cmu.ac.th/plant/",
+      link: process.env.NEXT_PUBLIC_CMU_PLANT,
       icon: <TreeDeciduous />,
     },
   ];

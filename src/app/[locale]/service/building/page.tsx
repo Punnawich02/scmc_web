@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Building, Building2, CheckCheck } from "lucide-react";
+import { Building, Building2, HousePlus } from "lucide-react";
 import React from "react";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
@@ -12,16 +12,16 @@ const BuildingPage: React.FC = () => {
   const t = useTranslations("BuildPage");
   const cardData = [
     {
-      title: t("build"),
-      link: "#build",
+      title: t("booking"),
+      link: process.env.NEXT_PUBLIC_CMU_BOOKING_AREA || "",
       description: t("build_title"),
       icon: <Building className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
     {
-      title: t("check"),
-      link: "#check",
+      title: t("approve"),
+      link: process.env.NEXT_PUBLIC_CMU_BUILDING || "",
       description: t("check_title"),
-      icon: <CheckCheck className="w-10 h-10" color="#FFF" strokeWidth={2} />,
+      icon: <HousePlus className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
   ];
 
@@ -53,7 +53,7 @@ const BuildingPage: React.FC = () => {
               </div>
             </div>
 
-            {/* การ์ด 2 บน 1 ล่าง */}
+            {/* การ์ด 2 */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {cardData.map(({ title, link, icon }, i) => (
                 <div
@@ -62,9 +62,9 @@ const BuildingPage: React.FC = () => {
                 >
                   <Link href={link} className="sm:w-[50%] w-full">
                     <div className="bg-white/40 rounded-xl p-6 flex items-center gap-6 hover:scale-105 transition-transform">
-                      <div className="w-16 h-16 bg-[#5759BB] rounded-full flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full flex items-center justify-center bg-[#5759BB] aspect-square">
                         {icon}
-                      </div>
+                        </div>
                       <span className="text-white font-semibold text-lg">
                         {title}
                       </span>
