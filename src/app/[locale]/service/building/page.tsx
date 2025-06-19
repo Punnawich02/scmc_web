@@ -33,10 +33,10 @@ const BuildingPage: React.FC = () => {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full md:w-[80%]"
+          className="px-0 sm:px-15"
         >
           {/* กล่องหลัก */}
-          <div className="rounded-3xl bg-[#8F90E5] p-6 shadow-lg">
+          <div className="rounded-3xl bg-[#8F90E5] p-8 shadow-xl">
             {/* หัวเรื่อง */}
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               {/* Icon */}
@@ -62,7 +62,7 @@ const BuildingPage: React.FC = () => {
                   className={i === 2 ? "sm:col-span-2 flex justify-center" : ""}
                 >
                   <Link href={link} className="sm:w-[50%] w-full">
-                    <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-105 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
+                    <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
                       <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
                         {icon}
                       </div>
