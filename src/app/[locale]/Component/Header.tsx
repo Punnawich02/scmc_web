@@ -268,12 +268,12 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             {/* Sliding indicator - Bottom bar */}
             {activeIndex >= 0 && (
               <div
-                className="absolute h-[7px] transition-all duration-300 ease-out rounded-full z-20"
+                className="absolute h-[7px] transition-all duration-300 ease-out rounded-full z-20 -bottom-[15px] xl:-bottom-[14px]"
                 style={{
                   left: `${indicatorStyle.left}px`,
                   width: `${indicatorStyle.width}px`,
                   backgroundColor: "#6869AA",
-                  bottom: "-14px", // เลื่อนลงไปทับกับ gradient border
+
                   transform: "translateY(0px)",
                 }}
               />
