@@ -86,9 +86,17 @@
     "header": "Utilities System",
     "title": "Essential basic systems and services for living and conducting activities within Chiang Mai University, such as electricity, water, communication, telecommunication, wastewater treatment, waste management, etc.",
     "water": "Water Supply System",
-    "electric": "Electrical System",
+    "electricandwater": "Electrical and Water System",
     "phone": "Telephone System",
     "trash": "Waste Management System"
+  },
+  "electric_and_water": {
+    "page_title": "ระบบไฟฟ้าและประปา",
+    "header": "ระบบไฟฟ้าและประปา",
+    "collaborator": "Collaborator",
+    "department": "Department",
+    "house": "Guest House",
+    "usage_report": "Usage Report"
   },
   "PersonelPage": {
     "page_title": "Services for Personnel within Chiang Mai University",
