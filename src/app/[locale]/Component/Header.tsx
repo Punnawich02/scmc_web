@@ -172,79 +172,79 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             <Menu className="w-10 h-10" color="#6869AA" />
           </button>
 
-            {/* Mobile Menu */}
-            <AnimatePresence>
+          {/* Mobile Menu */}
+          <AnimatePresence>
             {isNavOpen && (
               <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", stiffness: 70, damping: 15 }}
-              className="fixed top-0 right-0 h-full sm:w-1/3 w-1/2 bg-white shadow-lg z-50 p-6 lg:hidden rounded-l-2xl"
-              ref={(ref) => {
-                // Attach ref for outside click detection
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                (window as any).mobileMenuRef = ref;
-              }}
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", stiffness: 70, damping: 15 }}
+                className="fixed top-0 right-0 h-full sm:w-1/3 w-1/2 bg-white shadow-lg z-50 p-6 lg:hidden rounded-l-2xl"
+                ref={(ref) => {
+                  // Attach ref for outside click detection
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  (window as any).mobileMenuRef = ref;
+                }}
               >
-              <button
-                className="text-gray-500 focus:outline-none mb-6 hover:cursor-pointer hover:text-red-500"
-                aria-label="Close navigation"
-                onClick={toggleNav}
-              >
-                Close
-              </button>
+                <button
+                  className="text-gray-500 focus:outline-none mb-6 hover:cursor-pointer hover:text-red-500"
+                  aria-label="Close navigation"
+                  onClick={toggleNav}
+                >
+                  Close
+                </button>
 
-              <nav className="flex flex-col space-y-4">
-                {nav_bar.map((item, index) => (
-                <Link
-                  key={index}
-                  href={`/${lang}${item.link}`}
-                  className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl p-2
+                <nav className="flex flex-col space-y-4">
+                  {nav_bar.map((item, index) => (
+                    <Link
+                      key={index}
+                      href={`/${lang}${item.link}`}
+                      className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl p-2
                   ${pathname === item.link ? "font-bold" : ""}
                   text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
-                >
-                  {item.show}
-                </Link>
-                ))}
+                    >
+                      {item.show}
+                    </Link>
+                  ))}
 
-                {/* Language Switcher - Mobile */}
-                <button
-                onClick={switchLocale}
-                className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6 rounded-xl p-2"
-                >
-                <div className="flex items-center space-x-2 hover:cursor-pointer">
-                  <Image
-                  src={icon_src}
-                  alt="Language flag"
-                  width={18}
-                  height={18}
-                  />
-                  <span
-                  id="language-text"
-                  className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400] ml-2"
+                  {/* Language Switcher - Mobile */}
+                  <button
+                    onClick={switchLocale}
+                    className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6 rounded-xl p-2"
                   >
-                  {targetLang}
-                  </span>
-                </div>
-                </button>
-              </nav>
+                    <div className="flex items-center space-x-2 hover:cursor-pointer">
+                      <Image
+                        src={icon_src}
+                        alt="Language flag"
+                        width={18}
+                        height={18}
+                      />
+                      <span
+                        id="language-text"
+                        className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400] ml-2"
+                      >
+                        {targetLang}
+                      </span>
+                    </div>
+                  </button>
+                </nav>
               </motion.div>
             )}
-            </AnimatePresence>
-            {/* Overlay for outside click */}
-            {isNavOpen && (
+          </AnimatePresence>
+          {/* Overlay for outside click */}
+          {isNavOpen && (
             <div
               className="fixed inset-0 z-40 lg:hidden"
               style={{ background: "rgba(0,0,0,0.01)" }}
               onClick={toggleNav}
             />
-            )}
+          )}
         </div>
 
         {/* Desktop Navigation with Sliding Indicator */}
-        <div className="hidden lg:flex items-center space-x-6">
-          <nav className="relative flex space-x-6 ml-2 bg-gray-50 rounded-lg p-2">
+        <div className="hidden lg:flex items-center flex-1 justify-center xl:justify-start xl:flex-initial">
+          <nav className="relative flex space-x-2 xl:space-x-6 ml-2 bg-gray-50 rounded-lg p-2">
             {nav_bar.map((item, index) => (
               <Link
                 key={index}
@@ -254,12 +254,12 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 href={`/${lang}${item.link}`}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
-                className={`relative px-4 py-2 rounded-md font-medium transition-colors duration-200 z-10
+                className={`relative px-2 xl:px-4 py-2 rounded-md font-medium transition-colors duration-200 z-10 whitespace-nowrap
                   ${
                     pathname === item.link
                       ? "text-[#6869AA] font-bold"
                       : "text-gray-600 "
-                  } font-[Prompt] text-[18px]`}
+                  } font-[Prompt] text-[16px] xl:text-[18px]`}
               >
                 {item.show}
               </Link>
@@ -295,19 +295,19 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
         </div>
 
         {/* Desktop Language Switcher */}
-        <div>
+        <div className="hidden lg:block">
           <button
             onClick={switchLocale}
-            className="hidden lg:flex items-center space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100 p-2 rounded-xl"
+            className="flex items-center space-x-1 xl:space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100 p-2 rounded-xl"
           >
             <Image
               src={icon_src}
-              width={20}
-              height={20}
+              width={18}
+              height={18}
               alt="Language flag"
-              className="h-5 object-contain"
+              className="xl:w-5 xl:h-5 object-contain"
             />
-            <span className="text-sm text-[#6869AA] font-[Prompt] font-[400] ml-1">
+            <span className="text-sm text-[#6869AA] font-[Prompt] font-[400] whitespace-nowrap">
               {targetLang}
             </span>
           </button>
