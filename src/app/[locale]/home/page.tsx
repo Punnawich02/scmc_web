@@ -264,7 +264,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 {/* Desktop Version */}
-                <div className="absolute bottom-0  mx-15 hidden sm:grid grid-cols-7  bg-[#6869AA] rounded-3xl items-center  translate-y-12">
+                <div className="absolute bottom-0  mx-15 hidden sm:grid grid-cols-7  bg-[#6869AA]/70 backdrop-blur-lg rounded-3xl items-center  translate-y-12">
                   <h2 className="text-white col-span-2 text-center text-lg sm:text-xl lg:text-2xl font-semibold">
                     Highlight <br></br>
                     Services
