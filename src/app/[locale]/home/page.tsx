@@ -148,27 +148,57 @@ export default function HomePage() {
   /* --------------------------- highlight services -------------------------- */
   const HighlightServices = [
     {
-      icon: <BusFront className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      icon: (
+        <BusFront
+          className="w-12 h-12 md:w-16 md:h-16"
+          color="#6869AA"
+          strokeWidth={2}
+        />
+      ),
       link: `/${locale}/service/transport`,
       label: t("map"),
     },
     {
-      icon: <Mountain className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      icon: (
+        <Mountain
+          className="w-12 h-12 md:w-16 md:h-16"
+          color="#6869AA"
+          strokeWidth={2}
+        />
+      ),
       link: process.env.NEXT_PUBLIC_CMU_BUILDING,
       label: t("request"),
     },
     {
-      icon: <Database className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      icon: (
+        <Database
+          className="w-12 h-12 md:w-16 md:h-16"
+          color="#6869AA"
+          strokeWidth={2}
+        />
+      ),
       link: `/${locale}/service/data`,
       label: t("data"),
     },
     {
-      icon: <HousePlug className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      icon: (
+        <HousePlug
+          className="w-12 h-12 md:w-16 md:h-16"
+          color="#6869AA"
+          strokeWidth={2}
+        />
+      ),
       link: `/${locale}/service/utility`,
       label: t("util"),
     },
     {
-      icon: <Building className="w-16 h-16" color="#6869AA" strokeWidth={2} />,
+      icon: (
+        <Building
+          className="w-12 h-12 md:w-16 md:h-16"
+          color="#6869AA"
+          strokeWidth={2}
+        />
+      ),
       link: process.env.NEXT_PUBLIC_CMU_BOOKING_AREA,
       label: t("reserve"),
     },
@@ -192,12 +222,12 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <section className="relative w-full max-w-7xl mx-auto mb-6 px-4 sm:px-6">
+            <section className="w-full max-w-7xl mx-auto mb-6 px-4 sm:px-6">
               <div
                 className={`relative w-full ${
                   locale === "en"
-                    ? "h-[450px] xs:h-[280px] sm:h-[350px] md:h-[450px]"
-                    : "h-[400px] xs:h-[280px] sm:h-[350px] md:h-[450px]"
+                    ? "h-[450px] sm:h-[600px]"
+                    : "h-[400px] sm:h-[600px]"
                 }`}
               >
                 <Image
@@ -213,18 +243,18 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-transparent sm:bg-gradient-to-r sm:from-black/40 sm:via-black/20 sm:to-transparent rounded-2xl sm:rounded-3xl md:rounded-4xl" />
 
                 {/* Content overlay */}
-                <div className="absolute inset-0 flex flex-col justify-center px-4 xs:px-5 sm:px-8 md:px-10">
+                <div className="pt-10 inset-0 flex flex-col justify-center px-4 xs:px-5 sm:px-8 md:px-10">
                   <div className="max-w-xs xs:max-w-sm sm:max-w-md md:max-w-2xl">
                     <h2 className="text-white text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                       {t("vehicle")}
                     </h2>
 
-                    <p className="text-white/90 text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
+                    <p className="text-white/90  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
                       {t("vehicle_title")}
                     </p>
 
-                    <Link href="/api/login" className="inline-block">
-                      <button className="flex items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px]">
+                    <Link href="/api/login" className="relative z-20">
+                      <button className="flex  items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px] relative z-20">
                         <CarFront className="mr-1 xs:mr-1.5 sm:mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
                         <span className="whitespace-nowrap">
                           {t("vehicle_btn")}
@@ -232,6 +262,41 @@ export default function HomePage() {
                       </button>
                     </Link>
                   </div>
+                </div>
+                {/* Desktop Version */}
+                <div className="absolute bottom-0  mx-15 hidden sm:grid grid-cols-7  bg-[#6869AA] rounded-3xl items-center  translate-y-12">
+                  <h2 className="text-white col-span-2 text-center text-lg sm:text-xl lg:text-2xl font-semibold">
+                    Highlight <br></br>
+                    Services
+                  </h2>
+                  {HighlightServices.map((service, index) => (
+                    <Link key={index} href={`${service.link}`}>
+                      <motion.div
+                        initial={{ opacity: 0, y: 100 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: index * 0.1 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        className="group"
+                      >
+                        <div className="flex flex-col items-center transition-all duration-300 ease-in-out hover:shadow-xl transform hover:-translate-y-2 pb-4 relative group h-24 sm:h-28 lg:h-32">
+                          {/* Yellow background block - แสดงตอน hover */}
+                          <div className="absolute inset-0 bg-yellow-400 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl -mt-8 sm:-mt-10 lg:-mt-16 pt-8 sm:pt-10 lg:pt-16"></div>
+
+                          {/* Icon Container - ยกขึ้นเหนือขอบของ container */}
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 -mt-8 sm:-mt-10 lg:-mt-12 rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105 relative z-10">
+                            <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl transition-colors duration-300">
+                              {service.icon}
+                            </div>
+                          </div>
+
+                          {/* Label */}
+                          <span className="text-white   text-xs sm:text-sm lg:text-base font-medium text-center leading-tight transition-colors duration-300 mt-2 relative z-10">
+                            {service.label}
+                          </span>
+                        </div>
+                      </motion.div>
+                    </Link>
+                  ))}
                 </div>
               </div>
             </section>
@@ -245,7 +310,8 @@ export default function HomePage() {
           >
             <section className="pb-6">
               <div className="relative mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="bg-[#6869AA] rounded-xl sm:rounded-2xl lg:rounded-3xl py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 shadow-lg">
+                {/* mobile Version */}
+                <div className="block sm:hidden bg-[#6869AA] rounded-xl sm:rounded-2xl lg:rounded-3xl py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 shadow-lg">
                   {/* Header */}
                   <div className="text-left sm:text-center mb-6 sm:mb-8 lg:mb-10">
                     <h2 className="text-white text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold">
@@ -254,7 +320,7 @@ export default function HomePage() {
                   </div>
 
                   {/* Mobile Layout - Vertical List */}
-                  <div className="block sm:hidden space-y-3 ">
+                  <div className="block  space-y-3 ">
                     {HighlightServices.map((service, index) => (
                       <Link key={index} href={`${service.link}`}>
                         <motion.div
@@ -280,35 +346,6 @@ export default function HomePage() {
                             <span
                               className={`font-medium text-base text-[#6869AA]`}
                             >
-                              {service.label}
-                            </span>
-                          </div>
-                        </motion.div>
-                      </Link>
-                    ))}
-                  </div>
-
-                  {/* Desktop Layout - Grid */}
-                  <div className="hidden ml-0 lg:ml-40 sm:grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8">
-                    {HighlightServices.map((service, index) => (
-                      <Link key={index} href={`${service.link}`}>
-                        <motion.div
-                          initial={{ opacity: 0, y: 100 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: index * 0.1 }}
-                          viewport={{ once: true, amount: 0.1 }}
-                          className="group"
-                        >
-                          <div className="flex flex-col items-center space-y-3 sm:space-y-4 p-2 sm:p-3 lg:p-4 rounded-lg hover:bg-yellow-500 transition-all duration-300 ease-in-out hover:scale-105 hover:shadow-xl">
-                            {/* Icon Container */}
-                            <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl sm:rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                              <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl">
-                                {service.icon}
-                              </div>
-                            </div>
-
-                            {/* Label */}
-                            <span className="text-white text-xs sm:text-sm lg:text-base font-medium text-center leading-tight group-hover:text-opacity-90 transition-colors duration-300">
                               {service.label}
                             </span>
                           </div>
