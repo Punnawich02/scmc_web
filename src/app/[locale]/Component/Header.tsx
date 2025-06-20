@@ -60,7 +60,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     },
     {
       show: t("support"),
-      link: "/support",
+      link: "#support",
     },
   ];
 

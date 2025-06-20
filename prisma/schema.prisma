@@ -1,0 +1,90 @@
+// ---------- 1) Datasource & Generator ----------
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")      // <= ใส่ URI ของ Postgres ใน .env
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+/*
+  Convention:
+  • snake_case column names ด้วย @map()
+  • Bool = Boolean
+  • เวลาสร้าง/อัปเดต: createdAt with @default(now()), updatedAt with @updatedAt
+*/
+
+// ---------- 2) Transit (Bus Timetables) ----------
+model TransitCategory {
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  displayNameTh   String?          @map("display_name_th")
+  displayNameEn   String?          @map("display_name_en")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt      @map("updated_at")
+
+  // Relations
+  transitServices TransitService[]
+
+  @@map("transit_category")
+}
+
+model TransitService {
+  id         Int             @id @default(autoincrement())
+  categoryId Int             @map("category_id")
+  imageUrl   String          @map("image_url")
+  title      String?
+  uploadBy   String?         @map("upload_by")
+  uploadAt   DateTime        @default(now()) @map("upload_at")
+  isActive   Boolean         @default(true)  @map("is_active")
+
+  // FK → TransitCategory
+  category   TransitCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([isActive], name: "idx_transit_service_active")
+  @@map("transit_service")
+}
+
+// ---------- 3) Data Dashboard Embeds ----------
+model DataCategory {
+  id          Int         @id @default(autoincrement())
+  name        String      @unique
+  description String?
+  displayNameTh   String?          @map("display_name_th")
+  displayNameEn   String?          @map("display_name_en")
+  createdAt   DateTime    @default(now()) @map("created_at")
+
+  // Relations
+  embeds      DataEmbed[]
+
+  @@map("data_category")
+}
+
+model DataEmbed {
+  id         Int          @id @default(autoincrement())
+  categoryId Int          @map("category_id")
+  title      String
+  embedCode  String       @map("embed_code")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  isActive   Boolean      @default(true)  @map("is_active")
+
+  // FK → DataCategory
+  category   DataCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@index([isActive], name: "idx_data_embed_active")
+  @@map("data_embed")
+}
+
+// ---------- 4) Publications ----------
+model Publication {
+  id           Int       @id @default(autoincrement())
+  title        String
+  description  String?
+  linkUrl      String    @map("link_url")
+  publishedAt  DateTime  @default(now()) @map("published_at")
+  isActive     Boolean   @default(true)  @map("is_active")
+
+  @@index([isActive], name: "idx_publication_active")
+  @@map("publication")
+}
