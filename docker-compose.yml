@@ -3,11 +3,12 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: scmc
-      POSTGRES_PASSWORD: scmc_password
-      POSTGRES_DB: scmc_database
+      POSTGRES_HOST: ${DATABASE_HOST}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
     ports:
-      - "5432:5432"
+      - "16191:16191"
     volumes:
       - postgres-data:/var/lib/postgresql/data
   pgadmin:
