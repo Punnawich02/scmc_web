@@ -1,5 +1,4 @@
 "use client";
-
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
 import { motion } from "framer-motion";
@@ -31,7 +30,9 @@ const DataPage: React.FC = () => {
   const t = useTranslations("DataPage");
   const locale = useLocale();
   const [categories, setCategories] = useState<DataCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<DataCategory | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<DataCategory | null>(
+    null
+  );
   const [dashboardData, setDashboardData] = useState<DashboardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [dashboardLoading, setDashboardLoading] = useState(false);
@@ -41,9 +42,9 @@ const DataPage: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/data_page'); // แทนที่ด้วย endpoint จริง
+        const response = await fetch("/api/data_page");
         if (!response.ok) {
-          throw new Error('Failed to fetch categories');
+          throw new Error("Failed to fetch categories");
         }
         const data: DataCategory[] = await response.json();
         setCategories(data);
@@ -52,13 +53,12 @@ const DataPage: React.FC = () => {
           setSelectedCategory(data[0]);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred');
-        console.error('Error fetching categories:', err);
+        setError(err instanceof Error ? err.message : "An error occurred");
+        console.error("Error fetching categories:", err);
       } finally {
         setLoading(false);
       }
     };
-
     fetchCategories();
   }, []);
 
@@ -67,14 +67,14 @@ const DataPage: React.FC = () => {
     const fetchDashboardData = async (categoryName: string) => {
       setDashboardLoading(true);
       try {
-        const response = await fetch(`/api/data_page/${categoryName}`); // แทนที่ด้วย endpoint จริง
+        const response = await fetch(`/api/data_page/${categoryName}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch dashboard data');
+          throw new Error("Failed to fetch dashboard data");
         }
         const data: DashboardData[] = await response.json();
-        setDashboardData(data.filter(item => item.isActive)); // แสดงเฉพาะที่ active
+        setDashboardData(data.filter((item) => item.isActive));
       } catch (err) {
-        console.error('Error fetching dashboard data:', err);
+        console.error("Error fetching dashboard data:", err);
         setDashboardData([]);
       } finally {
         setDashboardLoading(false);
@@ -88,44 +88,118 @@ const DataPage: React.FC = () => {
 
   // ฟังก์ชันสำหรับแสดงชื่อตาม locale
   const getDisplayName = (category: DataCategory): string => {
-    return locale === 'th' ? category.displayNameTh : category.displayNameEn;
+    return locale === "th" ? category.displayNameTh : category.displayNameEn;
   };
 
-  // Component สำหรับแสดง Embed Code
-  const EmbedCodeRenderer: React.FC<{ embedCode: string }> = ({ embedCode }) => {
+  // Component สำหรับแสดง Embed Code - ปรับปรุงแล้ว
+  const EmbedCodeRenderer: React.FC<{ 
+    embedCode: string; 
+    dashboardId: number; 
+  }> = ({ embedCode, dashboardId }) => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    
     useEffect(() => {
-      // ลบ script tags เก่าทิ้งก่อน (ถ้ามี)
-      const existingScripts = document.querySelectorAll('script[src*="tableau"]');
-      existingScripts.forEach(script => script.remove());
+      // สร้าง unique container id
+      const containerId = `embed-container-${dashboardId}`;
+      const container = document.getElementById(containerId);
+      
+      if (!container) return;
 
-      // สร้าง div container ชั่วคราว
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = embedCode;
+      // ล้างเนื้อหาเดิม
+      container.innerHTML = '';
+      
+      // สร้าง wrapper div
+      const wrapper = document.createElement('div');
+      wrapper.style.width = '100%';
+      wrapper.style.minHeight = '400px'; // กำหนดความสูงขั้นต่ำ
+      wrapper.style.overflow = 'visible'; // ให้แสดงเนื้อหาที่เกิน
+      
+      // แทรก embed code
+      wrapper.innerHTML = embedCode;
+      container.appendChild(wrapper);
 
-      // หา script tags และเรียกใช้
-      const scripts = tempDiv.querySelectorAll('script');
-      scripts.forEach((script) => {
+      // จัดการ scripts ใน embed code
+      const scripts = wrapper.querySelectorAll('script');
+      scripts.forEach((oldScript) => {
         const newScript = document.createElement('script');
-        if (script.src) {
-          newScript.src = script.src;
+        
+        // คัดลอก attributes
+        Array.from(oldScript.attributes).forEach(attr => {
+          newScript.setAttribute(attr.name, attr.value);
+        });
+        
+        // คัดลอก content
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+          newScript.onload = () => setIsLoaded(true);
         } else {
-          newScript.textContent = script.textContent;
+          newScript.textContent = oldScript.textContent;
         }
-        document.head.appendChild(newScript);
+        
+        // แทนที่ script เก่าด้วยใหม่
+        oldScript.parentNode?.replaceChild(newScript, oldScript);
       });
 
+      // หาก embed code มี iframe ให้จัดการ responsive
+      const iframes = wrapper.querySelectorAll('iframe');
+      iframes.forEach((iframe) => {
+        iframe.style.width = '100%';
+        iframe.style.minHeight = '400px';
+        iframe.style.border = 'none';
+        
+        // เพิ่ม event listener เพื่อปรับขนาดอัตโนมัติ
+        iframe.onload = () => {
+          try {
+            // พยายามปรับขนาดตาม content
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+            if (iframeDoc) {
+              const height = Math.max(
+                iframeDoc.documentElement.scrollHeight,
+                iframeDoc.body.scrollHeight,
+                400 // ความสูงขั้นต่ำ
+              );
+              iframe.style.height = `${height}px`;
+            }
+          } catch {
+            // หากไม่สามารถเข้าถึง iframe content ได้ (CORS)
+            iframe.style.height = '500px'; // ใช้ความสูงเริ่มต้น
+          }
+          setIsLoaded(true);
+        };
+      });
+
+      // หาก embed code มี div หรือ element อื่น
+      const embeddedDivs = wrapper.querySelectorAll('div[id*="viz"], div[class*="tableauPlaceholder"]');
+      embeddedDivs.forEach((div) => {
+        (div as HTMLElement).style.width = '100%';
+        (div as HTMLElement).style.overflowX = 'auto';
+      });
+
+      setIsLoaded(true);
+
+      // Cleanup function
       return () => {
-        // Cleanup เมื่อ component unmount
-        const tableauScripts = document.querySelectorAll('script[src*="tableau"]');
-        tableauScripts.forEach(script => script.remove());
+        if (container) {
+          container.innerHTML = '';
+        }
       };
-    }, [embedCode]);
+    }, [embedCode, dashboardId]);
 
     return (
-      <div 
-        className="w-full"
-        dangerouslySetInnerHTML={{ __html: embedCode }}
-      />
+      <div className="w-full">
+        {!isLoaded && (
+          <div className="flex justify-center items-center h-64 bg-gray-50 rounded-lg">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6366F1]"></div>
+          </div>
+        )}
+        <div 
+          id={`embed-container-${dashboardId}`} 
+          className="w-full min-h-[400px] overflow-visible"
+          style={{ 
+            display: isLoaded ? 'block' : 'none'
+          }}
+        />
+      </div>
     );
   };
 
@@ -163,7 +237,7 @@ const DataPage: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col font-[Prompt] text-gray-800 bg-white">
       <Header title={t("page_title")} />
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:py-10">
         {/* Header Card */}
         <motion.section
           initial={{ opacity: 0, y: 32 }}
@@ -178,7 +252,6 @@ const DataPage: React.FC = () => {
               <div className="bg-[#5759BB] rounded-full p-4 shadow-lg sm:absolute sm:top-0 sm:left-0 mb-4 sm:mb-0">
                 <Database className="w-10 h-10 text-white" />
               </div>
-
               {/* ข้อความ */}
               <div className="sm:ml-24 text-center sm:text-left">
                 <h1 className="text-white font-extrabold text-3xl leading-snug mb-2">
@@ -221,35 +294,41 @@ const DataPage: React.FC = () => {
               </details>
 
               {/* Dashboard Content */}
-              <div className="mt-6">
+              <div className="mt-6 w-full">
                 {dashboardLoading ? (
                   <div className="flex justify-center items-center h-64">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6366F1]"></div>
                   </div>
                 ) : dashboardData.length > 0 ? (
-                  <div className="space-y-6">
+                  <div className="space-y-8">
                     {dashboardData.map((dashboard) => (
-                      <div key={dashboard.id} className="bg-white rounded-2xl shadow-lg p-6">
-                        <div className="mb-4">
+                      <div
+                        key={dashboard.id}
+                        className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                      >
+                        <div className="p-6 border-b border-gray-100">
                           <h3 className="text-lg font-semibold text-[#22223b] mb-2">
                             {dashboard.title}
                           </h3>
                           <p className="text-xs text-gray-500">
-                            {locale === 'th' ? 'อัปเดตล่าสุด' : 'Last updated'}: {' '}
+                            {locale === "th" ? "อัปเดตล่าสุด" : "Last updated"}:{" "}
                             {new Date(dashboard.createdAt).toLocaleDateString(
-                              locale === 'th' ? 'th-TH' : 'en-US',
+                              locale === "th" ? "th-TH" : "en-US",
                               {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric'
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
                               }
                             )}
                           </p>
                         </div>
                         
-                        {/* Embed Code Renderer */}
-                        <div className="w-full overflow-hidden rounded-lg">
-                          <EmbedCodeRenderer embedCode={dashboard.embedCode} />
+                        {/* Embed Code Container - ปรับปรุงแล้ว */}
+                        <div className="w-full">
+                          <EmbedCodeRenderer
+                            embedCode={dashboard.embedCode}
+                            dashboardId={dashboard.id}
+                          />
                         </div>
                       </div>
                     ))}
@@ -257,10 +336,9 @@ const DataPage: React.FC = () => {
                 ) : (
                   <div className="text-center py-12">
                     <p className="text-gray-500 text-lg">
-                      {locale === 'th' 
-                        ? 'ไม่มีข้อมูลสำหรับหมวดหมู่นี้' 
-                        : 'No data available for this category'
-                      }
+                      {locale === "th"
+                        ? "ไม่มีข้อมูลสำหรับหมวดหมู่นี้"
+                        : "No data available for this category"}
                     </p>
                   </div>
                 )}
@@ -272,7 +350,7 @@ const DataPage: React.FC = () => {
           {categories.length === 0 && (
             <div className="mt-8 text-center py-12">
               <p className="text-gray-500 text-lg">
-                {locale === 'th' ? 'ไม่มีข้อมูลให้แสดง' : 'No data available'}
+                {locale === "th" ? "ไม่มีข้อมูลให้แสดง" : "No data available"}
               </p>
             </div>
           )}

@@ -58,10 +58,7 @@
     "page_title": "Transportation and Electric Shuttle at Chiang Mai University",
     "header": "CMU Transit",
     "title": "Transportation Information and Electric Shuttle Services within the University",
-    "option1": "Weekday Schedule",
-    "option2": "Weekend and Public Holiday Schedule",
-    "option3": "CMU-Suan Dok Schedule",
-    "option4": "CMU-Mae Hia Schedule"
+    "no_images_found": "Image not found"
   },
   "SecurityPage": {
     "page_title": "Security and Traffic within the University Area",
