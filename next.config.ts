@@ -4,18 +4,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 
 const nextConfig: NextConfig = {
   images: {
-    // ใช้ได้ทั้งแบบ domains ⬇
-    // domains: ['www.cmu.ac.th'],
-
-    // หรือแบบละเอียด remotePatterns ⬇
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'www.cmu.ac.th',
-        port: '',          // เว้นว่างถ้าไม่มี port
-        pathname: '/**',   // อนุญาตทุก path
-      },
-    ],
+    domains: [
+      'miro.medium.com',
+      'public.tableau.com',
+      'encrypted-tbn0.gstatic.com',
+      'www.cmu.ac.th'
+    ]
   },
 };
 

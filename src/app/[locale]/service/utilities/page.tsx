@@ -48,8 +48,8 @@ const UtilityPage: React.FC = () => {
             {/* หัวเรื่อง */}
             <div className="flex flex-col lg:flex-row items-center gap-6 sm:gap-10 lg:gap-15 mb-6 sm:mb-8">
               {/* Icon */}
-              <div className="bg-[#5759BB] rounded-full p-6 sm:p-8 md:p-10 shadow-lg backdrop-blur-sm">
-                <Building2 className="w-10 h-10 sm:w-12 h-12 md:w-15 h-15 text-white" />
+              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm">
+                <Building2 className="w-12 h-12 text-white" />
               </div>
               {/* ข้อความ */}
               <div className="flex flex-col xl:flex-row gap-10 text-center lg:text-left">
