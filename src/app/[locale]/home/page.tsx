@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import Header from "../Component/Header";
 import Footer from "../Component/Footer";
@@ -19,42 +18,18 @@ import Link from "next/link";
 /* -------------------------------------------------------------------------- */
 /*                                Data Types                                  */
 /* -------------------------------------------------------------------------- */
-
 type NewsItem = {
   title: string;
   description: string;
   imageUrl: string;
   link: string;
 };
-
 type TabType = "news" | "documents" | "articles";
 
 /* -------------------------------------------------------------------------- */
 /*                             Mock‑up Datasets                               */
 /* -------------------------------------------------------------------------- */
-
-const PublicDoc: NewsItem[] = [
-  {
-    title: "เอกสาร A",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe dignissimos eum, harum modi porro commodi rem quae quo neque corporis facere dolores repellendus officia delectus eligendi quam vitae. Placeat, quasi.",
-    imageUrl: "/news/news_1.png",
-    link: "#DocA",
-  },
-  {
-    title: "เอกสาร B",
-    description: "เอกสาร B",
-    imageUrl: "/news/news_2.png",
-    link: "#DocB",
-  },
-  {
-    title: "เอกสาร C",
-    description: "เอกสาร C",
-    imageUrl: "/news/news_3.png",
-    link: "#DocC",
-  },
-];
-
+// We'll keep Block for articles as mock data
 const Block: NewsItem[] = [
   {
     title: "บทความ A",
@@ -73,29 +48,29 @@ const Block: NewsItem[] = [
 /* -------------------------------------------------------------------------- */
 /*                                Component                                   */
 /* -------------------------------------------------------------------------- */
-
 export default function HomePage() {
   const t = useTranslations("HomePage");
   const locale = useLocale();
 
   /* --------------------------- state: news / tab --------------------------- */
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
+  const [publicDocItems, setPublicDocItems] = useState<NewsItem[]>([]);
   const [loadingNews, setLoadingNews] = useState(true);
   const [, setErrorNews] = useState<string | null>(null);
   const [newsLimit, setNewsLimit] = useState(4);
   const pageSize = 4;
-
   const [selectedTab, setSelectedTab] = useState<TabType>("news");
   const tabs: TabType[] = ["news", "documents", "articles"];
 
-  /* --------------------------- fetch news on mount ------------------------- */
+  /* --------------------------- fetch data on mount ------------------------- */
   useEffect(() => {
-    const fetchNews = async () => {
+    const fetchData = async () => {
       setLoadingNews(true); // 👉 start loading (prevents page jump)
       try {
-        const res = await fetch("/api/news");
-        if (!res.ok) throw new Error("Failed to fetch news");
-        const api = await res.json();
+        // Fetch news
+        const newsRes = await fetch("/api/news");
+        if (!newsRes.ok) throw new Error("Failed to fetch news");
+        const newsApi = await newsRes.json();
 
         type NewsApiItem = {
           TitleThai?: string;
@@ -107,26 +82,54 @@ export default function HomePage() {
         };
 
         const isThai = locale === "th";
+        const mappedNews: NewsItem[] = (newsApi.data as NewsApiItem[]).map(
+          (n) => ({
+            title: isThai
+              ? n.TitleThai ?? n.TitleEnglish ?? "ไม่มีชื่อ"
+              : n.TitleEnglish ?? n.TitleThai ?? "Untitled",
+            description:
+              (isThai
+                ? n.DetailThai ?? n.DetailEnglish
+                : n.DetailEnglish ?? n.DetailThai
+              )
+                ?.replace(/<[^>]+>/g, "")
+                .slice(0, 200) ?? "",
+            imageUrl:
+              n.Images?.find((img) => img.IsCover)?.SourceLink ??
+              n.Images?.[0]?.SourceLink ??
+              "/placeholder.jpg",
+            link: String(n.SourceLinkThai),
+          })
+        );
 
-        const mapped: NewsItem[] = (api.data as NewsApiItem[]).map((n) => ({
-          title: isThai
-            ? n.TitleThai ?? n.TitleEnglish ?? "ไม่มีชื่อ"
-            : n.TitleEnglish ?? n.TitleThai ?? "Untitled",
-          description:
-            (isThai
-              ? n.DetailThai ?? n.DetailEnglish
-              : n.DetailEnglish ?? n.DetailThai
-            )
-              ?.replace(/<[^>]+>/g, "")
-              .slice(0, 200) ?? "",
-          imageUrl:
-            n.Images?.find((img) => img.IsCover)?.SourceLink ??
-            n.Images?.[0]?.SourceLink ??
-            "/placeholder.jpg",
-          link: String(n.SourceLinkThai),
+        setNewsItems(mappedNews);
+
+        // Then update the document mapping code:
+
+        // Fetch public documents
+        const docRes = await fetch("/api/public_doc");
+        if (!docRes.ok) throw new Error("Failed to fetch public documents");
+        const docApi = await docRes.json();
+
+        // Define the type for public document items
+        type PublicDocItem = {
+          id: number;
+          title: string;
+          description: string;
+          linkUrl: string;
+          publishedAt: string;
+          isActive: boolean;
+        };
+
+        // Map public document data without images
+        const mappedDocs: NewsItem[] = docApi.map((doc: PublicDocItem) => ({
+          title: doc.title || "ไม่มีชื่อเอกสาร",
+          description: doc.description || "",
+          imageUrl: "", // Empty string to indicate no image
+          link: doc.linkUrl || "#",
         }));
 
-        setNewsItems(mapped);
+        setPublicDocItems(mappedDocs);
       } catch (err: unknown) {
         if (err instanceof Error) setErrorNews(err.message);
         else setErrorNews("An unknown error occurred");
@@ -135,13 +138,13 @@ export default function HomePage() {
       }
     };
 
-    fetchNews();
+    fetchData();
   }, [locale]); // 💡 re‑fetch when language changes
 
   /* ------------------------- group data by tab ----------------------------- */
   const tabData: Record<TabType, NewsItem[]> = {
     news: newsItems,
-    documents: PublicDoc,
+    documents: publicDocItems,
     articles: Block,
   };
 
@@ -204,13 +207,12 @@ export default function HomePage() {
     },
   ];
 
-  const totalNews = tabData.news.length;
+  const totalNews = tabData[selectedTab].length;
   const hasMore = selectedTab === "news" && newsLimit < totalNews;
 
   /* ------------------------------------------------------------------------ */
   /*                                 JSX                                       */
   /* ------------------------------------------------------------------------ */
-
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
@@ -238,21 +240,17 @@ export default function HomePage() {
                   className="rounded-2xl sm:rounded-3xl md:rounded-4xl"
                   priority
                 />
-
                 {/* Overlay gradient for better text readability */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-transparent sm:bg-gradient-to-r sm:from-black/40 sm:via-black/20 sm:to-transparent rounded-2xl sm:rounded-3xl md:rounded-4xl" />
-
                 {/* Content overlay */}
                 <div className="pt-10 inset-0 flex flex-col justify-center px-4 xs:px-5 sm:px-8 md:px-10">
                   <div className="max-w-xs xs:max-w-sm sm:max-w-md md:max-w-2xl">
                     <h2 className="text-white text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                       {t("vehicle")}
                     </h2>
-
                     <p className="text-white/90  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
                       {t("vehicle_title")}
                     </p>
-
                     <Link href="/api/login" className="relative z-20">
                       <button className="flex  items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px] relative z-20">
                         <CarFront className="mr-1 xs:mr-1.5 sm:mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
@@ -281,14 +279,12 @@ export default function HomePage() {
                         <div className="flex flex-col items-center transition-all duration-300 ease-in-out hover:shadow-xl transform hover:-translate-y-2 pb-4 relative group h-24 sm:h-28 lg:h-32">
                           {/* Yellow background block - แสดงตอน hover */}
                           <div className="absolute inset-0 bg-yellow-500 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl -mt-8 sm:-mt-10 lg:-mt-16 pt-8 sm:pt-10 lg:pt-16"></div>
-
                           {/* Icon Container - ยกขึ้นเหนือขอบของ container */}
                           <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 -mt-8 sm:-mt-10 lg:-mt-12 rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105 relative z-10">
                             <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl transition-colors duration-300">
                               {service.icon}
                             </div>
                           </div>
-
                           {/* Label */}
                           <span className="text-white   text-xs sm:text-sm lg:text-base font-medium text-center leading-tight transition-colors duration-300 mt-2 relative z-10">
                             {service.label}
@@ -301,7 +297,6 @@ export default function HomePage() {
               </div>
             </section>
           </motion.div>
-
           {/* Highlight Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -318,7 +313,6 @@ export default function HomePage() {
                       Highlight Services
                     </h2>
                   </div>
-
                   {/* Mobile Layout - Vertical List */}
                   <div className="block  space-y-3 ">
                     {HighlightServices.map((service, index) => (
@@ -341,7 +335,6 @@ export default function HomePage() {
                             >
                               {service.icon}
                             </div>
-
                             {/* Label */}
                             <span
                               className={`font-medium text-base text-[#6869AA]`}
@@ -357,7 +350,6 @@ export default function HomePage() {
               </div>
             </section>
           </motion.div>
-
           {/* News Section */}
           <motion.div
             initial={{ opacity: 0, y: 100 }}
@@ -382,7 +374,6 @@ export default function HomePage() {
                   </span>
                 ))}
               </div>
-
               {/* News Data or Skeleton */}
               <motion.div
                 key={selectedTab}
@@ -391,7 +382,8 @@ export default function HomePage() {
                 transition={{ duration: 0.5 }}
                 className="gap-4 mb-6"
               >
-                {selectedTab === "news" && loadingNews ? (
+                {(selectedTab === "news" || selectedTab === "documents") &&
+                loadingNews ? (
                   /* ------------------------ Skeleton while loading ----------------------- */
                   <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
                     {Array.from({ length: 4 }).map((_, idx) => (
@@ -405,47 +397,63 @@ export default function HomePage() {
                   /* ----------------------- Actual Content ------------------------------- */
                   <div className="w-full min-h-[240px] mb-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                      {/* Always show data in the first available slots */}
-                      {tabData[selectedTab]
-                        .slice(
-                          0,
-                          selectedTab === "news"
-                            ? newsLimit
-                            : tabData[selectedTab].length
-                        )
-                        .map((item, index) => (
-                          <Link
-                            key={item.link ?? index}
-                            href={item.link}
-                            className={loadingNews ? "pointer-events-none" : ""}
-                            prefetch={false}
-                          >
-                            <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full w-full">
-                              <Image
-                                src={item.imageUrl}
-                                alt={item.title}
-                                width={271}
-                                height={163}
-                                className="w-full h-40 object-cover"
-                              />
-                              <div className="p-3 flex flex-col flex-grow">
-                                <h4 className="text-sm font-medium mb-1 text-black line-clamp-2 min-h-[3em]">
-                                  {item.title}
-                                </h4>
-                                <p className="text-xs text-gray-600 mb-3 line-clamp-3 flex-grow min-h-[3rem]">
-                                  {item.description.length > 140
-                                    ? `${item.description.slice(0, 140)}…`
-                                    : item.description}
-                                </p>
+                      {/* Show either all items or limited news items based on tab */}
+                      {tabData[selectedTab].length > 0 ? (
+                        tabData[selectedTab]
+                          .slice(
+                            0,
+                            selectedTab === "news"
+                              ? newsLimit
+                              : tabData[selectedTab].length
+                          )
+                          .map((item, index) => (
+                            <Link
+                              key={item.link ?? index}
+                              href={item.link}
+                              className={
+                                loadingNews ? "pointer-events-none" : ""
+                              }
+                              prefetch={false}
+                            >
+                              <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full w-full">
+                                {/* Only render Image component if imageUrl is not empty */}
+                                {item.imageUrl ? (
+                                  <Image
+                                    src={item.imageUrl}
+                                    alt={item.title}
+                                    width={271}
+                                    height={163}
+                                    className="w-full h-40 object-cover"
+                                  />
+                                ) : (
+                                  <div className="w-full h-16 bg-gray-100 flex items-center justify-center">
+                                    <span className="text-gray-500 text-sm">
+                                      เอกสาร
+                                    </span>
+                                  </div>
+                                )}
+                                <div className="p-3 flex flex-col flex-grow">
+                                  <h4 className="text-sm font-medium mb-1 text-black line-clamp-2 min-h-[3em]">
+                                    {item.title}
+                                  </h4>
+                                  <p className="text-xs text-gray-600 mb-3 line-clamp-3 flex-grow min-h-[3rem]">
+                                    {item.description.length > 140
+                                      ? `${item.description.slice(0, 140)}…`
+                                      : item.description}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          </Link>
-                        ))}
+                            </Link>
+                          ))
+                      ) : (
+                        <div className="col-span-1 sm:col-span-2 lg:col-span-4 text-center py-10 text-gray-500">
+                          {t("no_items")}
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
               </motion.div>
-
               <div className="flex justify-end">
                 {hasMore && (
                   <button

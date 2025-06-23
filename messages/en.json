@@ -2,19 +2,19 @@
   "Header": {
     "home": "Home",
     "service": "Our Services",
-    "physical": "Physical Data",
+    "physical": "Physical Information",
     "about": "About Us",
-    "support": "Contribute to Sustainability",
-    "lang": "English"
+    "privacy": "Privacy Policy",
+    "lang": "ภาษาไทย"
   },
   "Footer": {
     "contact_us": "Contact Us",
     "map1": "Sustainable Campus Management Center, University Office Building 3, 2nd Floor",
-    "map2": "239 Huay Kaew Road, Suthep, Mueang Chiang Mai, Chiang Mai 50200",
+    "map2": "239 Huay Kaew Rd., Suthep, Mueang Chiang Mai, Chiang Mai 50200",
     "admin": "SCMC (Administration): 0-5394-1492",
     "vehicle_reg": "SCMC (Vehicle Registration): 0-5394-1494",
-    "elect_shutt": "CMUT (Electric Shuttle): 0-5394-4936",
-    "van_bus": "CMUT (Van-Bus): 0-5394-4949",
+    "elect_shutt": "CMU Transit (Electric Shuttle): 0-5394-4936",
+    "van_bus": "CMU Transit (Van-Bus): 0-5394-4949",
     "sec_off": "Security Office: 0-5394-1190-1",
     "off_hour": "Monday - Friday 08:30 AM - 04:30 PM",
     "cmut": "CMU Transit",
@@ -23,17 +23,18 @@
   "HomePage": {
     "page_title": "Sustainable Campus Management Center",
     "vehicle": "Sustainable Campus Management Center",
-    "vehicle_title": "The Sustainable Campus Management Center (SCMC) is the primary unit driving the university towards becoming a smart and sustainable city. It integrates technology and innovation in physical infrastructure, environment, energy, transportation, and safety. The Center manages fundamental utilities such as electricity, water supply, and wastewater treatment, as well as promotes the use of clean energy and develops smart transportation systems within the university to sustainably enhance the quality of life for students, staff, and the surrounding community.",
-    "vehicle_btn": "CMU Vehicle Access System Login",
+    "vehicle_title": "The Sustainable Campus Management Center (SCMC) is the main agency driving the university towards becoming a smart and sustainable city by integrating technology and innovation in physical aspects, environment, energy, transportation, and safety. The center plays a role in managing basic infrastructure systems such as electricity, water supply, and wastewater treatment, including promoting clean energy and developing smart transportation systems within the university, to sustainably enhance the quality of life for students, staff, and the surrounding community.",
+    "vehicle_btn": "Access CMU Vehicle Entry-Exit System",
     "map": "Electric Shuttle Schedule and Map",
     "data": "Data Services",
     "util": "Utilities",
-    "request": "Land Use/Format Approval Request",
-    "reserve": "Central Area Reservation",
-    "news": "News & Events",
-    "documents": "Publications",
+    "request": "Request for Land Use/Form Approval",
+    "reserve": "Book Common Areas",
+    "news": "Activity News",
+    "documents": "Published Documents",
     "articles": "Articles",
-    "more": "More +"
+    "more": "More +",
+    "no_items": "No documents published"
   },
   "OurService": {
     "page_title": "All Services of Chiang Mai University",
@@ -41,110 +42,107 @@
     "data": "Data Services",
     "transport": "CMU Transit",
     "security": "Security and Traffic Management",
-    "build": "Building and Facilities Management",
+    "build": "Building and Grounds Management",
     "util": "Utilities",
-    "list_format": "Land Use/Format Approval Request",
+    "list_format": "Request for Land Use/Form Approval",
     "personel": "For Personnel"
   },
   "DataPage": {
-    "page_title": "Information and Data Service Hub",
+    "page_title": "Information and Data Services Center",
     "header": "Data Services",
-    "title": "A central hub for convenient and accessible information.",
+    "title": "Centralized data for convenient and easy access",
     "option1": "CMU Vehicle Entry-Exit Data",
     "option2": "CMU Student Population Data",
-    "option3": "Unknown Data (Couldn't think of anything)"
+    "option3": "Some other data, can't think of it"
   },
   "TransportPage": {
-    "page_title": "Transportation and Electric Shuttle at Chiang Mai University",
+    "page_title": "Transportation and Electric Shuttle in Chiang Mai University",
     "header": "CMU Transit",
-    "title": "Transportation Information and Electric Shuttle Services within the University",
-    "no_images_found": "Image not found"
+    "title": "Information on transportation and electric shuttle services within the university",
+    "no_images_found": "No images found"
   },
   "SecurityPage": {
-    "page_title": "Security and Traffic within the University Area",
+    "page_title": "Safety and Traffic in University Area",
     "header": "Security and Traffic Management",
-    "title": "Ensuring life and property safety, and managing traffic within the area.",
-    "cctv_request": "CCTV Footage Request",
+    "title": "Ensuring safety of life and property, and managing traffic within the area",
+    "cctv_request": "Request to View CCTV Footage",
     "accident_data": "Accident Data within the University",
     "transit": "CMU Transit User Data",
-    "cctv_request_placeholder": "Regulations and procedures for CCTV footage requests",
+    "cctv_request_placeholder": "Regulations and procedures for requesting CCTV footage",
     "accident_data_placeholder": "Collection of accident data within the university",
     "transit_placeholder": "Collection of CMU Transit user data"
   },
   "BuildPage": {
-    "page_title": "Building and Facilities Management at CMU",
-    "header": "Building, Facilities, and Design Management",
-    "title": "Planning, designing, constructing, renovating, and maintaining buildings, structures, and the university environment to be suitable, safe, beautiful, and in line with sustainable development guidelines.",
-    "booking": "Central Area Reservation",
-    "approve": "Land Use/Format Approval"
+    "page_title": "Building and Grounds Management Services in CMU",
+    "header": "Building, Grounds, and Design Management",
+    "title": "Planning, designing, constructing, renovating, and maintaining buildings, structures, and the environment within the university to be appropriate, safe, beautiful, and consistent with sustainable development guidelines.",
+    "booking": "Book Common Areas",
+    "approve": "Approve Land Use/Form"
   },
   "UtilitiesPage": {
-    "page_title": "University Utilities Services",
-    "header": "Utilities System",
-    "title": "Essential basic systems and services for living and conducting activities within Chiang Mai University, such as electricity, water, communication, telecommunication, wastewater treatment, waste management, etc.",
+    "page_title": "University Utility Services",
+    "header": "Utilities",
+    "title": "Essential systems and services for living and operating within Chiang Mai University, such as electricity, water supply, communication, telecommunications, wastewater treatment systems, waste management, etc.",
     "water": "Water Supply System",
-    "electricandwater": "Electrical and Water System",
+    "electricandwater": "Electricity and Water System",
     "phone": "Telephone System",
     "trash": "Waste Management System"
   },
-  "electric_and_water": {
-    "page_title": "ระบบไฟฟ้าและประปา",
-    "header": "ระบบไฟฟ้าและประปา",
-    "collaborator": "Collaborator",
+  "electricandwater": {
+    "page_title": "Electricity and Water System",
+    "header": "Electricity and Water System",
+    "collaborator": "Co-user",
     "department": "Department",
-    "house": "Guest House",
+    "house": "Residences",
     "usage_report": "Usage Report"
   },
   "PersonelPage": {
-    "page_title": "Services for Personnel within Chiang Mai University",
+    "page_title": "Services for Chiang Mai University Personnel",
     "header": "For Personnel",
-    "title": "Facilities and support systems for university personnel.",
-    "car": "Vehicle Reservation",
-    "car_title": "Official Vehicle Reservation System for Operations",
+    "title": "Facilities and support systems for university personnel",
+    "car": "Vehicle Booking",
+    "car_title": "Official Vehicle Booking System for Operations",
     "doc": "Document Repository",
-    "doc_title": "Central Hub for Documents and Forms",
+    "doc_title": "Central repository for various documents and forms",
     "cmuto": "CMU.to",
-    "cmuto_title": "URL Shortening Service for CMU Internal Units"
+    "cmuto_title": "URL shortening service for internal CMU agencies"
   },
   "PhysicalPage": {
-    "page_title": "Physical Data of Chiang Mai University",
-    "header": "Physical Data",
-    "map": "CMU Map",
+    "page_title": "Physical Information of Chiang Mai University",
+    "header": "Physical Information",
+    "map": "CMU Campus Map",
     "build": "Building Information",
     "tree": "Tree Information"
   },
   "AboutPage": {
-    "page_title": "About Our Organization and Vision",
+    "page_title": "About Our Agency and Vision",
     "header": "About Us",
     "about": "Sustainable Campus Management Center",
-    "about_title": "The Sustainable Campus Management Center – SCMC, Chiang Mai University, is the core unit driving Chiang Mai University towards becoming a Smart & Sustainable City. It integrates technology, innovation, and data for efficient resource management, covering environment, energy, transportation, safety, and infrastructure within the university. The Center manages fundamental utilities like electricity, water, wastewater, and buildings, while promoting clean energy, energy conservation, and green technology. It develops and manages smart public transport systems such as the CMU Transit, supports green spaces, systematic waste management, and carbon footprint reduction. Monitoring and evaluation are conducted via real-time Dashboard and Smart Sensor systems for transparency and accountability at all management levels. It fosters participation from students, personnel, and partners in developing sustainable approaches, creating a model “Eco-University” that is environmentally and community-friendly. It serves as a policy experimentation area for sustainability, aiming for city and national-level expansion under the systematic and balanced concept of “Smart – Sustainable – Safe,” ensuring a good quality of life for everyone within the university and surrounding community.",
+    "about_title": "The Sustainable Campus Management Center (SCMC) at Chiang Mai University is the main agency driving Chiang Mai University towards becoming a Smart & Sustainable City. It integrates technology, innovation, and data for efficient resource management, covering environmental aspects, energy, transportation, safety, and infrastructure within the university. The center plays a role in managing basic utility systems such as electricity, water supply, wastewater, and buildings, as well as promoting clean energy, energy conservation, and green technology. It develops and manages smart public transportation systems, such as the CMU Transit electric shuttle. It supports green spaces, systematic waste management, and carbon footprint reduction. It monitors and evaluates through a real-time Dashboard and Smart Sensor system to create transparency and accountability in management at all levels. It promotes the participation of students, staff, and network partners in designing development approaches, creating a model of an “Eco-University” that is friendly to the environment and community. It serves as a testing ground for sustainability policies for expansion to city and national levels, under the concept of “Smart – Sustainable – Safe” in a systematic and balanced manner, for a good quality of life for everyone in the university and the surrounding community sustainably.",
     "vision": "Vision",
-    "vision_title": "To be a leading university campus management center, driven by smart technology for environmental sustainability, energy, transportation, and the balanced quality of life for everyone within the university.",
+    "vision_title": "To be a model university city management center, driven by smart technology for environmental sustainability, energy, transportation, and the quality of life for everyone in the university in a balanced way.",
     "mission": "Mission",
     "mission_points": {
-      "1": "Efficient and sustainable management of infrastructure and resources.",
-      "2": "Development of information technology systems for smart city management.",
-      "3": "Promotion of clean energy, resource conservation, and waste reduction.",
-      "4": "Support for smart transportation systems and safe access to areas.",
-      "5": "Fostering community participation in sustainable university city development."
+      "1": "Manage infrastructure and resources efficiently and sustainably.",
+      "2": "Develop information technology systems for smart city management.",
+      "3": "Promote clean energy, resource conservation, and waste reduction.",
+      "4": "Support smart transportation systems and safe access to areas.",
+      "5": "Foster community participation in the sustainable development of the university city."
     },
     "structure": "Center Structure",
-    "chancellor": "Chancellor",
+    "chancellor": "President",
     "director1": "Director of the University Office",
     "director2": "Director of the Sustainable Campus Management Center",
-    "department1": "Planning and Technology Department",
-    "department2": "Administration Department",
-    "department3": "Building and Facilities Department",
-    "department4": "Other Departments",
-    "department5": "Other Departments",
-    "contact": "Units and Contact",
-    "contact_title": "Contact information and related units"
+    "department1": "Planning and Technology Division",
+    "department2": "Administration Division",
+    "department3": "Building and Grounds Division",
+    "department4": "Other Divisions",
+    "department5": "Other Divisions",
+    "contact": "Agencies and Contacts",
+    "contact_title": "Contact Information and Related Agencies"
   },
-  "SupportPage": {
-    "page_title": "Collaborate to Create Sustainability in the University",
-    "header": "Contribute to Sustainability",
-    "fix": "Report a Repair",
-    "comment": "Suggestions",
-    "sdg": "SDGs and Carbon Neutrality"
+  "PrivacyPage": {
+    "page_title": "Working Together to Create Sustainability in the University",
+    "header": "Privacy Policy"
   }
 }
