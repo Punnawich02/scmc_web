@@ -9,10 +9,12 @@ export async function GET(
   try {
     const { category } = await context.params;
     const TransitCategory = category;
+    
 
-    const categoryRecord = await prisma.dataCategory.findUnique({
+    const categoryRecord = await prisma.transitCategory.findUnique({
       where: { name: TransitCategory },
     });
+    
 
     if (!categoryRecord) {
       return Response.json(
