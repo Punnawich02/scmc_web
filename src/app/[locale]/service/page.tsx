@@ -28,12 +28,12 @@ export default function ServicePage() {
     },
     {
       title: t("transport"),
-      link: "/transport",
+      link: "/transit",
       icon: <BusFront />,
     },
     {
       title: t("security"),
-      link: "/security",
+      link: "",
       icon: <ShieldUser />,
     },
     {

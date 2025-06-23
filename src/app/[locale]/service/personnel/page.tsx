@@ -44,7 +44,7 @@ const PersonnelPage: React.FC = () => {
             {/* หัวเรื่อง */}
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               {/* Icon */}
-              <div className="bg-white/20 rounded-full p-3 shadow-lg backdrop-blur-sm">
+              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm">
                 <Building2 className="w-12 h-12 text-white" />
               </div>
 

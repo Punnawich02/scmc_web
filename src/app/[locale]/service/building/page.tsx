@@ -40,7 +40,7 @@ const BuildingPage: React.FC = () => {
             {/* หัวเรื่อง */}
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               {/* Icon */}
-              <div className="bg-white/20 rounded-full p-3 shadow-lg backdrop-blur-sm">
+              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm">
                 <Building2 className="w-10 h-10 text-white" />
               </div>
 

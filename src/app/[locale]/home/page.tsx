@@ -155,7 +155,7 @@ export default function HomePage() {
           strokeWidth={2}
         />
       ),
-      link: `/${locale}/service/transport`,
+      link: `/${locale}/service/transit`,
       label: t("map"),
     },
     {
@@ -280,7 +280,7 @@ export default function HomePage() {
                       >
                         <div className="flex flex-col items-center transition-all duration-300 ease-in-out hover:shadow-xl transform hover:-translate-y-2 pb-4 relative group h-24 sm:h-28 lg:h-32">
                           {/* Yellow background block - แสดงตอน hover */}
-                          <div className="absolute inset-0 bg-yellow-400 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl -mt-8 sm:-mt-10 lg:-mt-16 pt-8 sm:pt-10 lg:pt-16"></div>
+                          <div className="absolute inset-0 bg-yellow-500 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl -mt-8 sm:-mt-10 lg:-mt-16 pt-8 sm:pt-10 lg:pt-16"></div>
 
                           {/* Icon Container - ยกขึ้นเหนือขอบของ container */}
                           <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 -mt-8 sm:-mt-10 lg:-mt-12 rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105 relative z-10">
