@@ -1,41 +1,37 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../lib/prisma";
+import { NextRequest } from "next/server";
 
 // Get embed code in that category
 export async function GET(
-  req: Request,
-  {
-    params,
-  }: {
-    params: { category: string };
-  }
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
-    const categoryName = params.category;
-
-    const category = await prisma.dataCategory.findUnique({
-      where: { name: categoryName },
+    const { category } = await context.params;
+    const DataCategory = category;
+    
+    const categoryRecord = await prisma.dataCategory.findUnique({
+      where: { name: DataCategory },
     });
-
-    if (!category) {
+    
+    if (!categoryRecord) {
       return Response.json(
-        { error: "Transit category not found" },
+        { error: "Data category not found" },
         { status: 404 }
       );
     }
-
-    const categories_id = category.id;
-
+    
+    const categories_id = categoryRecord.id;
     const schedule = await prisma.dataEmbed.findMany({
       where: { categoryId: Number(categories_id) },
     });
-
+    
     return Response.json(schedule);
   } catch (error) {
-    console.error("Error fetching transit category:", error);
+    console.error("Error fetching data category:", error);
     return Response.json(
       {
-        error: "Failed to fetch transit category",
+        error: "Failed to fetch data category",
         message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
@@ -47,30 +43,27 @@ export async function GET(
 
 // New embed code in that category
 export async function POST(
-  req: Request,
-  {
-    params,
-  }: {
-    params: { category: string };
-  }
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
-    const categoryName = params.category;
-    const { title, embedCode } = await req.json();
-
+    const { category } = await context.params;
+    const categoryName = category;
+    
+    const { title, embedCode } = await request.json();
+    
     const categories = await prisma.dataCategory.findUnique({
       where: { name: categoryName },
     });
-
+    
     const categoryId = categories?.id;
-
     if (typeof categoryId !== "number") {
       return Response.json(
-        { error: "Transit category not found" },
+        { error: "Data category not found" },
         { status: 404 }
       );
     }
-
+    
     const newPost = await prisma.dataEmbed.create({
       data: {
         categoryId,
@@ -78,11 +71,14 @@ export async function POST(
         embedCode
       },
     });
+    
     return Response.json(newPost);
   } catch (error) {
-    return new Response(error as BodyInit, {
-      status: 500,
-    });
+    console.error("Error creating embed:", error);
+    return Response.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   } finally {
     await prisma.$disconnect();
   }
@@ -90,53 +86,51 @@ export async function POST(
 
 // Update embed code in that category
 export async function PUT(
-  req: Request,
-  {
-    params,
-  }: {
-    params: { category: string };
-  }
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
-    const categoryName = params.category;
-    const { title, embedCode } = await req.json();
-
+    const { category } = await context.params;
+    const categoryName = category;
+    
+    const { title, embedCode } = await request.json();
+    
     // Find the category
     const categories = await prisma.dataCategory.findUnique({
       where: { name: categoryName },
     });
-
+    
     const categoryId = categories?.id;
     if (typeof categoryId !== "number") {
       return Response.json(
-        { error: "Transit category not found" },
+        { error: "Data category not found" },
         { status: 404 }
       );
     }
-
-    // Option 1: Update the first transit service in the category
-    const existingService = await prisma.dataEmbed.findFirst({
+    
+    // Find the first embed in the category to update
+    const existingEmbed = await prisma.dataEmbed.findFirst({
       where: { categoryId: categoryId },
     });
-
-    if (!existingService) {
+    
+    if (!existingEmbed) {
       return Response.json(
-        { error: "No transit service found for this category" },
+        { error: "No embed found for this category" },
         { status: 404 }
       );
     }
-
+    
     const updateEmbed = await prisma.dataEmbed.update({
-      where: { id: existingService.id },
+      where: { id: existingEmbed.id },
       data: {
         title,
         embedCode
       },
     });
-
+    
     return Response.json(updateEmbed);
   } catch (error) {
-    console.error("Error updating transit service:", error);
+    console.error("Error updating embed:", error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
   } finally {
     await prisma.$disconnect();

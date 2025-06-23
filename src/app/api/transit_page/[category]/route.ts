@@ -1,30 +1,27 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import { prisma } from "../../../lib/prisma";
+import { NextRequest } from "next/server";
 
 // GET all route category
 export async function GET(
-  req: Request,
-  {
-    params,
-  }: {
-    params: { category: string };
-  }
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
-    const categoryName = params.category;
+    const { category } = await context.params;
+    const TransitCategory = category;
 
-    const category = await prisma.transitCategory.findUnique({
-      where: { name: categoryName },
+    const categoryRecord = await prisma.dataCategory.findUnique({
+      where: { name: TransitCategory },
     });
 
-    if (!category) {
+    if (!categoryRecord) {
       return Response.json(
         { error: "Transit category not found" },
         { status: 404 }
       );
     }
 
-    const categories_id = category.id;
+    const categories_id = categoryRecord.id;
 
     const schedule = await prisma.transitService.findMany({
       where: { categoryId: Number(categories_id) },
@@ -47,16 +44,14 @@ export async function GET(
 
 // POST new Time table on that Category
 export async function POST(
-  req: Request,
-  {
-    params,
-  }: {
-    params: { category: string };
-  }
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
-    const categoryName = params.category;
-    const { imageUrl, title, uploadBy } = await req.json();
+    const { category } = await context.params;
+    const categoryName = category;
+
+    const { imageUrl, title, uploadBy } = await request.json();
 
     const categories = await prisma.transitCategory.findUnique({
       where: { name: categoryName },
@@ -91,16 +86,13 @@ export async function POST(
 
 // Update(PUT) Time table on that Category
 export async function PUT(
-  req: Request,
-  {
-    params,
-  }: {
-    params: { category: string };
-  }
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
-    const categoryName = params.category;
-    const { imageUrl, title, uploadBy } = await req.json();
+    const { category } = await context.params;
+    const categoryName = category;
+    const { imageUrl, title, uploadBy } = await request.json();
 
     // Find the category
     const categories = await prisma.transitCategory.findUnique({
