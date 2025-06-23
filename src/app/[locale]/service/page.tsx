@@ -43,7 +43,7 @@ export default function ServicePage() {
     },
     {
       title: t("util"),
-      link: "/utility",
+      link: "/utilities",
       icon: <HousePlug />,
     },
     {

@@ -4,7 +4,7 @@ import Header from "../Component/Header";
 import Footer from "../Component/Footer";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next/link";
-import { Map, Building2, TreeDeciduous } from "lucide-react";
+import { Map, TreeDeciduous } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -17,11 +17,6 @@ export default function PhysicalPage() {
       title: t("map"),
       link: `/${locale}/physical/map`,
       icon: <Map />,
-    },
-    {
-      title: t("build"),
-      link: `/${locale}/physical/building`,
-      icon: <Building2 />,
     },
     {
       title: t("tree"),
