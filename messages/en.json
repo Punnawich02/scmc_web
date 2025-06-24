@@ -34,7 +34,8 @@
     "documents": "Published Documents",
     "articles": "Articles",
     "more": "More +",
-    "no_items": "No documents published"
+    "no_items": "No documents published",
+    "loading":"Loading"
   },
   "OurService": {
     "page_title": "All Services of Chiang Mai University",
@@ -59,7 +60,8 @@
     "page_title": "Transportation and Electric Shuttle in Chiang Mai University",
     "header": "CMU Transit",
     "title": "Information on transportation and electric shuttle services within the university",
-    "no_images_found": "No images found"
+    "no_images_found": "No images found",
+    "select_category": "Select Transit Category"
   },
   "SecurityPage": {
     "page_title": "Safety and Traffic in University Area",

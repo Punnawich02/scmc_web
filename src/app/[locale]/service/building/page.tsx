@@ -66,7 +66,7 @@ const BuildingPage: React.FC = () => {
                       <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
                         {icon}
                       </div>
-                      <span className="text-white text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
+                      <span className="text-[#5759BB] text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
                         {title}
                       </span>
                     </div>

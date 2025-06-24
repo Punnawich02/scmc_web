@@ -138,3 +138,6 @@ export async function PUT(
     await prisma.$disconnect();
   }
 }
+
+// Delete Time table on that Category
+

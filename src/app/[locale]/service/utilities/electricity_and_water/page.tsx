@@ -1,51 +1,34 @@
 "use client";
-import Header from "../../Component/Header";
-import Footer from "../../Component/Footer";
+import Header from "../../../Component/Header";
+import Footer from "../../../Component/Footer";
 import { motion } from "framer-motion";
-import { Droplet, Zap, Phone, Trash2, Building2 } from "lucide-react";
+import { Users, MapPin, Home, BarChart3, Droplet, Zap } from "lucide-react";
 import React from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations} from "next-intl";
 import Link from "next/link";
 
 const UtilityPage: React.FC = () => {
-  const t = useTranslations("UtilitiesPage");
-  const locale = useLocale();
+  const t = useTranslations("electricandwater");
   const cardData = [
     {
-      title: t("electricandwater"),
-      link: `/${locale}/service/utilities/electricity_and_water`,
-      icon: (
-        <div className="flex">
-          <Droplet
-            className="w-6 h-6 mx-[-5]"
-            color="#FFF"
-            strokeWidth={2}
-          />
-          <Zap className="w-6 h-6 mx-[-5]" color="#FFF" strokeWidth={2} />
-        </div>
-      ),
+      title: t("collaborator"),
+      link: `https://buildings.oop.cmu.ac.th/electric/`,
+      icon: <Users className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
     {
-      title: t("phone"),
-      link: "https://buildings.oop.cmu.ac.th/telephone/",
-      icon: (
-        <Phone
-          className="w-6 h-6 sm:w-12 md:w-8 h-8"
-          color="#FFF"
-          strokeWidth={2}
-        />
-      ),
+      title: t("department"),
+      link: `https://buildings.oop.cmu.ac.th/department/`,
+      icon: <MapPin className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
     {
-      title: t("trash"),
-      link: "https://buildings.oop.cmu.ac.th/garbage/",
-      icon: (
-        <Trash2
-          className="w-6 h-6 sm:w-12 md:w-8 h-8"
-          color="#FFF"
-          strokeWidth={2}
-        />
-      ),
+      title: t("house"),
+      link: "https://buildings.oop.cmu.ac.th/house/",
+      icon: <Home className="w-8 h-8" color="#FFF" strokeWidth={2} />,
+    },
+    {
+      title: t("usage_report"),
+      link: "https://buildings.oop.cmu.ac.th/report/meter/",
+      icon: <BarChart3 className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
   ];
 
@@ -64,16 +47,15 @@ const UtilityPage: React.FC = () => {
             {/* หัวเรื่อง */}
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
               {/* Icon */}
-              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm">
-                <Building2 className="w-12 h-12 text-white" />
+              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm flex">
+                <Droplet className="w-12 h-12 text-white" />
+                <Zap className="w-12 h-12 text-white" />
               </div>
               {/* ข้อความ */}
               <h1 className="text-white font-bold text-2xl mb-1 text-center sm:text-start sm:text-3xl">
                 {t("header")}
               </h1>
-              <p className="text-white/80 text-sm leading-relaxed">
-                {t("title")}
-              </p>
+              
             </div>
 
             {/* การ์ด 4 บน */}

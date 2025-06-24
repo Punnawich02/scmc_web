@@ -136,3 +136,50 @@ export async function PUT(
     await prisma.$disconnect();
   }
 }
+
+// Delete embed code
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ category: string }> }
+) {
+  try {
+    const { category } = await context.params;
+    const categoryName = category;
+    
+    // Find the category
+    const categories = await prisma.dataCategory.findUnique({
+      where: { name: categoryName },
+    });
+    
+    const categoryId = categories?.id;
+    if (typeof categoryId !== "number") {
+      return Response.json(
+        { error: "Data category not found" },
+        { status: 404 }
+      );
+    }
+    
+    // Find the first embed in the category to delete
+    const existingEmbed = await prisma.dataEmbed.findFirst({
+      where: { categoryId: categoryId },
+    });
+    
+    if (!existingEmbed) {
+      return Response.json(
+        { error: "No embed found for this category" },
+        { status: 404 }
+      );
+    }
+    
+    const deletedEmbed = await prisma.dataEmbed.delete({
+      where: { id: existingEmbed.id }
+    });
+    
+    return Response.json(deletedEmbed);
+  } catch (error) {
+    console.error("Error deleting embed:", error);
+    return Response.json({ error: "Internal server error" }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
+  }
+}

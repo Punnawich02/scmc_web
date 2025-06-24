@@ -10,7 +10,6 @@ import Link from "next/link";
 import {
   Database,
   BusFront,
-  ShieldUser,
   Building,
   HousePlug,
   UserRound,
@@ -30,11 +29,6 @@ export default function ServicePage() {
       title: t("transport"),
       link: "/transit",
       icon: <BusFront />,
-    },
-    {
-      title: t("security"),
-      link: "",
-      icon: <ShieldUser />,
     },
     {
       title: t("build"),

@@ -114,8 +114,10 @@ export default function HomePage() {
         // Define the type for public document items
         type PublicDocItem = {
           id: number;
-          title: string;
-          description: string;
+          titleTh: string;
+          titleEn: string;
+          descriptionTh: string;
+          descriptionEn: string;
           linkUrl: string;
           publishedAt: string;
           isActive: boolean;
@@ -123,8 +125,8 @@ export default function HomePage() {
 
         // Map public document data without images
         const mappedDocs: NewsItem[] = docApi.map((doc: PublicDocItem) => ({
-          title: doc.title || "ไม่มีชื่อเอกสาร",
-          description: doc.description || "",
+          title: (isThai ? doc.titleTh : doc.titleEn),
+          description: (isThai ? doc.descriptionTh : doc.descriptionEn) ,
           imageUrl: "", // Empty string to indicate no image
           link: doc.linkUrl || "#",
         }));

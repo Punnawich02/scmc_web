@@ -53,3 +53,84 @@ export async function POST(req: Request) {
     await prisma.$disconnect();
   }
 }
+
+// Update Transit Categories (Transit Route)
+export async function PUT(req: Request) {
+  try {
+    const { id, name, display_name_th, display_name_en } = await req.json()
+    
+    const updatedPost = await prisma.transitCategory.update({
+      where: {
+        id: id
+      },
+      data: {
+        name,
+        displayNameTh: display_name_th,
+        displayNameEn: display_name_en
+      },
+    })
+    
+    return Response.json(updatedPost)
+  } catch (error) {
+    console.error('Failed to update transit category:', error);
+    
+    // จัดการ error แบบเฉพาะเจาะจง
+    if (error instanceof Error) {
+      return Response.json(
+        { 
+          error: 'Failed to update transit category, Something Missing',  
+        },
+        { status: 500 }
+      );
+    }
+    
+    // กรณีไม่เข้าเงื่อนไข instanceof Error
+    return Response.json(
+      { 
+        error: 'An unknown error occurred',
+        details: String(error) 
+      },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+// Delete Transit Categories (Transit Route)
+export async function DELETE(req: Request) {
+  try {
+    const { id } = await req.json()
+    
+    const deletedPost = await prisma.transitCategory.delete({
+      where: {
+        id: id
+      }
+    })
+    
+    return Response.json(deletedPost)
+  } catch (error) {
+    console.error('Failed to delete transit category:', error);
+    
+    // จัดการ error แบบเฉพาะเจาะจง
+    if (error instanceof Error) {
+      return Response.json(
+        { 
+          error: 'Failed to delete transit category, Something Missing',  
+        },
+        { status: 500 }
+      );
+    }
+    
+    // กรณีไม่เข้าเงื่อนไข instanceof Error
+    return Response.json(
+      { 
+        error: 'An unknown error occurred',
+        details: String(error) 
+      },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
+  }
+}
