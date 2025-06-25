@@ -1,6 +1,29 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+function isBasicAuthValid(req: Request): boolean {
+  const auth = req.headers.get("authorization");
+  if (!auth || !auth.startsWith("Basic ")) return false;
+
+  const encoded = auth.split(" ")[1];
+  const decoded = Buffer.from(encoded, "base64").toString("utf-8");
+  const [username, password] = decoded.split(":");
+
+  const validUsername = process.env.AUTH_USERNAME;
+  const validPassword = process.env.AUTH_PASSWORD;
+
+  return username === validUsername && password === validPassword;
+}
+
+function unauthorizedResponse(): Response {
+  return new Response("Unauthorized", {
+    status: 401,
+    headers: {
+      "WWW-Authenticate": 'Basic realm="Secure Area"',
+    },
+  });
+}
+
 // Get all Public Doc
 export async function GET() {
   try {
@@ -19,8 +42,10 @@ export async function GET() {
 
 // Post new Public Doc
 export async function POST(req: Request) {
+  if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { titleTh, titleEn, descriptionTh, descriptionEn, link_url } = await req.json();
+    const { titleTh, titleEn, descriptionTh, descriptionEn, link_url } =
+      await req.json();
     const newDoc = await prisma.publication.create({
       data: {
         titleTh,
@@ -48,12 +73,14 @@ export async function POST(req: Request) {
 
 // Update new public doc
 export async function PUT(req: Request) {
+  if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { id, titleTh, titleEn, descriptionTh, descriptionEn, link_url } = await req.json();
-    
+    const { id, titleTh, titleEn, descriptionTh, descriptionEn, link_url } =
+      await req.json();
+
     const updatedDoc = await prisma.publication.update({
       where: {
-        id: id
+        id: id,
       },
       data: {
         titleTh,
@@ -63,7 +90,7 @@ export async function PUT(req: Request) {
         linkUrl: link_url,
       },
     });
-    
+
     return Response.json(updatedDoc);
   } catch (error) {
     console.error("Failed to update Public Document:", error);
@@ -81,15 +108,16 @@ export async function PUT(req: Request) {
 
 // Delete public doc
 export async function DELETE(req: Request) {
+  if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
     const { id } = await req.json();
-    
+
     const deletedDoc = await prisma.publication.delete({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
-    
+
     return Response.json(deletedDoc);
   } catch (error) {
     console.error("Failed to delete Public Document:", error);

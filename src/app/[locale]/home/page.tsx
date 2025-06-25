@@ -253,7 +253,7 @@ export default function HomePage() {
                     <p className="text-white/90  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
                       {t("vehicle_title")}
                     </p>
-                    <Link href="/api/login" className="relative z-20">
+                    <Link href="https://scmc.cmu.ac.th/login_option" className="relative z-20">
                       <button className="flex  items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px] relative z-20">
                         <CarFront className="mr-1 xs:mr-1.5 sm:mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
                         <span className="whitespace-nowrap">
