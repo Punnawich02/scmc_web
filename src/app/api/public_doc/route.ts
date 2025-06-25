@@ -44,7 +44,7 @@ export async function GET() {
 export async function POST(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { titleTh, titleEn, descriptionTh, descriptionEn, link_url } =
+    const { titleTh, titleEn, descriptionTh, descriptionEn, link_url, createBy } =
       await req.json();
     const newDoc = await prisma.publication.create({
       data: {
@@ -53,6 +53,7 @@ export async function POST(req: Request) {
         descriptionTh,
         descriptionEn,
         linkUrl: link_url,
+        createBy
       },
     });
     return Response.json(newDoc);
@@ -75,7 +76,7 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { id, titleTh, titleEn, descriptionTh, descriptionEn, link_url } =
+    const { id, titleTh, titleEn, descriptionTh, descriptionEn, link_url, editBy } =
       await req.json();
 
     const updatedDoc = await prisma.publication.update({
@@ -88,6 +89,7 @@ export async function PUT(req: Request) {
         descriptionTh,
         descriptionEn,
         linkUrl: link_url,
+        editBy
       },
     });
 

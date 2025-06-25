@@ -14,6 +14,8 @@ model TransitCategory {
   displayNameEn   String?          @map("display_name_en")
   createdAt       DateTime         @default(now()) @map("created_at")
   updatedAt       DateTime         @updatedAt @map("updated_at")
+  createBy        String           @map("create_by")
+  editBy          String?          @map("edit_by")
   transitServices TransitService[]
 
   @@map("transit_category")
@@ -24,10 +26,11 @@ model TransitService {
   categoryId Int             @map("category_id")
   imageUrl   String          @map("image_url")
   title      String?
-  uploadBy   String?         @map("upload_by")
   uploadAt   DateTime        @default(now()) @map("upload_at")
   isActive   Boolean         @default(true) @map("is_active")
   category   TransitCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createBy   String?         @map("create_by")
+  editBy     String?         @map("edit_by")
 
   @@index([isActive], map: "idx_transit_service_active")
   @@map("transit_service")
@@ -40,6 +43,8 @@ model DataCategory {
   createdAt     DateTime    @default(now()) @map("created_at")
   displayNameEn String?     @map("display_name_en")
   displayNameTh String?     @map("display_name_th")
+  createBy      String      @map("create_by")
+  editBy        String?     @map("edit_by")
   embeds        DataEmbed[]
 
   @@map("data_category")
@@ -52,6 +57,8 @@ model DataEmbed {
   embedCode  String       @map("embed_code")
   createdAt  DateTime     @default(now()) @map("created_at")
   isActive   Boolean      @default(true) @map("is_active")
+  createBy   String       @map("create_by")
+  editBy     String?      @map("edit_by")
   category   DataCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@index([isActive], map: "idx_data_embed_active")
@@ -59,14 +66,16 @@ model DataEmbed {
 }
 
 model Publication {
-  id            Int      @id @default(autoincrement())
-  linkUrl       String   @map("link_url")
-  publishedAt   DateTime @default(now()) @map("published_at")
-  isActive      Boolean  @default(true) @map("is_active")
+  id            Int       @id @default(autoincrement())
+  linkUrl       String    @map("link_url")
+  publishedAt   DateTime  @default(now()) @map("published_at")
+  isActive      Boolean   @default(true) @map("is_active")
   descriptionEn String?
   descriptionTh String?
   titleEn       String
   titleTh       String
+  createBy      String    @map("create_by")
+  editBy        String?   @map("edit_by")
 
   @@index([isActive], map: "idx_publication_active")
   @@map("publication")

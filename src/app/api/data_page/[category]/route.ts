@@ -74,7 +74,7 @@ export async function POST(
     const { category } = await context.params;
     const categoryName = category;
 
-    const { title, embedCode } = await request.json();
+    const { title, embedCode, createBy } = await request.json();
 
     const categories = await prisma.dataCategory.findUnique({
       where: { name: categoryName },
@@ -93,6 +93,7 @@ export async function POST(
         categoryId,
         title,
         embedCode,
+        createBy
       },
     });
 
@@ -115,7 +116,7 @@ export async function PUT(
     const { category } = await context.params;
     const categoryName = category;
 
-    const { title, embedCode } = await request.json();
+    const { title, embedCode, editBy } = await request.json();
 
     // Find the category
     const categories = await prisma.dataCategory.findUnique({
@@ -147,6 +148,7 @@ export async function PUT(
       data: {
         title,
         embedCode,
+        editBy
       },
     });
 

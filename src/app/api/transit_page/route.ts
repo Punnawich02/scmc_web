@@ -44,13 +44,14 @@ export async function POST(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
 
   try {
-    const { name, display_name_th, display_name_en } = await req.json();
+    const { name, display_name_th, display_name_en, createBy } = await req.json();
 
     const newCategory = await prisma.transitCategory.create({
       data: {
         name,
         displayNameTh: display_name_th,
         displayNameEn: display_name_en,
+        createBy
       },
     });
 
@@ -84,7 +85,7 @@ export async function PUT(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
 
   try {
-    const { id, name, display_name_th, display_name_en } = await req.json();
+    const { id, name, display_name_th, display_name_en, editBy } = await req.json();
 
     const updatedCategory = await prisma.transitCategory.update({
       where: {
@@ -94,6 +95,7 @@ export async function PUT(req: Request) {
         name,
         displayNameTh: display_name_th,
         displayNameEn: display_name_en,
+        editBy
       },
     });
 

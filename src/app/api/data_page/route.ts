@@ -43,7 +43,7 @@ export async function GET() {
 export async function POST(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { name, description, displayNameTh, displayNameEn } =
+    const { name, description, displayNameTh, displayNameEn, createBy } =
       await req.json();
     const newPost = await prisma.dataCategory.create({
       data: {
@@ -51,6 +51,7 @@ export async function POST(req: Request) {
         description,
         displayNameTh,
         displayNameEn,
+        createBy
       },
     });
     return Response.json(newPost);
@@ -73,7 +74,7 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { id, name, description, displayNameTh, displayNameEn } =
+    const { id, name, description, displayNameTh, displayNameEn, editBy } =
       await req.json();
 
     const updatedPost = await prisma.dataCategory.update({
@@ -85,6 +86,7 @@ export async function PUT(req: Request) {
         description,
         displayNameTh,
         displayNameEn,
+        editBy
       },
     });
 

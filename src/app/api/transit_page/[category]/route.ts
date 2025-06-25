@@ -76,7 +76,7 @@ export async function POST(
     const { category } = await context.params;
     const categoryName = category;
 
-    const { imageUrl, title, uploadBy } = await request.json();
+    const { imageUrl, title, createBy } = await request.json();
 
     const categories = await prisma.transitCategory.findUnique({
       where: { name: categoryName },
@@ -95,7 +95,7 @@ export async function POST(
         categoryId,
         imageUrl,
         title,
-        uploadBy,
+        createBy,
       },
     });
 
@@ -125,7 +125,7 @@ export async function PUT(
     const { category } = await context.params;
     const categoryName = category;
 
-    const { imageUrl, title, uploadBy } = await request.json();
+    const { imageUrl, title, editBy } = await request.json();
 
     // Find the category
     const categories = await prisma.transitCategory.findUnique({
@@ -157,7 +157,7 @@ export async function PUT(
       data: {
         imageUrl,
         title,
-        uploadBy,
+        editBy,
       },
     });
 
