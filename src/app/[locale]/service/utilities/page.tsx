@@ -16,14 +16,11 @@ const UtilityPage: React.FC = () => {
       link: `/${locale}/service/utilities/electricity_and_water`,
       icon: (
         <div className="flex">
-          <Droplet
-            className="w-6 h-6 mx-[-5]"
-            color="#FFF"
-            strokeWidth={2}
-          />
+          <Droplet className="w-6 h-6 mx-[-5]" color="#FFF" strokeWidth={2} />
           <Zap className="w-6 h-6 mx-[-5]" color="#FFF" strokeWidth={2} />
         </div>
       ),
+      isExt: false,
     },
     {
       title: t("phone"),
@@ -35,6 +32,7 @@ const UtilityPage: React.FC = () => {
           strokeWidth={2}
         />
       ),
+      isExt: true,
     },
     {
       title: t("trash"),
@@ -46,6 +44,7 @@ const UtilityPage: React.FC = () => {
           strokeWidth={2}
         />
       ),
+      isExt: true,
     },
   ];
 
@@ -78,18 +77,31 @@ const UtilityPage: React.FC = () => {
 
             {/* การ์ด 4 บน */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4  px-0 sm:px-9 py-4 sm:p-6">
-              {cardData.map(({ title, link, icon }, i) => (
+              {cardData.map(({ title, link, icon, isExt }, i) => (
                 <div key={i}>
-                  <Link href={link} className="sm:w-[50%] w-full">
-                    <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
-                      <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
-                        {icon}
+                  {isExt ? (
+                    <a href={link} className="sm:w-[50%] w-full" target="_blank">
+                      <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
+                        <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
+                          {icon}
+                        </div>
+                        <span className="text-[#5759BB] text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
+                          {title}
+                        </span>
                       </div>
-                      <span className="text-[#5759BB] text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
-                        {title}
-                      </span>
-                    </div>
-                  </Link>
+                    </a>
+                  ) : (
+                    <Link href={link} className="sm:w-[50%] w-full">
+                      <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
+                        <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
+                          {icon}
+                        </div>
+                        <span className="text-[#5759BB] text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
+                          {title}
+                        </span>
+                      </div>
+                    </Link>
+                  )}
                 </div>
               ))}
             </div>

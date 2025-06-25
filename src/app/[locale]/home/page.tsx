@@ -125,8 +125,8 @@ export default function HomePage() {
 
         // Map public document data without images
         const mappedDocs: NewsItem[] = docApi.map((doc: PublicDocItem) => ({
-          title: (isThai ? doc.titleTh : doc.titleEn),
-          description: (isThai ? doc.descriptionTh : doc.descriptionEn) ,
+          title: isThai ? doc.titleTh : doc.titleEn,
+          description: isThai ? doc.descriptionTh : doc.descriptionEn,
           imageUrl: "", // Empty string to indicate no image
           link: doc.linkUrl || "#",
         }));
@@ -162,6 +162,7 @@ export default function HomePage() {
       ),
       link: `/${locale}/service/transit`,
       label: t("map"),
+      isExt: false,
     },
     {
       icon: (
@@ -173,6 +174,7 @@ export default function HomePage() {
       ),
       link: process.env.NEXT_PUBLIC_CMU_BUILDING,
       label: t("request"),
+      isExt: true,
     },
     {
       icon: (
@@ -184,6 +186,7 @@ export default function HomePage() {
       ),
       link: `/${locale}/service/data`,
       label: t("data"),
+      isExt: false,
     },
     {
       icon: (
@@ -193,8 +196,9 @@ export default function HomePage() {
           strokeWidth={2}
         />
       ),
-      link: `/${locale}/service/utility`,
+      link: `/${locale}/service/utilities`,
       label: t("util"),
+      isExt: false,
     },
     {
       icon: (
@@ -206,6 +210,7 @@ export default function HomePage() {
       ),
       link: process.env.NEXT_PUBLIC_CMU_BOOKING_AREA,
       label: t("reserve"),
+      isExt: true,
     },
   ];
 
@@ -253,7 +258,10 @@ export default function HomePage() {
                     <p className="text-white/90  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
                       {t("vehicle_title")}
                     </p>
-                    <Link href="https://scmc.cmu.ac.th/login_option" className="relative z-20">
+                    <Link
+                      href="https://scmc.cmu.ac.th/login_option"
+                      className="relative z-20"
+                    >
                       <button className="flex  items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px] relative z-20">
                         <CarFront className="mr-1 xs:mr-1.5 sm:mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
                         <span className="whitespace-nowrap">
@@ -269,8 +277,9 @@ export default function HomePage() {
                     Highlight <br></br>
                     Services
                   </h2>
-                  {HighlightServices.map((service, index) => (
-                    <Link key={index} href={`${service.link}`}>
+                  {HighlightServices.map((service, index) => {
+                    const isExternal = service.isExt === true;
+                    const card = (
                       <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -281,24 +290,43 @@ export default function HomePage() {
                         <div className="flex flex-col items-center transition-all duration-300 ease-in-out hover:shadow-xl transform hover:-translate-y-2 pb-4 relative group h-24 sm:h-28 lg:h-32">
                           {/* Yellow background block - แสดงตอน hover */}
                           <div className="absolute inset-0 bg-yellow-500 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl -mt-8 sm:-mt-10 lg:-mt-16 pt-8 sm:pt-10 lg:pt-16"></div>
-                          {/* Icon Container - ยกขึ้นเหนือขอบของ container */}
+
+                          {/* Icon Container */}
                           <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 -mt-8 sm:-mt-10 lg:-mt-12 rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105 relative z-10">
                             <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl transition-colors duration-300">
                               {service.icon}
                             </div>
                           </div>
+
                           {/* Label */}
-                          <span className="text-white   text-xs sm:text-sm lg:text-base font-medium text-center leading-tight transition-colors duration-300 mt-2 relative z-10">
+                          <span className="text-white text-xs sm:text-sm lg:text-base font-medium text-center leading-tight transition-colors duration-300 mt-2 relative z-10">
                             {service.label}
                           </span>
                         </div>
                       </motion.div>
-                    </Link>
-                  ))}
+                    );
+
+                    return isExternal ? (
+                      <a
+                        key={index}
+                        href={service.link || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        {card}
+                      </a>
+                    ) : (
+                      <Link key={index} href={service.link!}>
+                        {card}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </section>
           </motion.div>
+
           {/* Highlight Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -316,9 +344,9 @@ export default function HomePage() {
                     </h2>
                   </div>
                   {/* Mobile Layout - Vertical List */}
-                  <div className="block  space-y-3 ">
-                    {HighlightServices.map((service, index) => (
-                      <Link key={index} href={`${service.link}`}>
+                  <div className="block space-y-3 ">
+                    {HighlightServices.map((service, index) => {
+                      const card = (
                         <motion.div
                           initial={{ opacity: 0, x: -50 }}
                           whileInView={{ opacity: 1, x: 0 }}
@@ -326,9 +354,7 @@ export default function HomePage() {
                           viewport={{ once: true, amount: 0.1 }}
                           className="group pt-3"
                         >
-                          <div
-                            className={`flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg bg-white`}
-                          >
+                          <div className="flex items-center space-x-4 p-4 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg bg-white">
                             {/* Icon */}
                             <div
                               className={`w-8 h-8 flex items-center justify-center bg-white rounded-md shadow-md hover:shadow-lg ${
@@ -338,15 +364,29 @@ export default function HomePage() {
                               {service.icon}
                             </div>
                             {/* Label */}
-                            <span
-                              className={`font-medium text-base text-[#6869AA]`}
-                            >
+                            <span className="font-medium text-base text-[#6869AA]">
                               {service.label}
                             </span>
                           </div>
                         </motion.div>
-                      </Link>
-                    ))}
+                      );
+
+                      return service.isExt ? (
+                        <a
+                          key={index}
+                          href={service.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block"
+                        >
+                          {card}
+                        </a>
+                      ) : (
+                        <Link key={index} href={service.link || ""}>
+                          {card}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -408,17 +448,10 @@ export default function HomePage() {
                               ? newsLimit
                               : tabData[selectedTab].length
                           )
-                          .map((item, index) => (
-                            <Link
-                              key={item.link ?? index}
-                              href={item.link}
-                              className={
-                                loadingNews ? "pointer-events-none" : ""
-                              }
-                              prefetch={false}
-                            >
+                          .map((item, index) => {
+                            const isExternal = /^https?:\/\//.test(item.link);
+                            const cardContent = (
                               <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:scale-105 transition-transform duration-300 ease-in-out flex flex-col h-full w-full">
-                                {/* Only render Image component if imageUrl is not empty */}
                                 {item.imageUrl ? (
                                   <Image
                                     src={item.imageUrl}
@@ -445,8 +478,31 @@ export default function HomePage() {
                                   </p>
                                 </div>
                               </div>
-                            </Link>
-                          ))
+                            );
+
+                            return isExternal ? (
+                              <a
+                                key={item.link ?? index}
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block"
+                              >
+                                {cardContent}
+                              </a>
+                            ) : (
+                              <Link
+                                key={item.link ?? index}
+                                href={item.link}
+                                className={
+                                  loadingNews ? "pointer-events-none" : ""
+                                }
+                                prefetch={false}
+                              >
+                                {cardContent}
+                              </Link>
+                            );
+                          })
                       ) : (
                         <div className="col-span-1 sm:col-span-2 lg:col-span-4 text-center py-10 text-gray-500">
                           {t("no_items")}

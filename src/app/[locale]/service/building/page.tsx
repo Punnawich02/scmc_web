@@ -6,7 +6,6 @@ import React from "react";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 
 const BuildingPage: React.FC = () => {
   const t = useTranslations("BuildPage");
@@ -61,7 +60,7 @@ const BuildingPage: React.FC = () => {
                   key={i}
                   className={i === 2 ? "sm:col-span-2 flex justify-center" : ""}
                 >
-                  <Link href={link} className="sm:w-[50%] w-full">
+                  <a href={link} className="sm:w-[50%] w-full" target="_blank">
                     <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
                       <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
                         {icon}
@@ -70,7 +69,7 @@ const BuildingPage: React.FC = () => {
                         {title}
                       </span>
                     </div>
-                  </Link>
+                  </a>
                 </div>
               ))}
             </div>

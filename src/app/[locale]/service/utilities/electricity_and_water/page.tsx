@@ -5,29 +5,28 @@ import { motion } from "framer-motion";
 import { Users, MapPin, Home, BarChart3, Droplet, Zap } from "lucide-react";
 import React from "react";
 import { useTranslations} from "next-intl";
-import Link from "next/link";
 
 const UtilityPage: React.FC = () => {
   const t = useTranslations("electricandwater");
   const cardData = [
     {
       title: t("collaborator"),
-      link: `https://buildings.oop.cmu.ac.th/electric/`,
+      link: process.env.NEXT_PUBLIC_CMU_ELECTRIC,
       icon: <Users className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("department"),
-      link: `https://buildings.oop.cmu.ac.th/department/`,
+      link: process.env.NEXT_PUBLIC_CMU_DEPARTMENT,
       icon: <MapPin className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("house"),
-      link: "https://buildings.oop.cmu.ac.th/house/",
+      link: process.env.NEXT_PUBLIC_CMU_HOUSE,
       icon: <Home className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("usage_report"),
-      link: "https://buildings.oop.cmu.ac.th/report/meter/",
+      link: process.env.NEXT_PUBLIC_CMU_METER,
       icon: <BarChart3 className="w-8 h-8" color="#FFF" strokeWidth={2} />,
     },
   ];
@@ -62,7 +61,7 @@ const UtilityPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4  px-0 sm:px-9 py-4 sm:p-6">
               {cardData.map(({ title, link, icon }, i) => (
                 <div key={i}>
-                  <Link href={link} className="sm:w-[50%] w-full">
+                  <a href={link || ""} className="sm:w-[50%] w-full" target="_blank">
                     <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
                       <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
                         {icon}
@@ -71,7 +70,7 @@ const UtilityPage: React.FC = () => {
                         {title}
                       </span>
                     </div>
-                  </Link>
+                  </a>
                 </div>
               ))}
             </div>
