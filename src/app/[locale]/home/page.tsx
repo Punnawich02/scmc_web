@@ -248,14 +248,14 @@ export default function HomePage() {
                   priority
                 />
                 {/* Overlay gradient for better text readability */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/50 to-transparent sm:bg-gradient-to-r sm:from-black/40 sm:via-black/20 sm:to-transparent rounded-2xl sm:rounded-3xl md:rounded-4xl" />
+                <div className="absolute bg-gradient-to-r from-black/75 via-black/50 to-transparent sm:bg-gradient-to-r sm:from-black/40 sm:via-black/20 sm:to-transparent rounded-2xl sm:rounded-3xl md:rounded-4xl" />
                 {/* Content overlay */}
                 <div className="pt-10 inset-0 flex flex-col justify-center px-4 xs:px-5 sm:px-8 md:px-10">
                   <div className="max-w-xs xs:max-w-sm sm:max-w-md md:max-w-2xl">
-                    <h2 className="text-white text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-tight drop-shadow-lg">
+                    <h2 className="text-black text-lg xs:text-xl sm:text-2xl md:text-3xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-tight drop-shadow-lg">
                       {t("vehicle")}
                     </h2>
-                    <p className="text-white/90  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
+                    <p className="text-black  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
                       {t("vehicle_title")}
                     </p>
                     <Link
