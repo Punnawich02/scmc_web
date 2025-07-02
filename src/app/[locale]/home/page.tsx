@@ -31,18 +31,18 @@ type TabType = "news" | "documents" | "articles";
 /* -------------------------------------------------------------------------- */
 // We'll keep Block for articles as mock data
 const Block: NewsItem[] = [
-  {
-    title: "บทความ A",
-    description: "บทความ A",
-    imageUrl: "/news/news_2.png",
-    link: "#BlogA",
-  },
-  {
-    title: "บทความ B",
-    description: "บทความ B",
-    imageUrl: "/news/news_1.png",
-    link: "#BlogB",
-  },
+  // {
+  //   title: "บทความ A",
+  //   description: "บทความ A",
+  //   imageUrl: "/news/news_2.png",
+  //   link: "#BlogA",
+  // },
+  // {
+  //   title: "บทความ B",
+  //   description: "บทความ B",
+  //   imageUrl: "/news/news_1.png",
+  //   link: "#BlogB",
+  // },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -258,9 +258,10 @@ export default function HomePage() {
                     <p className="text-black  text-xs xs:text-xs sm:text-sm md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed drop-shadow-md max-w-[250px] xs:max-w-[280px] sm:max-w-md">
                       {t("vehicle_title")}
                     </p>
-                    <Link
+                    <a
                       href="https://scmc.cmu.ac.th/login_option"
                       className="relative z-20"
+                      target="_blank"
                     >
                       <button className="flex  items-center justify-center bg-[#380478] hover:bg-[#4a0a96] font-bold text-white px-3 xs:px-4 sm:px-6 py-2 xs:py-2.5 sm:py-3 rounded-lg xs:rounded-xl text-xs xs:text-xs sm:text-sm hover:cursor-pointer hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out shadow-lg hover:shadow-xl min-w-[120px] xs:min-w-[140px] sm:min-w-[160px] relative z-20">
                         <CarFront className="mr-1 xs:mr-1.5 sm:mr-2 w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
@@ -268,7 +269,7 @@ export default function HomePage() {
                           {t("vehicle_btn")}
                         </span>
                       </button>
-                    </Link>
+                    </a>
                   </div>
                 </div>
                 {/* Desktop Version */}
@@ -392,6 +393,7 @@ export default function HomePage() {
               </div>
             </section>
           </motion.div>
+          
           {/* News Section */}
           <motion.div
             initial={{ opacity: 0, y: 100 }}
