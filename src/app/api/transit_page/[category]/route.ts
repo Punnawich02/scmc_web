@@ -2,7 +2,9 @@
 import { prisma } from "../../../lib/prisma";
 import { NextRequest } from "next/server";
 
-function isBasicAuthValid(req: Request): boolean {
+import bcrypt from "bcrypt";
+
+async function isBasicAuthValid(req: Request): Promise<boolean> {
   const auth = req.headers.get("authorization");
   if (!auth || !auth.startsWith("Basic ")) return false;
 
@@ -11,9 +13,18 @@ function isBasicAuthValid(req: Request): boolean {
   const [username, password] = decoded.split(":");
 
   const validUsername = process.env.AUTH_USERNAME;
-  const validPassword = process.env.AUTH_PASSWORD;
+  const validPasswordHash = process.env.AUTH_PASSWORD_BCRYPT;
 
-  return username === validUsername && password === validPassword;
+  if (!validUsername || !validPasswordHash || !password) return false;
+
+  try {
+    const isUsernameValid = await bcrypt.compare(username, validUsername);
+    const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
+    return isUsernameValid && isPasswordValid;
+  } catch (error) {
+    console.error("Error comparing password:", error);
+    return false;
+  }
 }
 
 function unauthorizedResponse(): Response {

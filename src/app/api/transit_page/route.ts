@@ -1,6 +1,8 @@
 import { prisma } from "../../lib/prisma";
 
-function isBasicAuthValid(req: Request): boolean {
+import bcrypt from "bcrypt";
+
+async function isBasicAuthValid(req: Request): Promise<boolean> {
   const auth = req.headers.get("authorization");
   if (!auth || !auth.startsWith("Basic ")) return false;
 
@@ -9,9 +11,18 @@ function isBasicAuthValid(req: Request): boolean {
   const [username, password] = decoded.split(":");
 
   const validUsername = process.env.AUTH_USERNAME;
-  const validPassword = process.env.AUTH_PASSWORD;
+  const validPasswordHash = process.env.AUTH_PASSWORD_BCRYPT;
 
-  return username === validUsername && password === validPassword;
+  if (!validUsername || !validPasswordHash || !password) return false;
+
+  try {
+    const isUsernameValid = await bcrypt.compare(username, validUsername);
+    const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
+    return isUsernameValid && isPasswordValid;
+  } catch (error) {
+    console.error("Error comparing password:", error);
+    return false;
+  }
 }
 
 function unauthorizedResponse(): Response {
@@ -44,14 +55,15 @@ export async function POST(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
 
   try {
-    const { name, display_name_th, display_name_en, createBy } = await req.json();
+    const { name, display_name_th, display_name_en, createBy } =
+      await req.json();
 
     const newCategory = await prisma.transitCategory.create({
       data: {
         name,
         displayNameTh: display_name_th,
         displayNameEn: display_name_en,
-        createBy
+        createBy,
       },
     });
 
@@ -85,7 +97,8 @@ export async function PUT(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
 
   try {
-    const { id, name, display_name_th, display_name_en, editBy } = await req.json();
+    const { id, name, display_name_th, display_name_en, editBy } =
+      await req.json();
 
     const updatedCategory = await prisma.transitCategory.update({
       where: {
@@ -95,7 +108,7 @@ export async function PUT(req: Request) {
         name,
         displayNameTh: display_name_th,
         displayNameEn: display_name_en,
-        editBy
+        editBy,
       },
     });
 

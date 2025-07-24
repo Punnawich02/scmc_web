@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-function isBasicAuthValid(req: Request): boolean {
+import bcrypt from "bcrypt";
+
+async function isBasicAuthValid(req: Request): Promise<boolean> {
   const auth = req.headers.get("authorization");
   if (!auth || !auth.startsWith("Basic ")) return false;
 
@@ -10,9 +12,18 @@ function isBasicAuthValid(req: Request): boolean {
   const [username, password] = decoded.split(":");
 
   const validUsername = process.env.AUTH_USERNAME;
-  const validPassword = process.env.AUTH_PASSWORD;
+  const validPasswordHash = process.env.AUTH_PASSWORD_BCRYPT;
 
-  return username === validUsername && password === validPassword;
+  if (!validUsername || !validPasswordHash || !password) return false;
+
+  try {
+    const isUsernameValid = await bcrypt.compare(username, validUsername);
+    const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
+    return isUsernameValid && isPasswordValid;
+  } catch (error) {
+    console.error("Error comparing password:", error);
+    return false;
+  }
 }
 
 function unauthorizedResponse(): Response {
@@ -44,8 +55,14 @@ export async function GET() {
 export async function POST(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { titleTh, titleEn, descriptionTh, descriptionEn, link_url, createBy } =
-      await req.json();
+    const {
+      titleTh,
+      titleEn,
+      descriptionTh,
+      descriptionEn,
+      link_url,
+      createBy,
+    } = await req.json();
     const newDoc = await prisma.publication.create({
       data: {
         titleTh,
@@ -53,7 +70,7 @@ export async function POST(req: Request) {
         descriptionTh,
         descriptionEn,
         linkUrl: link_url,
-        createBy
+        createBy,
       },
     });
     return Response.json(newDoc);
@@ -76,8 +93,15 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
-    const { id, titleTh, titleEn, descriptionTh, descriptionEn, link_url, editBy } =
-      await req.json();
+    const {
+      id,
+      titleTh,
+      titleEn,
+      descriptionTh,
+      descriptionEn,
+      link_url,
+      editBy,
+    } = await req.json();
 
     const updatedDoc = await prisma.publication.update({
       where: {
@@ -89,7 +113,7 @@ export async function PUT(req: Request) {
         descriptionTh,
         descriptionEn,
         linkUrl: link_url,
-        editBy
+        editBy,
       },
     });
 
