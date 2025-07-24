@@ -21,7 +21,8 @@ interface DashboardData {
   id: number;
   categoryId: number;
   title: string;
-  embedCode: string;
+  embedCode?: string;
+  web_url?: string;
   createdAt: string;
   isActive: boolean;
 }
@@ -92,42 +93,42 @@ const DataPage: React.FC = () => {
   };
 
   // Component สำหรับแสดง Embed Code - ปรับปรุงแล้ว
-  const EmbedCodeRenderer: React.FC<{ 
-    embedCode: string; 
-    dashboardId: number; 
+  const EmbedCodeRenderer: React.FC<{
+    embedCode: string;
+    dashboardId: number;
   }> = ({ embedCode, dashboardId }) => {
     const [isLoaded, setIsLoaded] = useState(false);
-    
+
     useEffect(() => {
       // สร้าง unique container id
       const containerId = `embed-container-${dashboardId}`;
       const container = document.getElementById(containerId);
-      
+
       if (!container) return;
 
       // ล้างเนื้อหาเดิม
-      container.innerHTML = '';
-      
+      container.innerHTML = "";
+
       // สร้าง wrapper div
-      const wrapper = document.createElement('div');
-      wrapper.style.width = '100%';
-      wrapper.style.minHeight = '400px'; // กำหนดความสูงขั้นต่ำ
-      wrapper.style.overflow = 'visible'; // ให้แสดงเนื้อหาที่เกิน
-      
+      const wrapper = document.createElement("div");
+      wrapper.style.width = "100%";
+      wrapper.style.minHeight = "400px"; // กำหนดความสูงขั้นต่ำ
+      wrapper.style.overflow = "visible"; // ให้แสดงเนื้อหาที่เกิน
+
       // แทรก embed code
       wrapper.innerHTML = embedCode;
       container.appendChild(wrapper);
 
       // จัดการ scripts ใน embed code
-      const scripts = wrapper.querySelectorAll('script');
+      const scripts = wrapper.querySelectorAll("script");
       scripts.forEach((oldScript) => {
-        const newScript = document.createElement('script');
-        
+        const newScript = document.createElement("script");
+
         // คัดลอก attributes
-        Array.from(oldScript.attributes).forEach(attr => {
+        Array.from(oldScript.attributes).forEach((attr) => {
           newScript.setAttribute(attr.name, attr.value);
         });
-        
+
         // คัดลอก content
         if (oldScript.src) {
           newScript.src = oldScript.src;
@@ -135,23 +136,24 @@ const DataPage: React.FC = () => {
         } else {
           newScript.textContent = oldScript.textContent;
         }
-        
+
         // แทนที่ script เก่าด้วยใหม่
         oldScript.parentNode?.replaceChild(newScript, oldScript);
       });
 
       // หาก embed code มี iframe ให้จัดการ responsive
-      const iframes = wrapper.querySelectorAll('iframe');
+      const iframes = wrapper.querySelectorAll("iframe");
       iframes.forEach((iframe) => {
-        iframe.style.width = '100%';
-        iframe.style.minHeight = '400px';
-        iframe.style.border = 'none';
-        
+        iframe.style.width = "100%";
+        iframe.style.minHeight = "400px";
+        iframe.style.border = "none";
+
         // เพิ่ม event listener เพื่อปรับขนาดอัตโนมัติ
         iframe.onload = () => {
           try {
             // พยายามปรับขนาดตาม content
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+            const iframeDoc =
+              iframe.contentDocument || iframe.contentWindow?.document;
             if (iframeDoc) {
               const height = Math.max(
                 iframeDoc.documentElement.scrollHeight,
@@ -162,17 +164,19 @@ const DataPage: React.FC = () => {
             }
           } catch {
             // หากไม่สามารถเข้าถึง iframe content ได้ (CORS)
-            iframe.style.height = '500px'; // ใช้ความสูงเริ่มต้น
+            iframe.style.height = "500px"; // ใช้ความสูงเริ่มต้น
           }
           setIsLoaded(true);
         };
       });
 
       // หาก embed code มี div หรือ element อื่น
-      const embeddedDivs = wrapper.querySelectorAll('div[id*="viz"], div[class*="tableauPlaceholder"]');
+      const embeddedDivs = wrapper.querySelectorAll(
+        'div[id*="viz"], div[class*="tableauPlaceholder"]'
+      );
       embeddedDivs.forEach((div) => {
-        (div as HTMLElement).style.width = '100%';
-        (div as HTMLElement).style.overflowX = 'auto';
+        (div as HTMLElement).style.width = "100%";
+        (div as HTMLElement).style.overflowX = "auto";
       });
 
       setIsLoaded(true);
@@ -180,7 +184,7 @@ const DataPage: React.FC = () => {
       // Cleanup function
       return () => {
         if (container) {
-          container.innerHTML = '';
+          container.innerHTML = "";
         }
       };
     }, [embedCode, dashboardId]);
@@ -192,11 +196,11 @@ const DataPage: React.FC = () => {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6366F1]"></div>
           </div>
         )}
-        <div 
-          id={`embed-container-${dashboardId}`} 
+        <div
+          id={`embed-container-${dashboardId}`}
           className="w-full min-h-[400px] overflow-visible"
-          style={{ 
-            display: isLoaded ? 'block' : 'none'
+          style={{
+            display: isLoaded ? "block" : "none",
           }}
         />
       </div>
@@ -322,13 +326,23 @@ const DataPage: React.FC = () => {
                             )}
                           </p>
                         </div>
-                        
+
                         {/* Embed Code Container - ปรับปรุงแล้ว */}
                         <div className="w-full">
-                          <EmbedCodeRenderer
-                            embedCode={dashboard.embedCode}
-                            dashboardId={dashboard.id}
-                          />
+                          {dashboard.embedCode && (
+                            <EmbedCodeRenderer
+                              embedCode={dashboard.embedCode}
+                              dashboardId={dashboard.id}
+                            />
+                          )}
+                          {dashboard.web_url && (
+                            <iframe
+                              src={dashboard.web_url}
+                              width="100%"
+                              height="600"
+                              title={`Dashboard ${dashboard.id}`}
+                            />
+                          )}
                         </div>
                       </div>
                     ))}

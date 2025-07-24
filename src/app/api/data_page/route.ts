@@ -1,17 +1,27 @@
 import { prisma } from "../../lib/prisma";
+import bcrypt from 'bcrypt';
 
-function isBasicAuthValid(req: Request): boolean {
+async function isBasicAuthValid(req: Request): Promise<boolean> {
   const auth = req.headers.get("authorization");
   if (!auth || !auth.startsWith("Basic ")) return false;
-
+  
   const encoded = auth.split(" ")[1];
   const decoded = Buffer.from(encoded, "base64").toString("utf-8");
   const [username, password] = decoded.split(":");
-
+  
   const validUsername = process.env.AUTH_USERNAME;
-  const validPassword = process.env.AUTH_PASSWORD;
-
-  return username === validUsername && password === validPassword;
+  const validPasswordHash = process.env.AUTH_PASSWORD_BCRYPT;
+  
+  if (!validUsername || !validPasswordHash || !password) return false;
+  
+  try {
+    const isUsernameValid = await bcrypt.compare(username, validUsername);;
+    const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
+    return isUsernameValid && isPasswordValid;
+  } catch (error) {
+    console.error('Error comparing password:', error);
+    return false;
+  }
 }
 
 function unauthorizedResponse(): Response {
@@ -24,7 +34,8 @@ function unauthorizedResponse(): Response {
 }
 
 // Get all Data Category
-export async function GET() {
+export async function GET(req: Request) {
+  if (!isBasicAuthValid(req)) return unauthorizedResponse();
   try {
     const routes = await prisma.dataCategory.findMany();
     return Response.json(routes);

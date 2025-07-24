@@ -46,6 +46,7 @@ model DataCategory {
   createBy      String      @map("create_by")
   editBy        String?     @map("edit_by")
   embeds        DataEmbed[]
+  web_url       String?
 
   @@map("data_category")
 }
