@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "prisma generate"
+    "prebuild": "prisma generate",
+    "deploy:migrate": "prisma migrate deploy",
+    "push:db": "prisma db push"
   },
   "dependencies": {
     "@heroui/card": "^2.2.16",
