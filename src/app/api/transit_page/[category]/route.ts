@@ -1,8 +1,34 @@
-// /api/transit_page/[category]/route.ts
-import { prisma } from "../../../lib/prisma";
+// /api/transit_page/[category]/routes.ts
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+import { rateLimit } from "../../../lib/rate-limit";
+import { z } from "zod";
 import { NextRequest } from "next/server";
 
-import bcrypt from "bcrypt";
+const prisma = new PrismaClient();
+const MAX_BODY_SIZE = 1 * 1024 * 1024; // 1 MB
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // จำกัด 100 requests ต่อ 15 นาที
+});
+
+// Validation schemas
+const transitServiceSchema = z.object({
+  imageUrl: z.string().url("imageUrl ต้องเป็น URL ที่ถูกต้อง"),
+  title: z.string().min(1, "title ต้องไม่ว่าง"),
+  createBy: z.string().min(1, "createBy ต้องไม่ว่าง"),
+});
+
+const transitServiceUpdateSchema = z.object({
+  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก").optional(),
+  imageUrl: z.string().url("imageUrl ต้องเป็น URL ที่ถูกต้อง"),
+  title: z.string().min(1, "title ต้องไม่ว่าง"),
+  editBy: z.string().min(1, "editBy ต้องไม่ว่าง"),
+});
+
+const transitServiceDeleteSchema = z.object({
+  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก").optional(),
+});
 
 async function isBasicAuthValid(req: Request): Promise<boolean> {
   const auth = req.headers.get("authorization");
@@ -18,7 +44,8 @@ async function isBasicAuthValid(req: Request): Promise<boolean> {
   if (!validUsername || !validPasswordHash || !password) return false;
 
   try {
-    const isUsernameValid = await bcrypt.compare(username, validUsername);
+    // Fix: Compare username as string, not with bcrypt
+    const isUsernameValid = username === validUsername;
     const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
     return isUsernameValid && isPasswordValid;
   } catch (error) {
@@ -67,7 +94,7 @@ export async function GET(
     return Response.json(
       {
         error: "Failed to fetch transit category",
-        message: error instanceof Error ? error.message : "Unknown error",
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
@@ -81,13 +108,41 @@ export async function POST(
   request: NextRequest,
   context: { params: Promise<{ category: string }> }
 ) {
-  if (!isBasicAuthValid(request)) return unauthorizedResponse();
+  if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
+
+  // Check payload size
+  if (
+    request.headers.get("content-length") &&
+    parseInt(request.headers.get("content-length")!) > MAX_BODY_SIZE
+  ) {
+    return Response.json(
+      { error: "Payload Must Not Exceed 1MB" },
+      { status: 413 }
+    );
+  }
+
+  // Apply rate limiting
+  const rateLimitResult = await limiter(request);
+  if (!rateLimitResult.success) {
+    return Response.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   try {
     const { category } = await context.params;
     const categoryName = category;
 
-    const { imageUrl, title, createBy } = await request.json();
+    // Parse and validate request body
+    const body = await request.json();
+    const parseResult = transitServiceSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      return Response.json(
+        { error: "Validation failed", details: parseResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { imageUrl, title, createBy } = parseResult.data;
 
     const categories = await prisma.transitCategory.findUnique({
       where: { name: categoryName },
@@ -115,8 +170,8 @@ export async function POST(
     console.error("Error creating transit service:", error);
     return Response.json(
       {
-        error: "Failed to create transit service",
-        message: error instanceof Error ? error.message : "Unknown error",
+        error: "Error occurred",
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
@@ -130,13 +185,41 @@ export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ category: string }> }
 ) {
-  if (!isBasicAuthValid(request)) return unauthorizedResponse();
+  if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
+
+  // Check payload size
+  if (
+    request.headers.get("content-length") &&
+    parseInt(request.headers.get("content-length")!) > MAX_BODY_SIZE
+  ) {
+    return Response.json(
+      { error: "Payload Must Not Exceed 1MB" },
+      { status: 413 }
+    );
+  }
+
+  // Apply rate limiting
+  const rateLimitResult = await limiter(request);
+  if (!rateLimitResult.success) {
+    return Response.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   try {
     const { category } = await context.params;
     const categoryName = category;
 
-    const { imageUrl, title, editBy } = await request.json();
+    // Parse and validate request body
+    const body = await request.json();
+    const parseResult = transitServiceUpdateSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      return Response.json(
+        { error: "Validation failed", details: parseResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { id, imageUrl, title, editBy } = parseResult.data;
 
     // Find the category
     const categories = await prisma.transitCategory.findUnique({
@@ -151,12 +234,19 @@ export async function PUT(
       );
     }
 
-    // Find the first transit service in the category to update
-    const existingService = await prisma.transitService.findFirst({
-      where: { categoryId: categoryId },
-    });
+    // If id is provided, update specific service, otherwise update first one
+    let serviceToUpdate;
+    if (id) {
+      serviceToUpdate = await prisma.transitService.findFirst({
+        where: { id, categoryId },
+      });
+    } else {
+      serviceToUpdate = await prisma.transitService.findFirst({
+        where: { categoryId },
+      });
+    }
 
-    if (!existingService) {
+    if (!serviceToUpdate) {
       return Response.json(
         { error: "No transit service found for this category" },
         { status: 404 }
@@ -164,7 +254,7 @@ export async function PUT(
     }
 
     const updateTransitService = await prisma.transitService.update({
-      where: { id: existingService.id },
+      where: { id: serviceToUpdate.id },
       data: {
         imageUrl,
         title,
@@ -177,8 +267,8 @@ export async function PUT(
     console.error("Error updating transit service:", error);
     return Response.json(
       {
-        error: "Failed to update transit service",
-        message: error instanceof Error ? error.message : "Unknown error",
+        error: "Error occurred",
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
@@ -192,11 +282,40 @@ export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ category: string }> }
 ) {
-  if (!isBasicAuthValid(request)) return unauthorizedResponse();
+  if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
+
+  // Check payload size
+  if (
+    request.headers.get("content-length") &&
+    parseInt(request.headers.get("content-length")!) > MAX_BODY_SIZE
+  ) {
+    return Response.json(
+      { error: "Payload Must Not Exceed 1MB" },
+      { status: 413 }
+    );
+  }
+
+  // Apply rate limiting
+  const rateLimitResult = await limiter(request);
+  if (!rateLimitResult.success) {
+    return Response.json({ error: "Too many requests" }, { status: 429 });
+  }
 
   try {
     const { category } = await context.params;
     const categoryName = category;
+
+    // Parse and validate request body (optional for specific ID)
+    let serviceId: number | undefined;
+    try {
+      const body = await request.json();
+      const parseResult = transitServiceDeleteSchema.safeParse(body);
+      if (parseResult.success) {
+        serviceId = parseResult.data.id;
+      }
+    } catch {
+      // If no body or invalid JSON, delete first service
+    }
 
     // Find the category
     const categories = await prisma.transitCategory.findUnique({
@@ -211,12 +330,19 @@ export async function DELETE(
       );
     }
 
-    // Find the first transit service in the category to delete
-    const existingService = await prisma.transitService.findFirst({
-      where: { categoryId: categoryId },
-    });
+    // If serviceId is provided, delete specific service, otherwise delete first one
+    let serviceToDelete;
+    if (serviceId) {
+      serviceToDelete = await prisma.transitService.findFirst({
+        where: { id: serviceId, categoryId },
+      });
+    } else {
+      serviceToDelete = await prisma.transitService.findFirst({
+        where: { categoryId },
+      });
+    }
 
-    if (!existingService) {
+    if (!serviceToDelete) {
       return Response.json(
         { error: "No transit service found for this category" },
         { status: 404 }
@@ -224,7 +350,7 @@ export async function DELETE(
     }
 
     const deletedService = await prisma.transitService.delete({
-      where: { id: existingService.id },
+      where: { id: serviceToDelete.id },
     });
 
     return Response.json({
@@ -235,8 +361,8 @@ export async function DELETE(
     console.error("Error deleting transit service:", error);
     return Response.json(
       {
-        error: "Failed to delete transit service",
-        message: error instanceof Error ? error.message : "Unknown error",
+        error: "Error occurred",
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
