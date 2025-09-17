@@ -3,17 +3,22 @@
 เอกสารนี้รวบรวมข้อมูลเกี่ยวกับ API endpoints ที่มีอยู่ในโปรเจกต์นี้
 
 [ไปส่วน API หมวดหมู่ข้อมูล](#api-หมวดหมู่ข้อมูล)
+
 [ไปส่วน API เนื้อหาข้อมูล](#api-เนื้อหาข้อมูล)
+
 [ไปส่วน API ข่าว](#api-ข่าว)
+
 [ไปส่วน API ไฟล์เอกสาร](#api-ไฟล์เอกสาร)
+
 [ไปส่วน API หมวดหมู่ตารางรถ](#api-หมวดหมู่ตารางรถ)
+
 [ไปส่วน API รูปภาพตารางรถ](#api-รูปภาพตารางรถ)
 
 ## API หมวดหมู่ข้อมูล
 
 ### Endpoint: /api/data_page
 
-### [ไปที่ File API นี้](/app/api/data_page/route.ts)
+### [ไปที่ File API นี้](/src/app/api/data_page/route.ts)
 
 #### Method GET
 
@@ -153,7 +158,7 @@
 
 โดยที่ [category] คือ ชื่อของหมวดหมู่นั้นๆ
 
-### [ไปที่ File API นี้](/app/api/data_page/[category]/route.ts)
+### [ไปที่ File API นี้](/src/app/api/data_page/[category]/route.ts)
 
 #### Method GET
 
@@ -287,7 +292,7 @@
 
 ### Endpoint: /api/news
 
-### [ไปที่ File API นี้](app/api/news/route.ts)
+### [ไปที่ File API นี้](/src/app/api/news/route.ts)
 
 API นี้มีไว้จัดการ CORS ของ API ข่าวเท่านั้น
 
@@ -295,7 +300,7 @@ API นี้มีไว้จัดการ CORS ของ API ข่าว�
 
 ### Endpoint: /api/public_doc
 
-### [ไปที่ File API นี้](/app/api/public_doc/route.ts)
+### [ไปที่ File API นี้](/src/app/api/public_doc/route.ts)
 
 #### Method GET
 
@@ -442,7 +447,7 @@ API นี้มีไว้จัดการ CORS ของ API ข่าว�
 
 ### Endpoint: /api/transit_page
 
-### [ไปที่ File API นี้](/app/api/transit_page/route.ts)
+### [ไปที่ File API นี้](/src/app/api/transit_page/route.ts)
 
 #### Method GET
 
@@ -579,7 +584,7 @@ API นี้มีไว้จัดการ CORS ของ API ข่าว�
 
 โดยที่ [category] คือ ชื่อของหมวดหมู่นั้นๆ
 
-### [ไปที่ File API นี้](/app/api/transit_page/[category]/route.ts)
+### [ไปที่ File API นี้](/src/app/api/transit_page/[category]/route.ts)
 
 #### Method GET
 
@@ -711,5 +716,14 @@ API นี้มีไว้จัดการ CORS ของ API ข่าว�
 ## MinIO
 
 สำหรับ upload ไฟล์ หรือรูปที่จะเก็บไว้ เข้าผ่าน **http://your-domain:9001**
-และเข้าถึงไฟล์ได้ผ่าน **http://your-domain:9001/your-bucket-name/file-name**
-โดยเบื้องต้น ได้เซ็ตให้ bucket มี 2 อัน คือ cmu-routes และ documents ซึ่งเป็น public bucket และสามารถ Download ไฟล์ได้เท่านั้น
+และเข้าถึงไฟล์ได้ผ่าน **http://your-domain:9000/your-bucket-name/file-name**
+
+- โดยเข้าไปที่ **http://your-domain:9001** หลังจากนั้นให้กดสร้าง bucket ขึ้นมา
+- หลังจากนั้นให้ไปที่ server แล้วรันคำสั่ง
+
+```bash
+	mc alias set name MinIO_API_URL Access_Key Secret_Key
+	mc policy set readonly myminio/<bucket-name> # ตั้ง access ให้เป็น read only
+```
+
+จะทำการปรับให้ทุกคนสามารถเห็นไฟล์ใน bucket นี้ได้ และสามารถโหลดได้อย่างเดียว
