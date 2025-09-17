@@ -1,0 +1,35 @@
+services:
+  nextjs:
+    image: punnawich0210/scmc_website:1.0.1
+    container_name: scmc_nextjs
+    ports:
+      - "3002:3002" # port internal-external mapping
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    container_name: scmc_postgres
+    environment:
+      POSTGRES_USER: scmc
+      POSTGRES_PASSWORD: scmc_password
+      POSTGRES_DB: scmc_database
+    ports:
+      - "5433:5432" # ป้องกันชนกับ cctv-postgres (5432)
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres-data:
