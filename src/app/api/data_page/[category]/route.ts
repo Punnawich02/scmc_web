@@ -1,6 +1,33 @@
-import { prisma } from "../../../lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import { NextRequest } from "next/server";
 import bcrypt from "bcrypt";
+import { rateLimit } from "../../../lib/rate-limit";
+import { z } from "zod";
+
+const prisma = new PrismaClient();
+const MAX_BODY_SIZE = 1 * 1024 * 1024; // 1 MB
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // จำกัด 100 requests ต่อ 15 นาที
+});
+
+// Validation schemas
+const dataEmbedSchema = z.object({
+  title: z.string().min(1, "title ต้องไม่ว่าง"),
+  embedCode: z.string().min(1, "embedCode ต้องไม่ว่าง"),
+  createBy: z.string().min(1, "createBy ต้องไม่ว่าง"),
+});
+
+const dataEmbedUpdateSchema = z.object({
+  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก").optional(),
+  title: z.string().min(1, "title ต้องไม่ว่าง"),
+  embedCode: z.string().min(1, "embedCode ต้องไม่ว่าง"),
+  editBy: z.string().min(1, "editBy ต้องไม่ว่าง"),
+});
+
+const dataEmbedDeleteSchema = z.object({
+  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก").optional(),
+});
 
 async function isBasicAuthValid(req: Request): Promise<boolean> {
   const auth = req.headers.get("authorization");
@@ -16,7 +43,8 @@ async function isBasicAuthValid(req: Request): Promise<boolean> {
   if (!validUsername || !validPasswordHash || !password) return false;
 
   try {
-    const isUsernameValid = await bcrypt.compare(username, validUsername);
+    // Fix: Compare username as string, not with bcrypt
+    const isUsernameValid = username === validUsername;
     const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
     return isUsernameValid && isPasswordValid;
   } catch (error) {
@@ -65,7 +93,7 @@ export async function GET(
     return Response.json(
       {
         error: "Failed to fetch data category",
-        message: error instanceof Error ? error.message : "Unknown error",
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
@@ -79,12 +107,41 @@ export async function POST(
   request: NextRequest,
   context: { params: Promise<{ category: string }> }
 ) {
-  if (!isBasicAuthValid(request)) return unauthorizedResponse();
+  if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
+
+  // Check payload size
+  if (
+    request.headers.get("content-length") &&
+    parseInt(request.headers.get("content-length")!) > MAX_BODY_SIZE
+  ) {
+    return Response.json(
+      { error: "Payload Must Not Exceed 1MB" },
+      { status: 413 }
+    );
+  }
+
+  // Apply rate limiting
+  const rateLimitResult = await limiter(request);
+  if (!rateLimitResult.success) {
+    return Response.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { category } = await context.params;
     const categoryName = category;
 
-    const { title, embedCode, createBy } = await request.json();
+    // Parse and validate request body
+    const body = await request.json();
+    const parseResult = dataEmbedSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      return Response.json(
+        { error: "Validation failed", details: parseResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { title, embedCode, createBy } = parseResult.data;
 
     const categories = await prisma.dataCategory.findUnique({
       where: { name: categoryName },
@@ -110,7 +167,13 @@ export async function POST(
     return Response.json(newPost);
   } catch (error) {
     console.error("Error creating embed:", error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      {
+        error: "Error occurred",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
   } finally {
     await prisma.$disconnect();
   }
@@ -121,12 +184,41 @@ export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ category: string }> }
 ) {
-  if (!isBasicAuthValid(request)) return unauthorizedResponse();
+  if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
+
+  // Check payload size
+  if (
+    request.headers.get("content-length") &&
+    parseInt(request.headers.get("content-length")!) > MAX_BODY_SIZE
+  ) {
+    return Response.json(
+      { error: "Payload Must Not Exceed 1MB" },
+      { status: 413 }
+    );
+  }
+
+  // Apply rate limiting
+  const rateLimitResult = await limiter(request);
+  if (!rateLimitResult.success) {
+    return Response.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { category } = await context.params;
     const categoryName = category;
 
-    const { title, embedCode, editBy } = await request.json();
+    // Parse and validate request body
+    const body = await request.json();
+    const parseResult = dataEmbedUpdateSchema.safeParse(body);
+
+    if (!parseResult.success) {
+      return Response.json(
+        { error: "Validation failed", details: parseResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { id, title, embedCode, editBy } = parseResult.data;
 
     // Find the category
     const categories = await prisma.dataCategory.findUnique({
@@ -141,12 +233,19 @@ export async function PUT(
       );
     }
 
-    // Find the first embed in the category to update
-    const existingEmbed = await prisma.dataEmbed.findFirst({
-      where: { categoryId: categoryId },
-    });
+    // If id is provided, update specific embed, otherwise update first one
+    let embedToUpdate;
+    if (id) {
+      embedToUpdate = await prisma.dataEmbed.findFirst({
+        where: { id, categoryId },
+      });
+    } else {
+      embedToUpdate = await prisma.dataEmbed.findFirst({
+        where: { categoryId },
+      });
+    }
 
-    if (!existingEmbed) {
+    if (!embedToUpdate) {
       return Response.json(
         { error: "No embed found for this category" },
         { status: 404 }
@@ -154,7 +253,7 @@ export async function PUT(
     }
 
     const updateEmbed = await prisma.dataEmbed.update({
-      where: { id: existingEmbed.id },
+      where: { id: embedToUpdate.id },
       data: {
         title,
         embedCode,
@@ -165,7 +264,13 @@ export async function PUT(
     return Response.json(updateEmbed);
   } catch (error) {
     console.error("Error updating embed:", error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      {
+        error: "Error occurred",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
   } finally {
     await prisma.$disconnect();
   }
@@ -176,10 +281,40 @@ export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ category: string }> }
 ) {
-  if (!isBasicAuthValid(request)) return unauthorizedResponse();
+  if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
+
+  // Check payload size
+  if (
+    request.headers.get("content-length") &&
+    parseInt(request.headers.get("content-length")!) > MAX_BODY_SIZE
+  ) {
+    return Response.json(
+      { error: "Payload Must Not Exceed 1MB" },
+      { status: 413 }
+    );
+  }
+
+  // Apply rate limiting
+  const rateLimitResult = await limiter(request);
+  if (!rateLimitResult.success) {
+    return Response.json({ error: "Too many requests" }, { status: 429 });
+  }
+
   try {
     const { category } = await context.params;
     const categoryName = category;
+
+    // Parse and validate request body (optional for specific ID)
+    let embedId: number | undefined;
+    try {
+      const body = await request.json();
+      const parseResult = dataEmbedDeleteSchema.safeParse(body);
+      if (parseResult.success) {
+        embedId = parseResult.data.id;
+      }
+    } catch {
+      // If no body or invalid JSON, delete first embed
+    }
 
     // Find the category
     const categories = await prisma.dataCategory.findUnique({
@@ -194,12 +329,19 @@ export async function DELETE(
       );
     }
 
-    // Find the first embed in the category to delete
-    const existingEmbed = await prisma.dataEmbed.findFirst({
-      where: { categoryId: categoryId },
-    });
+    // If embedId is provided, delete specific embed, otherwise delete first one
+    let embedToDelete;
+    if (embedId) {
+      embedToDelete = await prisma.dataEmbed.findFirst({
+        where: { id: embedId, categoryId },
+      });
+    } else {
+      embedToDelete = await prisma.dataEmbed.findFirst({
+        where: { categoryId },
+      });
+    }
 
-    if (!existingEmbed) {
+    if (!embedToDelete) {
       return Response.json(
         { error: "No embed found for this category" },
         { status: 404 }
@@ -207,13 +349,22 @@ export async function DELETE(
     }
 
     const deletedEmbed = await prisma.dataEmbed.delete({
-      where: { id: existingEmbed.id },
+      where: { id: embedToDelete.id },
     });
 
-    return Response.json(deletedEmbed);
+    return Response.json({
+      message: "Data embed deleted successfully",
+      deletedEmbed,
+    });
   } catch (error) {
     console.error("Error deleting embed:", error);
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    return Response.json(
+      {
+        error: "Error occurred",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    );
   } finally {
     await prisma.$disconnect();
   }
