@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { NextRequest } from "next/server";
+// Note: Use standard Request to simplify typing and testing
 import bcrypt from "bcrypt";
 import { rateLimit } from "../../../lib/rate-limit";
 import { z } from "zod";
@@ -64,7 +64,7 @@ function unauthorizedResponse(): Response {
 
 // Get embed code in that category
 export async function GET(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   try {
@@ -104,7 +104,7 @@ export async function GET(
 
 // New embed code in that category
 export async function POST(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
@@ -181,7 +181,7 @@ export async function POST(
 
 // Update embed code in that category
 export async function PUT(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
@@ -278,7 +278,7 @@ export async function PUT(
 
 // Delete embed code
 export async function DELETE(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   if (!(await isBasicAuthValid(request))) return unauthorizedResponse();

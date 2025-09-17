@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { rateLimit } from "../../../lib/rate-limit";
 import { z } from "zod";
-import { NextRequest } from "next/server";
+// Note: Use standard Request for simplicity; we don't use NextRequest extras
 
 const prisma = new PrismaClient();
 const MAX_BODY_SIZE = 1 * 1024 * 1024; // 1 MB
@@ -65,7 +65,7 @@ function unauthorizedResponse(): Response {
 
 // GET all route category
 export async function GET(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   try {
@@ -105,7 +105,7 @@ export async function GET(
 
 // POST new Time table on that Category
 export async function POST(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
@@ -182,7 +182,7 @@ export async function POST(
 
 // Update(PUT) Time table on that Category
 export async function PUT(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   if (!(await isBasicAuthValid(request))) return unauthorizedResponse();
@@ -279,7 +279,7 @@ export async function PUT(
 
 // Delete Time table on that Category
 export async function DELETE(
-  request: NextRequest,
+  request: Request,
   context: { params: Promise<{ category: string }> }
 ) {
   if (!(await isBasicAuthValid(request))) return unauthorizedResponse();

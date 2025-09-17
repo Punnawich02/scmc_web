@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "prebuild": "prisma generate",
     "deploy:migrate": "prisma migrate deploy",
     "push:db": "prisma db push"
@@ -37,8 +39,10 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
+    "jsdom": "^25.0.1",
     "prisma": "^6.10.1",
     "tailwindcss": "^4",
+    "vitest": "^2.0.5",
     "typescript": "^5"
   }
 }
