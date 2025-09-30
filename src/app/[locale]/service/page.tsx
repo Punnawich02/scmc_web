@@ -12,7 +12,8 @@ import {
   BusFront,
   Building,
   HousePlug,
-  UserRound,
+  Cctv,
+  File,
 } from "lucide-react";
 
 export default function ServicePage() {
@@ -31,6 +32,11 @@ export default function ServicePage() {
       icon: <BusFront />,
     },
     {
+      title: `ขอดูกล้องวงจรปิด`,
+      link: "#",
+      icon: <Cctv />,
+    },
+    {
       title: t("build"),
       link: "/building",
       icon: <Building />,
@@ -41,9 +47,9 @@ export default function ServicePage() {
       icon: <HousePlug />,
     },
     {
-      title: t("personel"),
+      title: `เอกสารเผยแพร่`,
       link: "/personnel",
-      icon: <UserRound />,
+      icon: <File />,
     },
   ];
 
