@@ -1,5 +1,4 @@
 "use client";
-
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
 import { motion } from "framer-motion";
@@ -15,72 +14,87 @@ const PersonnelPage: React.FC = () => {
     {
       title: t("car"),
       link: "#car",
-      icon: <Car className="w-10 h-10 text-white" />,
+      icon: <Car className="w-8 h-8 text-white" />,
+      gradient: "from-blue-500 to-blue-600",
     },
     {
       title: t("doc"),
       link: "#doc",
-      icon: <File className="w-10 h-10 text-white" />,
+      icon: <File className="w-8 h-8 text-white" />,
+      gradient: "from-green-500 to-green-600",
     },
     {
       title: t("cmuto"),
       link: "https://cmu.to/",
-      icon: <Globe className="w-10 h-10 text-white" />,
+      icon: <Globe className="w-8 h-8 text-white" />,
+      gradient: "from-purple-500 to-purple-600",
     },
   ];
 
   return (
-    <div className="flex min-h-screen bg-white flex-col font-[Prompt] text-gray-800">
+    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex-col font-[Prompt] text-gray-800">
       <Header title={t("page_title")} />
-      <main className="flex flex-col items-center px-4 py-6 w-full mx-auto max-w-6xl">
+
+      <main className="flex flex-col items-center px-4 py-8 w-full mx-auto max-w-6xl flex-1">
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="px-0 sm:px-15"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="w-full"
         >
-          {/* กล่องหลัก */}
-          <div className="rounded-3xl bg-[#8F90E5] p-8 shadow-xl">
-            {/* หัวเรื่อง */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-              {/* Icon */}
-              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm">
+          {/* Header Section */}
+          <div className="relative rounded-2xl p-6 shadow-lg bg-[url('/service.jpg')] bg-cover bg-center h-32">
+            <div className="absolute inset-0 bg-[#111243]/60 rounded-2xl" />
+            <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
+              {/* Icon Container */}
+              <div className="bg-gradient-to-br from-[#5759BB] to-[#4B4DB8] rounded-full p-4 shadow-xl">
                 <Building2 className="w-12 h-12 text-white" />
               </div>
 
-              {/* ข้อความ */}
-
-              <h1 className="text-white font-bold text-2xl mb-1 text-center sm:text-start sm:text-3xl">
-                {t("header")}
-              </h1>
-              <p className="text-white/80 text-sm leading-relaxed">
-                {t("title")}
-              </p>
+              {/* Text Content */}
+              <div className="text-center sm:text-left">
+                <div className="text-white font-bold text-3xl sm:text-4xl mb-2 drop-shadow-lg">
+                  {t("header")}
+                </div>
+              </div>
             </div>
+          </div>
 
-            {/* การ์ด 2 บน 1 ล่าง */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4  px-0 sm:px-9 py-4 sm:p-6">
-              {cardData.map(({ title, link, icon }, i) => (
-                <div
-                  key={i}
-                  className={i === 2 ? "sm:col-span-2 flex justify-center" : ""}
+          {/* Cards Section */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 px-2 mt-6">
+            {cardData.map(({ title, link, icon }, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
+                className={
+                  index === 2 ? "sm:col-span-2 flex justify-center" : ""
+                }
+              >
+                <Link
+                  href={link}
+                  className={`block w-full ${
+                    index === 2 ? "sm:max-w-md" : ""
+                  } group`}
+                  target={link.startsWith("http") ? "_blank" : "_self"}
+                  rel={link.startsWith("http") ? "noopener noreferrer" : ""}
                 >
-                  <Link href={link} className="sm:w-[50%] w-full">
-                    <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
-                      <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
+                  <div className="bg-[#e9eaff] backdrop-blur-md rounded-2xl p-8 flex flex-col items-center transition-all shadow-lg border border-white/20 hover:shadow-xl hover:bg-[#a0a4fe] hover:scale-105">
+                      <div className="w-16 h-16 bg-[#5759BB] rounded-full flex items-center justify-center shadow-md mb-6">
                         {icon}
                       </div>
-                      <span className="text-white text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
+                      <span className="text-[#5759BB] text-lg font-semibold text-center">
                         {title}
                       </span>
                     </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                </Link>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </main>
+
       <Footer />
     </div>
   );

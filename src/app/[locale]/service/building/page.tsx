@@ -13,68 +13,71 @@ const BuildingPage: React.FC = () => {
     {
       title: t("booking"),
       link: process.env.NEXT_PUBLIC_CMU_BOOKING_AREA || "",
-      description: t("build_title"),
-      icon: <Building className="w-10 h-10" color="#FFF" strokeWidth={2} />,
+      icon: <Building className="w-10 h-10 text-white" strokeWidth={2} />,
     },
     {
       title: t("approve"),
       link: process.env.NEXT_PUBLIC_CMU_BUILDING || "",
-      description: t("check_title"),
-      icon: <HousePlus className="w-10 h-10" color="#FFF" strokeWidth={2} />,
+      icon: <HousePlus className="w-10 h-10 text-white" strokeWidth={2} />,
     },
   ];
 
   return (
-    <div className="flex min-h-screen bg-white flex-col font-[Prompt] text-gray-800">
+    <div className="flex min-h-screen flex-col font-[Prompt] text-gray-800 bg-white">
       <Header title={t("page_title")} />
-      <main className="flex flex-col items-center px-4 py-6 w-full mx-auto max-w-6xl">
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="px-0 sm:px-15"
-        >
-          {/* กล่องหลัก */}
-          <div className="rounded-3xl bg-[#8F90E5] p-8 shadow-xl">
-            {/* หัวเรื่อง */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-8">
-              {/* Icon */}
-              <div className="bg-[#5759BB] rounded-full p-3 shadow-lg backdrop-blur-sm">
-                <Building2 className="w-10 h-10 text-white" />
+      <main className="flex-1 flex flex-col justify-start px-4 py-6 md:py-12">
+        <div className="w-full mx-auto max-w-7xl">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="space-y-8"
+          >
+            {/* กล่องหัวเรื่อง */}
+            <div className="relative rounded-2xl p-6 shadow-lg bg-[url('/service.jpg')] bg-cover bg-center h-32">
+              <div className="absolute inset-0 bg-[#111243]/60 rounded-2xl" />
+              <div className="relative flex h-full items-center justify-start">
+                <div className="flex items-center gap-4">
+                  <div className="bg-[#5759BB] rounded-full p-4 shadow-lg">
+                    <Building2 className="w-10 h-10 text-white" />
+                  </div>
+                  <h1 className="text-white font-extrabold text-2xl md:text-3xl leading-snug">
+                    {t("header")}
+                  </h1>
+                </div>
               </div>
-
-              {/* ข้อความ */}
-
-              <h1 className="text-white font-bold text-2xl mb-1 text-center sm:text-start sm:text-3xl">
-                {t("header")}
-              </h1>
-              <p className="text-white/80 text-sm leading-relaxed">
-                {t("title")}
-              </p>
             </div>
 
-            {/* การ์ด 2 บน 1 ล่าง */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4  px-0 sm:px-9 py-4 sm:p-6">
-              {cardData.map(({ title, link, icon }, i) => (
-                <div
-                  key={i}
-                  className={i === 2 ? "sm:col-span-2 flex justify-center" : ""}
-                >
-                  <a href={link} className="sm:w-[50%] w-full" target="_blank">
-                    <div className="bg-white/30 backdrop-blur-sm rounded-2xl px-6 py-4 sm:p-6 flex flex-row sm:flex-col items-center hover:scale-103 hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/20">
-                      <div className="w-14 h-14 bg-[#5759BB] rounded-full flex items-center justify-center flex-shrink-0 sm:mb-4 shadow-md">
+            {/* การ์ด 2 ใบ */}
+            <div className="flex justify-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl w-full">
+                {cardData.map(({ title, link, icon }, i) => (
+                  <motion.a
+                    key={i}
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.2, duration: 0.6 }}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="block"
+                  >
+                    <div className="bg-[#e9eaff] backdrop-blur-md rounded-2xl p-8 flex flex-col items-center transition-all duration-300 shadow-lg border border-white/20 hover:shadow-xl hover:bg-[#a0a4fe]">
+                      <div className="w-16 h-16 bg-[#5759BB] rounded-full flex items-center justify-center shadow-md mb-6">
                         {icon}
                       </div>
-                      <span className="text-[#5759BB] text-xl font-semibold  ml-6 sm:ml-0 text-start sm:text-center">
+                      <span className="text-[#5759BB] text-lg font-semibold text-center">
                         {title}
                       </span>
                     </div>
-                  </a>
-                </div>
-              ))}
+                  </motion.a>
+                ))}
+              </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </main>
       <Footer />
     </div>

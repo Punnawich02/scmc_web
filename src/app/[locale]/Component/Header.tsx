@@ -123,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     <>
       <title>{title}</title>
       <header
-        className="bg-transparent shadow-md lg:shadow-none bg-white px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px] rounded-2xl"
+        className="shadow-md lg:shadow-none bg-white px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px] rounded-2xl"
         style={{
           position: "sticky",
           top: 0,
@@ -202,7 +202,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                       href={`/${lang}${item.link}`}
                       className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl p-2
                   ${pathname === item.link ? "font-bold" : ""}
-                  text-[#6869AA] font-[Prompt] font-[16px] font-[400]`}
+                  text-[#6869AA] font-[Prompt] font-[16px]`}
                     >
                       {item.show}
                     </Link>
@@ -222,7 +222,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                       />
                       <span
                         id="language-text"
-                        className="text-sm text-[#6869AA] font-[Prompt] font-[16px] font-[400] ml-2"
+                        className="text-sm text-[#6869AA] font-[Prompt] font-[16px] ml-2"
                       >
                         {targetLang}
                       </span>

@@ -37,7 +37,6 @@ const DataPage: React.FC = () => {
   const [dashboardData, setDashboardData] = useState<DashboardData[]>([]);
   const [loading, setLoading] = useState(true);
   const [dashboardLoading, setDashboardLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   // เรียกใช้ API สำหรับ Categories
   useEffect(() => {
@@ -54,7 +53,6 @@ const DataPage: React.FC = () => {
           setSelectedCategory(data[0]);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
         console.error("Error fetching categories:", err);
       } finally {
         setLoading(false);
@@ -221,23 +219,6 @@ const DataPage: React.FC = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="flex min-h-screen flex-col font-[Prompt] text-gray-800 bg-white">
-        <Header title={t("page_title")} />
-        <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-6 sm:py-10">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-red-500 text-center">
-              <p className="text-lg font-semibold">Error loading data</p>
-              <p className="text-sm">{error}</p>
-            </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-
   return (
     <div className="flex min-h-screen flex-col font-[Prompt] text-gray-800 bg-white">
       <Header title={t("page_title")} />
@@ -250,18 +231,25 @@ const DataPage: React.FC = () => {
           transition={{ duration: 0.7, ease: "easeOut" }}
           className="mb-8"
         >
-          <div className="rounded-2xl bg-[#8F90E5] p-6 shadow-lg">
-            <div className="relative flex flex-col sm:flex-row items-center sm:items-start">
-              {/* Icon */}
-              <div className="bg-[#5759BB] rounded-full p-4 shadow-lg sm:absolute sm:top-0 sm:left-0 mb-4 sm:mb-0">
-                <Database className="w-10 h-10 text-white" />
-              </div>
-              {/* ข้อความ */}
-              <div className="sm:ml-24 text-center sm:text-left">
-                <h1 className="text-white font-extrabold text-3xl leading-snug mb-2">
+          <div
+            className="relative rounded-2xl p-6 shadow-lg 
+            bg-[url('/service.jpg')] bg-cover bg-center h-32"
+          >
+            {/* overlay มืดๆ ให้อ่าน text ชัดขึ้น */}
+            <div className="absolute inset-0 bg-[#111243]/60 rounded-2xl" />
+
+            <div className="relative flex  h-full items-center justify-start">
+              {/* กล่องรวม icon + text */}
+              <div className="flex items-center gap-4">
+                {/* Icon */}
+                <div className="bg-[#5759BB] rounded-full p-4 shadow-lg">
+                  <Database className="w-10 h-10 text-white" />
+                </div>
+
+                {/* ข้อความ */}
+                <h1 className="text-white font-extrabold text-3xl leading-snug">
                   {t("header")}
                 </h1>
-                <p className="text-white/90 text-base max-w-xl">{t("title")}</p>
               </div>
             </div>
           </div>
@@ -350,9 +338,7 @@ const DataPage: React.FC = () => {
                 ) : (
                   <div className="text-center py-12">
                     <p className="text-gray-500 text-lg">
-                      {locale === "th"
-                        ? "ไม่มีข้อมูลสำหรับหมวดหมู่นี้"
-                        : "No data available for this category"}
+                      {t("no_items")}
                     </p>
                   </div>
                 )}
@@ -364,7 +350,7 @@ const DataPage: React.FC = () => {
           {categories.length === 0 && (
             <div className="mt-8 text-center py-12">
               <p className="text-gray-500 text-lg">
-                {locale === "th" ? "ไม่มีข้อมูลให้แสดง" : "No data available"}
+                {t("no_items")}
               </p>
             </div>
           )}

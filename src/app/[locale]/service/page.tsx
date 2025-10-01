@@ -28,11 +28,11 @@ export default function ServicePage() {
     },
     {
       title: t("transport"),
-      link: "/transit",
+      link: process.env.NEXT_PUBLIC_CMU_TIMETABLE || "",
       icon: <BusFront />,
     },
     {
-      title: `ขอดูกล้องวงจรปิด`,
+      title: t("security"),
       link: "#",
       icon: <Cctv />,
     },
@@ -47,8 +47,8 @@ export default function ServicePage() {
       icon: <HousePlug />,
     },
     {
-      title: `เอกสารเผยแพร่`,
-      link: "/personnel",
+      title: t("published"),
+      link: "#published",
       icon: <File />,
     },
   ];
@@ -71,24 +71,27 @@ export default function ServicePage() {
         {/* ภาพพื้นหลัง - ปรับให้ responsive */}
         <div className="relative w-full rounded-3xl overflow-hidden min-h-[600px] sm:min-h-[600px] md:min-h-[700px] flex flex-col items-center justify-center">
           <Image
-            src="/service-bg.jpg"
+            src="/service.jpg"
             alt="background"
             className="absolute inset-0 w-full h-full object-cover"
             fill
           />
-          <div className="absolute inset-0 bg-[#1F4788]/60" />
+          <div className="absolute inset-0 bg-[#111243]/60" />
 
           {/* การ์ด 6 ใบแรก - ปรับ layout และขนาด */}
           <div className="relative justify-items-center mx-4 sm:mx-10 md:mx-0 z-10 grid grid-cols-1 sm:grid-cols-2 pt-6 sm:pt-10 md:pt-0 gap-4 sm:gap-6 w-fit px-4 sm:px-8">
-            {cardData.slice(0, 6).map((card, index) => (
-              <Link href={`/${locale}/service${card.link}`} key={index}>
+            {cardData.slice(0, 6).map((card, index) => {
+              const isExternal =
+                card.link.startsWith("http") || card.link.startsWith("www");
+
+              const content = (
                 <motion.div
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="flex items-center gap-3 sm:gap-4 w-[280px] sm:w-[260px] md:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/40 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6">
+                  <div className="flex items-center gap-3 sm:gap-4 w-[280px] sm:w-[260px] md:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/20 backdrop-blur-xs rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6">
                     <div className="bg-[#5759BB] rounded-full p-2 sm:p-3 md:p-4 flex items-center justify-center flex-shrink-0">
                       {React.cloneElement(card.icon, {
                         className:
@@ -100,8 +103,23 @@ export default function ServicePage() {
                     </div>
                   </div>
                 </motion.div>
-              </Link>
-            ))}
+              );
+
+              return isExternal ? (
+                <a
+                  key={index}
+                  href={card.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {content}
+                </a>
+              ) : (
+                <Link key={index} href={`/${locale}/service${card.link}`}>
+                  {content}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </main>

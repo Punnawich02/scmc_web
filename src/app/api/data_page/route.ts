@@ -67,8 +67,6 @@ function unauthorizedResponse(): Response {
 
 // Get all Data Category
 export async function GET(req: Request) {
-  if (!(await isBasicAuthValid(req))) return unauthorizedResponse();
-
   // Apply rate limiting
   const rateLimitResult = await limiter(req);
   if (!rateLimitResult.success) {

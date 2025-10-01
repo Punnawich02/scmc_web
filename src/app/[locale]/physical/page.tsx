@@ -15,7 +15,7 @@ export default function PhysicalPage() {
   const cardData = [
     {
       title: t("map"),
-      link: `/${locale}/physical/#map`,
+      link: `/${locale}/physical/map`,
       icon: <Map />,
       isExt: false,
     },
@@ -64,7 +64,7 @@ export default function PhysicalPage() {
               >
                 {card.isExt ? (
                   <a href={`${card.link}`} key={index} target="_blank">
-                    <div className="flex items-center gap-3 sm:gap-4 w-[280px] sm:w-[260px] md:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/40 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6">
+                    <div className="flex items-center gap-3 sm:gap-4 w-[280px] sm:w-[260px] md:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/30 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6">
                       <div className="bg-[#5759BB] rounded-full p-2 sm:p-3 md:p-4 flex items-center justify-center flex-shrink-0">
                         {React.cloneElement(card.icon, {
                           className:
@@ -78,7 +78,7 @@ export default function PhysicalPage() {
                   </a>
                 ) : (
                   <Link href={`${card.link}`} key={index}>
-                    <div className="flex items-center gap-3 sm:gap-4 w-[280px] sm:w-[260px] md:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/40 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6">
+                    <div className="flex items-center gap-3 sm:gap-4 w-[280px] sm:w-[260px] md:w-[340px] h-[80px] sm:h-[100px] md:h-[140px] bg-white/30 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-lg hover:scale-105 transition-transform px-4 sm:px-6">
                       <div className="bg-[#5759BB] rounded-full p-2 sm:p-3 md:p-4 flex items-center justify-center flex-shrink-0">
                         {React.cloneElement(card.icon, {
                           className:
