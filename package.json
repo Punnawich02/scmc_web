@@ -17,7 +17,7 @@
     "@heroui/card": "^2.2.16",
     "@heroui/system": "^2.4.13",
     "@heroui/theme": "^2.4.13",
-    "@prisma/client": "^6.10.1",
+    "@prisma/client": "^6.16.3",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "framer-motion": "^12.7.3",
@@ -40,9 +40,9 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "jsdom": "^25.0.1",
-    "prisma": "^6.10.1",
+    "prisma": "^6.16.3",
     "tailwindcss": "^4",
-    "vitest": "^2.0.5",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.0.5"
   }
 }

@@ -140,7 +140,7 @@ export default function HomePage() {
           strokeWidth={2}
         />
       ),
-      link: process.env.NEXT_PUBLIC_CMU_TIMETABLE || "",
+      link: `/${locale}/service/transit`,
       label: t("map"),
       isExt: false,
     },
@@ -204,40 +204,39 @@ export default function HomePage() {
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
       <main className="flex flex-col gap-8  py-6 w-full">
-        {/* Background */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="w-full"
-        >
-          <section className="w-full mb-6">
-            <div
-              className={`relative w-full ${
-                locale === "en"
-                  ? "h-[450px] sm:h-[600px]"
-                  : "h-[400px] sm:h-[600px]"
-              }`}
-            >
-              <Image
-                src="/home.jpg"
-                alt="Angkaew"
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-              />
-
-              {/* Overlay content (ไม่เกิน 7xl) */}
-              <div className="absolute bottom-0 left-0 right-0 mx-auto max-w-7xl px-4 sm:px-8 lg:px-16">
-                <div className="hidden sm:grid grid-cols-7 bg-[#6869AA]/70 backdrop-blur-lg rounded-3xl items-center translate-y-12">
+        <div className="w-full mx-auto px-4">
+          {/* Background */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <section className="w-full  mb-6">
+              <div
+                className={`relative w-full ${
+                  locale === "en"
+                    ? "h-[450px] sm:h-[600px]"
+                    : "h-[400px] sm:h-[600px]"
+                }`}
+              >
+                <Image
+                  src="/DSC06224.jpg"
+                  alt="Angkaew"
+                  fill
+                  style={{ objectFit: "cover" }}
+                  className=""
+                  priority
+                />
+                {/* Desktop Version */}
+                <div className="absolute bottom-0 left-0 right-0 mx-4 sm:mx-8 lg:mx-16 xl:mx-20 hidden sm:grid grid-cols-7 bg-[#6869AA]/70 backdrop-blur-lg rounded-3xl items-center translate-y-12">
                   <h2 className="text-white col-span-2 text-center text-lg sm:text-xl lg:text-2xl font-semibold">
-                    Highlight <br /> Services
+                    Highlight <br></br>
+                    Services
                   </h2>
                   {HighlightServices.map((service, index) => {
                     const isExternal = service.isExt === true;
                     const card = (
                       <motion.div
-                        key={index}
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: index * 0.1 }}
@@ -245,10 +244,15 @@ export default function HomePage() {
                         className="group"
                       >
                         <div className="flex flex-col items-center transition-all duration-300 ease-in-out hover:shadow-xl transform hover:-translate-y-2 pb-4 relative group h-24 sm:h-28 lg:h-32">
+                          {/* Yellow background block - แสดงตอน hover */}
                           <div className="absolute inset-0 bg-yellow-500 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-2xl -mt-8 sm:-mt-10 lg:-mt-16 pt-8 sm:pt-10 lg:pt-16"></div>
+                          {/* Icon Container */}
                           <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 -mt-8 sm:-mt-10 lg:-mt-12 rounded-2xl bg-white flex items-center justify-center shadow-md group-hover:shadow-lg transition-all duration-300 group-hover:scale-105 relative z-10">
-                            {service.icon}
+                            <div className="text-[#6869AA] text-xl sm:text-2xl lg:text-3xl transition-colors duration-300">
+                              {service.icon}
+                            </div>
                           </div>
+                          {/* Label */}
                           <span className="text-white text-xs sm:text-sm lg:text-base font-medium text-center leading-tight transition-colors duration-300 mt-2 relative z-10">
                             {service.label}
                           </span>
@@ -273,20 +277,18 @@ export default function HomePage() {
                   })}
                 </div>
               </div>
-            </div>
-          </section>
-        </motion.div>
+            </section>
+          </motion.div>
 
-        <div className="w-full max-w-7xl mx-auto px-4">
           {/* Highlight Section */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <section className="pb-6">
-              {/* ครอบด้วย max-w-7xl + mx-auto */}
-              <div className="relative w-full max-w-7xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+            <section className="pb-6 max-w-7xl mx-auto">
+              {/* ครอบด้วย max-w-6xl + mx-auto ให้เหมือน vehicle section */}
+              <div className="relative w-full max-w-6xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
                 {/* mobile Version */}
                 <div className="block sm:hidden bg-[#6869AA] rounded-xl sm:rounded-2xl lg:rounded-3xl py-6 sm:py-8 lg:py-10 px-4 sm:px-6 lg:px-8 shadow-lg">
                   {/* Header */}
@@ -296,7 +298,7 @@ export default function HomePage() {
                     </h2>
                   </div>
                   {/* Mobile Layout - Vertical List */}
-                  <div className="block space-y-3">
+                  <div className="block space-y-3 ">
                     {HighlightServices.map((service, index) => {
                       const card = (
                         <motion.div
@@ -355,41 +357,41 @@ export default function HomePage() {
           >
             {/* ให้ section ตรงกลาง + จำกัดความกว้างไม่เกิน 7xl */}
             <div className="max-w-7xl mx-auto pb-6 w-full">
-              {/* เปลี่ยนจาก grid เป็น flex เพื่อให้ responsive ดีขึ้น */}
-              <div className="flex flex-col lg:flex-row gap-6 sm:gap-8 lg:gap-12 items-stretch lg:items-center">
-                {/* Left Column - Text Content */}
-                <div className="w-full lg:w-1/2">
-                  <h2 className="text-black text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 leading-tight">
+              <div className="flex flex-col lg:grid lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
+                {/* Text Content */}
+                <div className="w-full order-1 lg:order-1">
+                  <h2 className="text-black text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 leading-tight text-center lg:text-left">
                     {t("vehicle")}
                   </h2>
-                  <p className="text-black flex text-sm sm:text-base md:text-lg leading-relaxed text-justify">
+                  <p className="text-black text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-justify lg:text-left">
                     {t("vehicle_title")}
                   </p>
                 </div>
-
-                {/* Right Column - Button */}
-                <div className="w-full lg:w-1/2">
+                
+                {/* Button/Image */}
+                <div className="w-full order-2 lg:order-2">
                   <a
                     href="https://scmc.cmu.ac.th/login_option"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full rounded-xl overflow-hidden shadow-lg 
-               bg-cover bg-center bg-no-repeat
-               transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:cursor-pointer"
-                    style={{
-                      backgroundImage: "url('/vehicle.svg')",
-                      height: "9rem" /*ปรับตาม sm/md/lg ได้*/,
-                    }}
+                    className="block w-full hover:cursor-pointer"
                   >
-                    {/* Content */}
-                    <div className="relative flex items-center justify-center font-bold text-white w-full h-full px-4 sm:px-6 z-10">
-                      <div className="flex items-center gap-3 sm:gap-4 md:gap-5">
-                        <CarFront className="w-6 h-6 sm:w-8 sm:h-10 flex-shrink-0" />
-                        <div className="border-l border-white h-8 sm:h-10 md:h-12" />
-                        <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold whitespace-nowrap">
-                          {t("vehicle_btn")}
-                        </span>
-                      </div>
+                    <div
+                      className="relative rounded-xl overflow-hidden shadow-lg hover:shadow-xl 
+                      transition-all duration-300 hover:scale-105 active:scale-95 hover:cursor-pointer
+                      bg-cover bg-center bg-no-repeat w-full
+                      h-24 xs:h-28 sm:h-32 md:h-36 lg:h-40 xl:h-44"
+                      style={{ backgroundImage: "url('/vehicle.svg')" }}
+                    >
+                      <button className="relative flex items-center justify-center font-bold text-white w-full h-full px-4 sm:px-6">
+                        <div className="flex items-center space-x-2 sm:space-x-3 md:space-x-4">
+                          <CarFront className="w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 flex-shrink-0" />
+                          <div className="border-l border-white h-4 xs:h-5 sm:h-6 md:h-7 lg:h-8"></div>
+                          <span className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold whitespace-nowrap">
+                            {t("vehicle_btn")}
+                          </span>
+                        </div>
+                      </button>
                     </div>
                   </a>
                 </div>
@@ -526,7 +528,7 @@ export default function HomePage() {
                         Math.min(prev + pageSize, totalNews)
                       )
                     }
-                    className="font-bold bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:bg-amber-300 hover:scale-105 hover:cursor-pointer transition-transform duration-300 ease-in-out disabled:opacity-50"
+                    className="font-bold bg-amber-400 text-gray-700 px-4 py-1 rounded-xl text-sm hover:bg-amber-300 hover:scale-105 transition-transform duration-300 ease-in-out disabled:opacity-50"
                   >
                     {loadingNews ? t("loading") : t("more")}
                   </button>
