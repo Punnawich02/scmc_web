@@ -127,8 +127,8 @@ export default function HomePage() {
     {
       icon: (
         <BusFront
-          className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
-          color="#6869AA" // เปลี่ยนเป็นสีม่วงเพื่อให้เห็นในพื้นหลังขาว
+          className="w-full h-full"
+          color="#6869AA"
           strokeWidth={2}
         />
       ),
@@ -139,7 +139,7 @@ export default function HomePage() {
     {
       icon: (
         <Mountain
-          className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
+          className="w-full h-full"
           color="#6869AA"
           strokeWidth={2}
         />
@@ -151,7 +151,7 @@ export default function HomePage() {
     {
       icon: (
         <Database
-          className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
+          className="w-full h-full"
           color="#6869AA"
           strokeWidth={2}
         />
@@ -163,7 +163,7 @@ export default function HomePage() {
     {
       icon: (
         <HousePlug
-          className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
+          className="w-full h-full"
           color="#6869AA"
           strokeWidth={2}
         />
@@ -175,7 +175,7 @@ export default function HomePage() {
     {
       icon: (
         <Building
-          className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
+          className="w-full h-full"
           color="#6869AA"
           strokeWidth={2}
         />
@@ -218,11 +218,11 @@ export default function HomePage() {
                   priority
                 />
                 
-                {/* Desktop Highlight Services - จำกัดความกว้างสูงสุด max-w-7xl */}
+                {/* Desktop Highlight Services - แสดงเฉพาะหน้าจอ Desktop (xl ขึ้นไป) */}
                 <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 
                   w-full max-w-7xl
                   px-2 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 
-                  hidden md:block
+                  hidden xl:block
                   translate-y-6 sm:translate-y-8 lg:translate-y-12"
                 >
                   <div className="grid grid-cols-7 
@@ -266,7 +266,10 @@ export default function HomePage() {
                               group-hover:shadow-lg transition-all duration-300 
                               group-hover:scale-105 relative z-10"
                             >
-                              <div className="text-[#6869AA] transition-colors duration-300">
+                              <div className="text-[#6869AA] transition-colors duration-300 
+                                w-5 h-5 lg:w-8 lg:h-8 xl:w-12 xl:h-12 2xl:w-16 2xl:h-16 
+                                flex items-center justify-center"
+                              >
                                 {service.icon}
                               </div>
                             </div>
@@ -306,7 +309,7 @@ export default function HomePage() {
             </section>
           </motion.div>
 
-          {/* Highlight Services */}
+          {/* Highlight Services - Mobile & Tablet Version */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -317,8 +320,8 @@ export default function HomePage() {
                 mt-6 sm:mt-8 lg:mt-10 
                 px-4 sm:px-6 md:px-8"
               >
-                {/* Mobile Version - White Background */}
-                <div className="block md:hidden bg-white 
+                {/* Mobile & Tablet Version - แสดงจนถึง lg (รวม iPad แนวนอน) */}
+                <div className="block xl:hidden bg-white 
                   rounded-2xl 
                   py-6 px-5 
                   shadow-lg mx-2 border border-gray-100"
@@ -333,7 +336,7 @@ export default function HomePage() {
                     </h2>
                   </div>
                   
-                  {/* Mobile Layout - Vertical List */}
+                  {/* Mobile & Tablet Layout - Vertical List */}
                   <div className="space-y-3">
                     {HighlightServices.map((service, index) => {
                       const card = (
@@ -358,7 +361,7 @@ export default function HomePage() {
                             space-x-4 border border-gray-100"
                           >
                             {/* Icon */}
-                            <div className="w-10 h-10 
+                            <div className="w-12 h-12
                               flex items-center justify-center 
                               bg-[#fff]
                               rounded-lg shadow-sm
