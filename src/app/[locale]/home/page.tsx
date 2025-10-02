@@ -210,7 +210,7 @@ export default function HomePage() {
                   : "h-[200px] xs:h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]"
               }`}>
                 <Image
-                  src="/DSC06224.jpg"
+                  src="/home.jpg"
                   alt="Angkaew"
                   fill
                   style={{ objectFit: "cover" }}
