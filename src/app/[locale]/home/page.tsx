@@ -432,16 +432,6 @@ export default function HomePage() {
                     })}
                   </div>
                 </div>
-
-                {/* Desktop Version - Purple Background (hidden on mobile) */}
-                <div className="hidden md:block bg-[#6869AA] 
-                  rounded-2xl 
-                  py-8 px-6 lg:px-8
-                  shadow-lg"
-                >
-                  {/* Desktop layout code here - keep original purple styling */}
-                  {/* ... */}
-                </div>
               </div>
             </section>
           </motion.div>
