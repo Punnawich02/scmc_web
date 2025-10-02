@@ -11,32 +11,32 @@ const UtilityPage: React.FC = () => {
   const cardData = [
     {
       title: t("co_user"),
-      link: "https://buildings.oop.cmu.ac.th/electric/",
+      link: process.env.NEXT_PUBLIC_CMU_ELECTRIC || "",
       icon: <UserRound className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("department"),
-      link: "https://buildings.oop.cmu.ac.th/department/",
+      link: process.env.NEXT_PUBLIC_CMU_DEPARTMENT || "",
       icon: <MapPin className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("residences"),
-      link: "https://buildings.oop.cmu.ac.th/house/",
+      link: process.env.NEXT_PUBLIC_CMU_HOUSE || "",
       icon: <House className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("usage"),
-      link: "https://buildings.oop.cmu.ac.th/report/meter/",
+      link: process.env.NEXT_PUBLIC_CMU_METER || "",
       icon: <ChartLine className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("phone"),
-      link: "https://buildings.oop.cmu.ac.th/telephone/",
+      link: process.env.NEXT_PUBLIC_CMU_PHONE || "",
       icon: <Phone className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
     {
       title: t("waste"),
-      link: "https://buildings.oop.cmu.ac.th/garbage/",
+      link: process.env.NEXT_PUBLIC_CMU_WASTE || "",
       icon: <Trash2 className="w-10 h-10" color="#FFF" strokeWidth={2} />,
     },
   ];

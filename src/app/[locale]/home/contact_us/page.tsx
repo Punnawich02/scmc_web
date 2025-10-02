@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Users } from "lucide-react";
+import { Phone } from "lucide-react";
 import React from "react";
 import Header from "../../Component/Header";
 import Footer from "../../Component/Footer";
@@ -53,7 +53,7 @@ const ContactPage: React.FC = () => {
               <div className="relative flex h-full items-center justify-start">
                 <div className="flex items-center gap-4">
                   <div className="bg-[#5759BB] rounded-full p-4 shadow-lg">
-                    <Users className="w-10 h-10 text-white" />
+                    <Phone className="w-10 h-10 text-white" />
                   </div>
                   <h1 className="text-white font-extrabold text-2xl md:text-3xl leading-snug">
                     {t("header")}

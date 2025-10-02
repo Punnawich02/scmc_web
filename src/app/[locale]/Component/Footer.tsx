@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
       viewport={{ once: true, amount: 0.1 }}
     >
       <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto font-[Prompt] mx-auto text-center justify-center xl:rounded-tl-xl xl:rounded-tr-xl">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start max-w-7xl mx-auto">
           {/* Contact information section */}
           <div className="text-center sm:text-left text-xs sm:text-sm sm:ms-10">
             <h1 className="font-bold mb-2">{t("topic")}</h1>
@@ -41,7 +41,7 @@ const Footer: React.FC = () => {
           <div className="text-center sm:text-left text-xs sm:text-sm sm:ms-10">
             <h1 className="font-bold mb-2">Follow us</h1>
             <a
-              href="https://www.facebook.com/scmccmu"
+              href={process.env.NEXT_PUBLIC_CMU_SCMC_FACEBOOK}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center sm:justify-start mb-2"
@@ -50,7 +50,7 @@ const Footer: React.FC = () => {
               <p>SCMC : Sustainable Campus Management Center</p>
             </a>
             <a
-              href="https://www.facebook.com/korsormorchor"
+              href={process.env.NEXT_PUBLIC_CMU_KORSOR_FACEBOOK}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center sm:justify-start"
@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
                 />
             </Link>
             <a
-              href="https://voc.cmu.ac.th/Choose.aspx"
+              href={"https://voc.cmu.ac.th/Choose.aspx"}
               target="_blank"
               rel="noopener noreferrer"
             >

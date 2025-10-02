@@ -25,7 +25,7 @@ const PersonnelPage: React.FC = () => {
     },
     {
       title: t("cmuto"),
-      link: "https://cmu.to/",
+      link: process.env.NEXT_PUBLIC_CMU_TO || "",
       icon: <Globe className="w-8 h-8 text-white" />,
       gradient: "from-purple-500 to-purple-600",
     },

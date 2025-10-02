@@ -7,9 +7,10 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 
 const prompt = Prompt({
-  subsets: ["latin"],
+  subsets: ["latin","thai"],
   weight: ["400", "500", "700"],
   display: "swap",
+  variable: "--font-prompt",
 });
 
 const geistSans = Geist({
@@ -42,10 +43,8 @@ export default async function RootLayout({
   }
 
   return (
-    <html lang={locale} className={prompt.className}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang={locale} className={`${prompt.variable}`}>
+      <body className={`antialiased ${geistSans.variable} ${geistMono.variable}`}>
         <NextIntlClientProvider locale={locale}>
           {children}
         </NextIntlClientProvider>
