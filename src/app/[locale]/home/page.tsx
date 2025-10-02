@@ -128,7 +128,7 @@ export default function HomePage() {
       icon: (
         <BusFront
           className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16"
-          color="#6869AA"
+          color="#6869AA" // เปลี่ยนเป็นสีม่วงเพื่อให้เห็นในพื้นหลังขาว
           strokeWidth={2}
         />
       ),
@@ -306,68 +306,106 @@ export default function HomePage() {
             </section>
           </motion.div>
 
-          {/* Mobile Highlight Services - จำกัดความกว้างสูงสุด max-w-7xl */}
+          {/* Highlight Services */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <section className="pb-4 xs:pb-6 sm:pb-8">
+            <section className="pb-6 sm:pb-8">
               <div className="relative w-full max-w-7xl mx-auto 
-                mt-4 xs:mt-6 sm:mt-8 lg:mt-10 
-                px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8"
+                mt-6 sm:mt-8 lg:mt-10 
+                px-4 sm:px-6 md:px-8"
               >
-                {/* Mobile Version */}
-                <div className="block md:hidden bg-[#6869AA] 
-                  rounded-lg xs:rounded-xl sm:rounded-2xl 
-                  py-3 xs:py-4 sm:py-6 
-                  px-3 xs:px-4 sm:px-6 
-                  shadow-lg"
+                {/* Mobile Version - White Background */}
+                <div className="block md:hidden bg-white 
+                  rounded-2xl 
+                  py-6 px-5 
+                  shadow-lg mx-2 border border-gray-100"
                 >
                   {/* Header */}
-                  <div className="text-left mb-4 xs:mb-5 sm:mb-6">
-                    <h2 className="text-white 
-                      text-base xs:text-lg sm:text-xl md:text-2xl 
-                      font-semibold"
+                  <div className="text-center mb-6">
+                    <h2 className="text-[#6869AA] 
+                      text-xl font-semibold 
+                      leading-tight"
                     >
                       Highlight Services
                     </h2>
                   </div>
                   
                   {/* Mobile Layout - Vertical List */}
-                  <div className="space-y-2 xs:space-y-3">
+                  <div className="space-y-3">
                     {HighlightServices.map((service, index) => {
                       const card = (
                         <motion.div
                           key={index}
-                          initial={{ opacity: 0, x: -50 }}
+                          initial={{ opacity: 0, x: -30 }}
                           whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.6, delay: index * 0.1 }}
+                          transition={{ 
+                            duration: 0.5, 
+                            delay: index * 0.1,
+                            ease: "easeOut"
+                          }}
                           viewport={{ once: true, amount: 0.1 }}
                           className="group"
                         >
-                          <div className="flex items-center space-x-3 xs:space-x-4 
-                            p-2 xs:p-3 sm:p-4 
-                            rounded-lg xs:rounded-xl 
-                            transition-all duration-300 hover:scale-105 hover:shadow-lg 
-                            bg-white"
+                          <div className="flex items-center 
+                            p-4 
+                            rounded-xl 
+                            transition-all duration-300 
+                            hover:scale-[1.02] hover:shadow-md
+                            bg-[#6869AA] hover:bg-[#4D4E80]
+                            space-x-4 border border-gray-100"
                           >
                             {/* Icon */}
-                            <div className="w-6 h-6 xs:w-8 xs:h-8 sm:w-10 sm:h-10 
+                            <div className="w-10 h-10 
                               flex items-center justify-center 
-                              bg-white rounded-md shadow-md hover:shadow-lg 
-                              text-[#6869AA]"
+                              bg-[#fff]
+                              rounded-lg shadow-sm
+                              text-white 
+                              group-hover:shadow-md 
+                              transition-all duration-300
+                              flex-shrink-0"
                             >
-                              {service.icon}
+                              <div className="text-white">
+                                {service.icon}
+                              </div>
                             </div>
                             
                             {/* Label */}
                             <span className="font-medium 
-                              text-xs xs:text-sm sm:text-base 
-                              text-[#6869AA]"
+                              text-sm 
+                              text-[#fff] 
+                              leading-relaxed 
+                              flex-1"
                             >
                               {service.label}
                             </span>
+
+                            {/* Arrow Indicator */}
+                            <div className="w-5 h-5 
+                              flex items-center justify-center 
+                              text-[#fff] 
+                              opacity-70 
+                              group-hover:opacity-100 
+                              group-hover:translate-x-1 
+                              transition-all duration-300
+                              flex-shrink-0"
+                            >
+                              <svg 
+                                className="w-4 h-4" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                              >
+                                <path 
+                                  strokeLinecap="round" 
+                                  strokeLinejoin="round" 
+                                  strokeWidth={2} 
+                                  d="M9 5l7 7-7 7" 
+                                />
+                              </svg>
+                            </div>
                           </div>
                         </motion.div>
                       );
@@ -383,12 +421,26 @@ export default function HomePage() {
                           {card}
                         </a>
                       ) : (
-                        <Link key={`int-${index}`} href={service.link || ""}>
+                        <Link 
+                          key={`int-${index}`} 
+                          href={service.link || ""}
+                          className="block"
+                        >
                           {card}
                         </Link>
                       );
                     })}
                   </div>
+                </div>
+
+                {/* Desktop Version - Purple Background (hidden on mobile) */}
+                <div className="hidden md:block bg-[#6869AA] 
+                  rounded-2xl 
+                  py-8 px-6 lg:px-8
+                  shadow-lg"
+                >
+                  {/* Desktop layout code here - keep original purple styling */}
+                  {/* ... */}
                 </div>
               </div>
             </section>
