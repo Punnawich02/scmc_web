@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import React from "react";
 import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
@@ -12,15 +11,8 @@ const Footer: React.FC = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
   return (
-    <motion.div
-      // Animation settings for the footer container
-      initial={{ opacity: 0, y: 100 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true, amount: 0.1 }}
-    >
-      <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto font-[Prompt] mx-auto text-center justify-center xl:rounded-tl-xl xl:rounded-tr-xl">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start max-w-7xl mx-auto">
+      <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto font-[Prompt] mx-auto text-center justify-center xl:rounded-tl-xl xl:rounded-tr-xl w-screen">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start mx-auto max-w-7xl">
           {/* Contact information section */}
           <div className="text-center sm:text-left text-xs sm:text-sm sm:ms-10">
             <h1 className="font-bold mb-2">{t("topic")}</h1>
@@ -85,7 +77,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </footer>
-    </motion.div>
   );
 };
 

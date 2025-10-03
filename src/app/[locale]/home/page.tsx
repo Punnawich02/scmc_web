@@ -196,146 +196,142 @@ export default function HomePage() {
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
       <main className="flex flex-col gap-4 xs:gap-6 sm:gap-8 py-3 xs:py-4 sm:py-6 w-full">
-        <div className="w-full mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8">
-          {/* Hero Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <section className="w-full mb-4 xs:mb-6 sm:mb-8">
-              <div className={`relative w-full ${
-                locale === "en"
-                  ? "h-[250px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]"
-                  : "h-[200px] xs:h-[250px] sm:h-[350px] md:h-[450px] lg:h-[600px]"
-              }`}>
-                <Image
-                  src="/home.jpg"
-                  alt="Angkaew"
-                  fill
-                  style={{ objectFit: "cover" }}
-                  className="rounded-lg xs:rounded-xl sm:rounded-2xl"
-                  priority
-                />
-                
-                {/* Desktop Highlight Services - แสดงเฉพาะหน้าจอ Desktop (xl ขึ้นไป) */}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 
-                  w-full max-w-7xl
-                  px-2 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 
-                  hidden xl:block
-                  translate-y-6 sm:translate-y-8 lg:translate-y-12"
+        {/* Hero Section - Full Width */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <section className="w-full mb-4 xs:mb-6 sm:mb-8">
+            <div className={`relative w-full h-[250px] xs:h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]`}>
+              <Image
+                src="/home.jpg"
+                alt="Angkaew"
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+              />
+              
+              {/* Desktop Highlight Services - แสดงเฉพาะหน้าจอ Desktop (xl ขึ้นไป) */}
+              <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 
+                w-full max-w-7xl
+                px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8
+                hidden xl:block
+                translate-y-6 sm:translate-y-8 lg:translate-y-12"
+              >
+                <div className="grid grid-cols-6 
+                  bg-[#6869AA]/70 backdrop-blur-md
+                  rounded-xl lg:rounded-2xl xl:rounded-3xl 
+                  items-center py-3 lg:py-5"
                 >
-                  <div className="grid grid-cols-7 
-                    bg-[#6869AA]/70 backdrop-blur-lg 
-                    rounded-xl lg:rounded-2xl xl:rounded-3xl 
-                    items-center py-2 lg:py-4"
+                  {/* ปรับกรอบข้อความให้แคบลง */}
+                  <h2 className="text-white col-span-1 text-center 
+                    text-sm lg:text-lg xl:text-xl 2xl:text-2xl font-semibold
+                    leading-tight
+                    max-w-[100px] lg:max-w-[140px] xl:max-w-[160px] 2xl:max-w-[180px]
+                    mx-auto"
                   >
-                    <h2 className="text-white col-span-2 text-center 
-                      text-sm lg:text-lg xl:text-xl 2xl:text-2xl font-semibold
-                      leading-tight"
-                    >
-                      Highlight <br />Services
-                    </h2>
-                    {HighlightServices.map((service, index) => {
-                      const isExternal = service.isExt === true;
-                      const card = (
-                        <motion.div
-                          initial={{ opacity: 0, y: 100 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.8, delay: index * 0.1 }}
-                          viewport={{ once: true, amount: 0.1 }}
-                          className="group px-1 lg:px-2"
-                        >
-                          <div className="flex flex-col items-center transition-all duration-300 ease-in-out 
-                            hover:shadow-xl transform hover:-translate-y-2 
-                            pb-2 lg:pb-4 relative group 
-                            h-16 lg:h-20 xl:h-24 2xl:h-28"
-                          >
-                            {/* Hover Background */}
-                            <div className="absolute inset-0 bg-yellow-500 opacity-0 group-hover:opacity-100 
-                              transition-all duration-300 rounded-lg lg:rounded-xl xl:rounded-2xl 
-                              -mt-4 lg:-mt-6 xl:-mt-8 2xl:-mt-12 
-                              pt-4 lg:pt-6 xl:pt-8 2xl:pt-12"
-                            />
-                            
-                            {/* Icon Container */}
-                            <div className="w-8 h-8 lg:w-12 lg:h-12 xl:w-16 xl:h-16 2xl:w-20 2xl:h-20 
-                              -mt-4 lg:-mt-6 xl:-mt-8 2xl:-mt-10 
-                              rounded-lg lg:rounded-xl xl:rounded-2xl 
-                              bg-white flex items-center justify-center shadow-md 
-                              group-hover:shadow-lg transition-all duration-300 
-                              group-hover:scale-105 relative z-10"
-                            >
-                              <div className="text-[#6869AA] transition-colors duration-300 
-                                w-5 h-5 lg:w-8 lg:h-8 xl:w-12 xl:h-12 2xl:w-16 2xl:h-16 
-                                flex items-center justify-center"
-                              >
-                                {service.icon}
-                              </div>
-                            </div>
-                            
-                            {/* Label */}
-                            <span className="text-white 
-                              text-[10px] lg:text-xs xl:text-sm 2xl:text-base 
-                              font-medium text-center leading-tight 
-                              transition-colors duration-300 
-                              mt-1 lg:mt-2 relative z-10 px-1"
-                            >
-                              {service.label}
-                            </span>
-                          </div>
-                        </motion.div>
-                      );
+                    Highlight <br />Services
+                  </h2>
 
-                      return isExternal ? (
-                        <a
-                          key={index}
-                          href={service.link || "#"}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block"
+                  {HighlightServices.map((service, index) => {
+                    const isExternal = service.isExt === true;
+                    const card = (
+                      <motion.div
+                        initial={{ opacity: 0, y: 100 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: index * 0.1 }}
+                        viewport={{ once: true, amount: 0.1 }}
+                        className="group px-1 lg:px-2"
+                      >
+                        <div className="flex flex-col items-center transition-all duration-300 ease-in-out 
+                          hover:shadow-lg transform hover:-translate-y-1.5 
+                          pb-1 lg:pb-2 relative group 
+                          h-16 lg:h-20 xl:h-24 2xl:h-28 rounded-lg lg:rounded-xl xl:rounded-2xl"
                         >
-                          {card}
-                        </a>
-                      ) : (
-                        <Link key={index} href={service.link!}>
-                          {card}
-                        </Link>
-                      );
-                    })}
-                  </div>
+                          {/* Hover Background */}
+                          <div className="absolute inset-0 bg-[#FAAF39] opacity-0 group-hover:opacity-100 
+                            transition-all duration-300 rounded-lg lg:rounded-xl xl:rounded-2xl 
+                            -mt-14"
+                          />
+                          
+                          {/* Icon Container */}
+                          <div className="w-8 h-8 lg:w-12 lg:h-12 xl:w-16 xl:h-16 2xl:w-20 2xl:h-20 
+                            -mt-3 lg:-mt-4 xl:-mt-6 2xl:-mt-8
+                            rounded-lg lg:rounded-xl xl:rounded-2xl 
+                            bg-white flex items-center justify-center shadow-md 
+                            group-hover:shadow-lg transition-all duration-300 
+                            group-hover:scale-105 relative z-10"
+                          >
+                            <div className="text-[#6869AA] transition-colors duration-300 
+                              w-5 h-5 lg:w-8 lg:h-8 xl:w-12 xl:h-12 2xl:w-16 2xl:h-16 
+                              flex items-center justify-center"
+                            >
+                              {service.icon}
+                            </div>
+                          </div>
+                          
+                          {/* Label */}
+                          <span className="text-white 
+                            text-[10px] lg:text-xs xl:text-sm 2xl:text-base 
+                            font-medium text-center leading-tight 
+                            transition-colors duration-300 
+                            mt-1 lg:mt-2 relative z-10 px-1"
+                          >
+                            {service.label}
+                          </span>
+                        </div>
+                      </motion.div>
+                    );
+
+                    return isExternal ? (
+                      <a
+                        key={index}
+                        href={service.link || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                      >
+                        {card}
+                      </a>
+                    ) : (
+                      <Link key={index} href={service.link!}>
+                        {card}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
-            </section>
-          </motion.div>
+            </div>
+          </section>
+        </motion.div>
 
+        {/* Container สำหรับเนื้อหาทั้งหมดที่เหลือ - จำกัดความกว้างและจัดกึ่งกลาง */}
+        <div className="w-full max-w-7xl mx-auto px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Highlight Services - Mobile & Tablet Version */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="pt-4 xs:pt-6 sm:pt-8 lg:pt-10"
           >
-            <section className="pb-6 sm:pb-8">
-              <div className="relative w-full max-w-7xl mx-auto 
-                mt-6 sm:mt-8 lg:mt-10 
-                px-4 sm:px-6 md:px-8"
-              >
+            <section className="">
+              <div className="w-full">
                 {/* Mobile & Tablet Version - แสดงจนถึง lg (รวม iPad แนวนอน) */}
-                <div className="block xl:hidden bg-white 
-                  rounded-2xl 
-                  py-6 px-5 
-                  shadow-lg mx-2 border border-gray-100"
+                <div className="block xl:hidden bg-white
+                  rounded-2xl
+                  py-6 px-5
+                  shadow-lg border border-gray-100"
                 >
                   {/* Header */}
                   <div className="text-center mb-6">
-                    <h2 className="text-[#6869AA] 
-                      text-xl font-semibold 
+                    <h2 className="text-[#6869AA]
+                      text-xl font-semibold
                       leading-tight"
                     >
                       Highlight Services
                     </h2>
                   </div>
-                  
                   {/* Mobile & Tablet Layout - Vertical List */}
                   <div className="space-y-3">
                     {HighlightServices.map((service, index) => {
@@ -344,29 +340,29 @@ export default function HomePage() {
                           key={index}
                           initial={{ opacity: 0, x: -30 }}
                           whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ 
-                            duration: 0.5, 
+                          transition={{
+                            duration: 0.5,
                             delay: index * 0.1,
                             ease: "easeOut"
                           }}
                           viewport={{ once: true, amount: 0.1 }}
                           className="group"
                         >
-                          <div className="flex items-center 
-                            p-4 
-                            rounded-xl 
-                            transition-all duration-300 
+                          <div className="flex items-center
+                            p-4
+                            rounded-xl
+                            transition-all duration-300
                             hover:scale-[1.02] hover:shadow-md
                             bg-[#6869AA] hover:bg-[#4D4E80]
                             space-x-4 border border-gray-100"
                           >
                             {/* Icon */}
                             <div className="w-12 h-12
-                              flex items-center justify-center 
+                              flex items-center justify-center
                               bg-[#fff]
                               rounded-lg shadow-sm
-                              text-white 
-                              group-hover:shadow-md 
+                              text-white
+                              group-hover:shadow-md
                               transition-all duration-300
                               flex-shrink-0"
                             >
@@ -374,45 +370,42 @@ export default function HomePage() {
                                 {service.icon}
                               </div>
                             </div>
-                            
                             {/* Label */}
-                            <span className="font-medium 
-                              text-sm 
-                              text-[#fff] 
-                              leading-relaxed 
+                            <span className="font-medium
+                              text-sm
+                              text-[#fff]
+                              leading-relaxed
                               flex-1"
                             >
                               {service.label}
                             </span>
-
                             {/* Arrow Indicator */}
-                            <div className="w-5 h-5 
-                              flex items-center justify-center 
-                              text-[#fff] 
-                              opacity-70 
-                              group-hover:opacity-100 
-                              group-hover:translate-x-1 
+                            <div className="w-5 h-5
+                              flex items-center justify-center
+                              text-[#fff]
+                              opacity-70
+                              group-hover:opacity-100
+                              group-hover:translate-x-1
                               transition-all duration-300
                               flex-shrink-0"
                             >
-                              <svg 
-                                className="w-4 h-4" 
-                                fill="none" 
-                                stroke="currentColor" 
+                              <svg
+                                className="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
                                 viewBox="0 0 24 24"
                               >
-                                <path 
-                                  strokeLinecap="round" 
-                                  strokeLinejoin="round" 
-                                  strokeWidth={2} 
-                                  d="M9 5l7 7-7 7" 
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M9 5l7 7-7 7"
                                 />
                               </svg>
                             </div>
                           </div>
                         </motion.div>
                       );
-
                       return service.isExt ? (
                         <a
                           key={`ext-${index}`}
@@ -424,8 +417,8 @@ export default function HomePage() {
                           {card}
                         </a>
                       ) : (
-                        <Link 
-                          key={`int-${index}`} 
+                        <Link
+                          key={`int-${index}`}
                           href={service.link || ""}
                           className="block"
                         >
@@ -444,67 +437,73 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="pt-4 xs:pt-6 sm:pt-8 lg:pt-10 
-              px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8"
           >
-            <div className="max-w-7xl mx-auto pb-4 xs:pb-6 sm:pb-8 w-full">
-              <div className="flex flex-col lg:grid lg:grid-cols-2 
-                gap-4 xs:gap-6 sm:gap-8 lg:gap-12 
-                items-center"
+            <div className="pb-4 xs:pb-6 sm:pb-8 w-full">
+              <div
+                className="flex flex-col xl:grid xl:grid-cols-2 
+                  gap-4 xs:gap-6 sm:gap-8 lg:gap-12 
+                  items-stretch"
               >
                 {/* Text Content */}
-                <div className="w-full order-1 lg:order-1">
-                  <h2 className="text-black 
-                    text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl 
-                    font-bold 
-                    mb-2 xs:mb-3 sm:mb-4 
-                    leading-tight text-center lg:text-left"
+                <div className="w-full order-1 xl:order-1">
+                  <h2
+                    className="text-black 
+                      text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl 
+                      font-bold 
+                      mb-2 xs:mb-3 sm:mb-4 
+                      leading-tight text-center xl:text-left"
                   >
                     {t("vehicle")}
                   </h2>
-                  <p className="text-black 
-                    text-xs xs:text-sm sm:text-base lg:text-lg 
-                    leading-relaxed text-justify lg:text-left"
+                  <p
+                    className="text-black 
+                      text-xs xs:text-sm sm:text-base lg:text-lg 
+                      leading-relaxed text-justify xl:text-left"
                   >
                     {t("vehicle_title")}
                   </p>
                 </div>
-                
+
                 {/* Vehicle Button */}
-                <div className="w-full order-2 lg:order-2">
+                <div className="w-full order-2 xl:order-2 h-16 xs:h-20 sm:h-24 md:h-28 lg:h-32 xl:h-full">
+                  {/* 🔑 ก่อน xl จะล็อกความสูงตาม h-16..lg:h-32 
+                      ตั้งแต่ xl ขึ้นไปให้ h-full */}
                   <a
                     href={process.env.NEXT_PUBLIC_CMU_SIGNIN_BTN}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full cursor-pointer"
+                    className="block w-full h-full cursor-pointer"
                   >
-                    <div className="relative rounded-lg xs:rounded-xl sm:rounded-2xl 
-                      overflow-hidden shadow-lg hover:shadow-xl 
-                      transition-all duration-300 hover:scale-105 active:scale-95 
-                      cursor-pointer bg-cover bg-center bg-no-repeat w-full
-                      h-16 xs:h-20 sm:h-24 md:h-28 lg:h-32 xl:h-36 2xl:h-40
-                      group"
+                    <div
+                      className="relative rounded-lg xs:rounded-xl sm:rounded-2xl 
+                        overflow-hidden shadow-lg hover:shadow-xl 
+                        transition-all duration-300 hover:scale-105 active:scale-95 
+                        cursor-pointer bg-cover bg-center bg-no-repeat w-full h-full
+                        group flex items-center justify-center"
                       style={{ backgroundImage: "url('/vehicle.svg')" }}
                     >
-                      <div className="relative flex items-center justify-center 
-                        font-bold text-white w-full h-full 
-                        px-2 xs:px-3 sm:px-4 md:px-6
-                        cursor-pointer"
+                      <div
+                        className="relative flex items-center justify-center 
+                          font-bold text-white w-full h-full 
+                          px-2 xs:px-3 sm:px-4 md:px-6"
                       >
-                        <div className="flex items-center 
-                          space-x-1 xs:space-x-2 sm:space-x-3 md:space-x-4
-                          cursor-pointer"
+                        <div
+                          className="flex items-center 
+                            space-x-1 xs:space-x-2 sm:space-x-3 md:space-x-4"
                         >
-                          <CarFront className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 
-                            md:w-6 md:h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 
-                            flex-shrink-0 cursor-pointer" 
+                          <CarFront
+                            className="w-3 h-3 xs:w-4 xs:h-4 sm:w-5 sm:h-5 
+                              md:w-6 md:h-6 lg:w-8 lg:h-8 xl:w-10 xl:h-10 
+                              flex-shrink-0"
                           />
-                          <div className="border-l border-white 
-                            h-3 xs:h-4 sm:h-5 md:h-6 lg:h-7 xl:h-8"
+                          <div
+                            className="border-l border-white 
+                              h-3 xs:h-4 sm:h-5 md:h-6 lg:h-7 xl:h-8"
                           />
-                          <span className="text-xs xs:text-sm sm:text-base 
-                            md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl 
-                            font-bold whitespace-nowrap cursor-pointer"
+                          <span
+                            className="text-xs xs:text-sm sm:text-base 
+                              md:text-lg lg:text-xl xl:text-2xl
+                              font-bold whitespace-nowrap"
                           >
                             {t("vehicle_btn")}
                           </span>
@@ -524,31 +523,37 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true, amount: 0.1 }}
           >
-            <section className="px-2 xs:px-3 sm:px-4 md:px-6 
-              py-3 xs:py-4 sm:py-6 
-              bg-white rounded-md max-w-7xl mx-auto"
-            >
+            <section className="py-3 xs:py-4 sm:py-6 bg-white rounded-md">
               {/* Tabs */}
-              <div className="mb-4 xs:mb-5 sm:mb-6">
-                {tabs.map((text, index) => (
-                  <span
-                    key={index}
-                    className={`relative text-base xs:text-lg sm:text-xl 
-                      ml-2 xs:ml-3 sm:ml-4 
-                      pb-1 inline-block hover:cursor-pointer transition-colors duration-200 ${
-                      selectedTab === text
-                        ? "font-bold text-black"
-                        : "text-gray-400 hover:text-gray-600"
-                    }`}
-                    onClick={() => setSelectedTab(text)}
-                  >
-                    {t(text)}
+             <div className="mb-4 xs:mb-5 sm:mb-6 relative">
+                {/* เส้นบางยาว พาดตรงกลาง */}
+                <div className="absolute left-0 bottom-[2px] w-full h-[2px] bg-[#6869AA]/40 translate-y-1/2"></div>
 
-                    {selectedTab === text && (
-                      <span className="absolute left-0 bottom-0 w-full h-[5px] rounded-full bg-gradient-to-r from-[#6869AA] to-[#999AFF]"></span>
-                    )}
-                  </span>
-                ))}
+                <div className="flex gap-6">
+                  {tabs.map((text, index) => (
+                    <div
+                      key={index}
+                      className="relative"
+                      onClick={() => setSelectedTab(text)}
+                    >
+                      <span
+                        className={`relative text-base xs:text-lg sm:text-xl 
+                          pb-3 block cursor-pointer transition-colors duration-200 ${
+                          selectedTab === text
+                            ? "font-bold text-black"
+                            : "text-gray-400 hover:text-gray-600"
+                        }`}
+                      >
+                        {t(text)}
+                      </span>
+
+                      {/* เส้นหนา ใต้ tab ที่เลือก */}
+                      {selectedTab === text && (
+                        <span className="absolute left-0 bottom-0 w-full h-[5px] rounded-full bg-gradient-to-r from-[#6869AA] to-[#999AFF]"></span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Content */}

@@ -1,5 +1,4 @@
 "use client";
-
 import { motion, AnimatePresence } from "framer-motion";
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
@@ -17,7 +16,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const buttonRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-
   const currentPath = usePathname();
   const pathname = "/" + currentPath.split("/")[2];
   const lang = currentPath.split("/")[1];
@@ -26,7 +24,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
 
   // Select Flag Icon
   const icon_src = lang === "en" ? "/th.svg" : "/usa.svg";
-
   // Select Show Language
   const targetLang = lang === "en" ? "ไทย" : "English";
 
@@ -75,7 +72,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
       if (container) {
         const containerRect = container.getBoundingClientRect();
         const buttonRect = button.getBoundingClientRect();
-
         setIndicatorStyle({
           left: buttonRect.left - containerRect.left,
           width: buttonRect.width,
@@ -123,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     <>
       <title>{title}</title>
       <header
-        className="shadow-md lg:shadow-none bg-white px-6 w-full mx-auto flex flex-wrap justify-between items-center max-w-[1280px] h-[80px] rounded-2xl"
+        className="shadow-md lg:shadow-none bg-white px-6 w-full mx-auto flex flex-wrap justify-between items-center h-[80px] lg:justify-center"
         style={{
           position: "sticky",
           top: 0,
@@ -134,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
           borderImage: "linear-gradient(90deg, #8586D1, #FAAF39, #8FD95E) 1",
         }}
       >
-        <div className="flex justify-between items-center w-full lg:w-auto">
+        <div className="flex justify-between items-center w-full lg:w-auto lg:gap-8">
           <div>
             {/* Logo for larger screens */}
             <Link
@@ -148,7 +144,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 height={44}
               />
             </Link>
-
             {/* Logo for smaller screens */}
             <Link
               href={`/${lang}/home`}
@@ -172,6 +167,62 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
             <Menu className="w-10 h-10" color="#6869AA" />
           </button>
 
+          {/* Desktop Navigation - อยู่ตรงกลางระหว่าง Logo และ Language Switcher */}
+          <div className="hidden lg:flex items-center">
+            <nav className="relative flex space-x-2 xl:space-x-6 p-2">
+              {nav_bar.map((item, index) => (
+                <Link
+                  key={index}
+                  ref={(el) => {
+                    buttonRefs.current[index] = el;
+                  }}
+                  href={`/${lang}${item.link}`}
+                  onMouseEnter={() => handleMouseEnter(index)}
+                  onMouseLeave={handleMouseLeave}
+                  className={`relative px-2 xl:px-4 py-2 rounded-md font-medium transition-colors duration-200 z-10 whitespace-nowrap
+                    ${
+                      pathname === item.link
+                        ? "text-[#6869AA] font-bold"
+                        : "text-gray-600 "
+                    } font-[Prompt] text-[16px] xl:text-[18px]`}
+                >
+                  {item.show}
+                </Link>
+              ))}
+              {/* Sliding indicator - Bottom bar */}
+              {activeIndex >= 0 && (
+                <div
+                  className="absolute h-[7px] transition-all duration-300 ease-out rounded-full z-20 -bottom-[15px] xl:-bottom-[14px]"
+                  style={{
+                    left: `${indicatorStyle.left}px`,
+                    width: `${indicatorStyle.width}px`,
+                    backgroundColor: "#6869AA",
+                    transform: "translateY(0px)",
+                  }}
+                />
+              )}
+            </nav>
+          </div>
+
+          {/* Desktop Language Switcher */}
+          <div className="hidden lg:block">
+            <button
+              onClick={switchLocale}
+              className="flex items-center space-x-1 xl:space-x-2 hover:cursor-pointer p-2 rounded-xl"
+            >
+              <Image
+                src={icon_src}
+                width={18}
+                height={18}
+                alt="Language flag"
+                className="xl:w-5 xl:h-5 object-contain"
+              />
+              <span className="text-sm text-[#6869AA] font-[Prompt] font-[400] whitespace-nowrap">
+                {targetLang}
+              </span>
+            </button>
+          </div>
+
           {/* Mobile Menu */}
           <AnimatePresence>
             {isNavOpen && (
@@ -194,24 +245,22 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                 >
                   Close
                 </button>
-
                 <nav className="flex flex-col space-y-4">
                   {nav_bar.map((item, index) => (
                     <Link
                       key={index}
                       href={`/${lang}${item.link}`}
-                      className={`text-sm hover:bg-gray-100 hover:cursor-pointer rounded-xl p-2
+                      className={`text-sm hover:cursor-pointer rounded-xl p-2
                   ${pathname === item.link ? "font-bold" : ""}
                   text-[#6869AA] font-[Prompt] font-[16px]`}
                     >
                       {item.show}
                     </Link>
                   ))}
-
                   {/* Language Switcher - Mobile */}
                   <button
                     onClick={switchLocale}
-                    className="flex items-center space-x-2 hover:cursor-pointer hover:bg-gray-100 mt-6 rounded-xl p-2"
+                    className="flex items-center space-x-2 hover:cursor-pointer mt-6 rounded-xl p-2"
                   >
                     <div className="flex items-center space-x-2 hover:cursor-pointer">
                       <Image
@@ -232,6 +281,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               </motion.div>
             )}
           </AnimatePresence>
+
           {/* Overlay for outside click */}
           {isNavOpen && (
             <div
@@ -240,77 +290,6 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
               onClick={toggleNav}
             />
           )}
-        </div>
-
-        {/* Desktop Navigation with Sliding Indicator */}
-        <div className="hidden lg:flex items-center flex-1 justify-center xl:justify-start xl:flex-initial">
-          <nav className="relative flex space-x-2 xl:space-x-6 ml-2 bg-gray-50 rounded-lg p-2">
-            {nav_bar.map((item, index) => (
-              <Link
-                key={index}
-                ref={(el) => {
-                  buttonRefs.current[index] = el;
-                }}
-                href={`/${lang}${item.link}`}
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={handleMouseLeave}
-                className={`relative px-2 xl:px-4 py-2 rounded-md font-medium transition-colors duration-200 z-10 whitespace-nowrap
-                  ${
-                    pathname === item.link
-                      ? "text-[#6869AA] font-bold"
-                      : "text-gray-600 "
-                  } font-[Prompt] text-[16px] xl:text-[18px]`}
-              >
-                {item.show}
-              </Link>
-            ))}
-
-            {/* Sliding indicator - Bottom bar */}
-            {activeIndex >= 0 && (
-              <div
-                className="absolute h-[7px] transition-all duration-300 ease-out rounded-full z-20 -bottom-[15px] xl:-bottom-[14px]"
-                style={{
-                  left: `${indicatorStyle.left}px`,
-                  width: `${indicatorStyle.width}px`,
-                  backgroundColor: "#6869AA",
-
-                  transform: "translateY(0px)",
-                }}
-              />
-            )}
-
-            {/* Background highlight for active/hovered button */}
-            {activeIndex >= 0 && (
-              <div
-                className="absolute top-2 bottom-2 rounded-md transition-all duration-300 ease-out z-0"
-                style={{
-                  left: `${indicatorStyle.left}px`,
-                  width: `${indicatorStyle.width}px`,
-                  backgroundColor: "#6869AA",
-                  opacity: 0.08,
-                }}
-              />
-            )}
-          </nav>
-        </div>
-
-        {/* Desktop Language Switcher */}
-        <div className="hidden lg:block">
-          <button
-            onClick={switchLocale}
-            className="flex items-center space-x-1 xl:space-x-2 mr-2 hover:cursor-pointer hover:bg-gray-100 p-2 rounded-xl"
-          >
-            <Image
-              src={icon_src}
-              width={18}
-              height={18}
-              alt="Language flag"
-              className="xl:w-5 xl:h-5 object-contain"
-            />
-            <span className="text-sm text-[#6869AA] font-[Prompt] font-[400] whitespace-nowrap">
-              {targetLang}
-            </span>
-          </button>
         </div>
       </header>
     </>

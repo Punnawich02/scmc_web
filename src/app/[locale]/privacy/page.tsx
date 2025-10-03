@@ -8,10 +8,6 @@ import { useTranslations } from "next-intl";
 export default function PrivacyPage() {
   const t = useTranslations("PrivacyPage");
 
-  // URL for the privacy policy
-  const privacyPolicyUrl =
-    "https://scmc.cmu.ac.th/web/privacy/content?1750390260";
-
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen bg-white font-[Prompt]">
       <Header title={t("page_title")} />
@@ -28,11 +24,9 @@ export default function PrivacyPage() {
 
           <div className="w-full mt-6">
             <iframe
-              src={privacyPolicyUrl}
+              src="/privacy/privacy.html"
               title="Privacy Policy"
-              width="100%"
-              height="600"
-              style={{ border: "none" }}
+              className="w-full h-screen border-0"
             />
           </div>
         </motion.div>
