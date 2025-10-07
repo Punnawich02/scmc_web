@@ -49,13 +49,17 @@
     "security": "CCTV Footage Access Request",
     "build": "Facilities Management",
     "util": "Utilities",
-    "Published": "Published Documents",
+    "published": "Published Documents",
     "personel": ""
   },
   "DataPage": {
     "page_title": "Data Services",
     "header": "Data Services",
     "no_items": "No data available"
+  },
+  "CCTVPage": {
+    "page_title": "How to Request Access to Chiang Mai University's CCTV Footage",
+    "header": "How to Request CCTV Access at CMU"
   },
   "BuildPage": {
     "page_title": "Facilities Management",

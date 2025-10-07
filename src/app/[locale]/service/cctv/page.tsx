@@ -3,12 +3,12 @@ import React from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-import Header from "../Component/Header";
-import Footer from "../Component/Footer";
+import Header from "../../Component/Header";
+import Footer from "../../Component/Footer";
 
 export default function AboutPage() {
   // get Message from /messages/[locale] -> "AboutPage:{...}"
-  const t = useTranslations("AboutPage");
+  const t = useTranslations("CCTVPage");
   const locale = useLocale();
   
   return (
@@ -39,11 +39,7 @@ export default function AboutPage() {
           <div className="prose prose-lg max-w-none text-justify">
             <div className="relative w-full overflow-hidden">
               <Image
-                src={
-                  locale === "th"
-                    ? "/about/about_th.svg"
-                    : "/about/about_en.svg"
-                }
+                src="/cctv.jpg"
                 alt={locale === "th" ? "about_th" : "about_en"}
                 width={0}
                 height={0}

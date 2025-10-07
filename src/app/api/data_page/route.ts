@@ -13,47 +13,46 @@ const limiter = rateLimit({
 // Validation schemas
 const dataCategorySchema = z.object({
   name: z.string().min(1, "name ต้องไม่ว่าง"),
-  description: z.string().min(1, "description ต้องไม่ว่าง"),
-  displayNameTh: z.string().min(1, "displayNameTh ต้องไม่ว่าง"),
-  displayNameEn: z.string().min(1, "displayNameEn ต้องไม่ว่าง"),
-  createBy: z.string().min(1, "createBy ต้องไม่ว่าง"),
+  
+  categoryNameTh: z.string().min(1, "categoryNameTh ต้องไม่ว่าง"),
+  categoryNameEn: z.string().min(1, "categoryNameEn ต้องไม่ว่าง"),
+
+  embedCode: z.string(),
 });
 
 const dataCategoryUpdateSchema = z.object({
   id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก"),
-  name: z.string().min(1, "name ต้องไม่ว่าง"),
-  description: z.string().min(1, "description ต้องไม่ว่าง"),
-  displayNameTh: z.string().min(1, "displayNameTh ต้องไม่ว่าง"),
-  displayNameEn: z.string().min(1, "displayNameEn ต้องไม่ว่าง"),
-  editBy: z.string().min(1, "editBy ต้องไม่ว่าง"),
+
+  name: z.string().optional(),
+  categoryNameTh: z.string().optional(),
+  categoryNameEn: z.string().optional(),
+
+  embedCode: z.string().optional(), // ✅ optional สำหรับ update
 });
 
 const dataCategoryDeleteSchema = z.object({
   id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก"),
 });
 
-async function isBasicAuthValid(req: Request): Promise<boolean> {
+async function isBasicAuthValid(req: Request): Promise<{ valid: boolean; userId?: string }> {
   const auth = req.headers.get("authorization");
-  if (!auth || !auth.startsWith("Basic ")) return false;
+  if (!auth || !auth.startsWith("Basic ")) return { valid: false };
 
-  const encoded = auth.split(" ")[1];
-  const decoded = Buffer.from(encoded, "base64").toString("utf-8");
-  const [username, password] = decoded.split(":");
+  const [username, password] = Buffer.from(auth.split(" ")[1], "base64")
+    .toString("utf-8")
+    .split(":");
 
-  const validUsername = process.env.AUTH_USERNAME;
-  const validPasswordHash = process.env.AUTH_PASSWORD_BCRYPT;
+  const foundUser = await prisma.user.findFirst({
+    where: { username, isActive: true },
+  });
 
-  if (!validUsername || !validPasswordHash || !password) return false;
+  if (!foundUser || !foundUser.isActive) return { valid: false };
 
-  try {
-    // Fix: Compare username as string, not with bcrypt
-    const isUsernameValid = username === validUsername;
-    const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
-    return isUsernameValid && isPasswordValid;
-  } catch (error) {
-    console.error("Error comparing password:", error);
-    return false;
-  }
+  const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+
+  if (!isPasswordValid) return { valid: false };
+
+  return { valid: true, userId: foundUser.id }; // ✅ ส่ง uid กลับ
 }
 
 function unauthorizedResponse(): Response {
@@ -74,7 +73,14 @@ export async function GET(req: Request) {
   }
 
   try {
-    const routes = await prisma.dataCategory.findMany();
+    const routes = await prisma.dataPage.findMany({
+      where: {
+        isActive: true
+      },
+      orderBy: {
+        createAt: "desc"
+      }
+    });
     return Response.json(routes);
   } catch (error) {
     console.error("Failed to fetch data categories:", error);
@@ -89,88 +95,97 @@ export async function GET(req: Request) {
 
 // Post new Category
 export async function POST(req: Request) {
-  if (!(await isBasicAuthValid(req))) return unauthorizedResponse();
+  // 🔐 Basic Auth
+  const authResult = await isBasicAuthValid(req);
+  if (!authResult.valid) return unauthorizedResponse();
 
-  // Check payload size
-  if (
-    req.headers.get("content-length") &&
-    parseInt(req.headers.get("content-length")!) > MAX_BODY_SIZE
-  ) {
-    return Response.json(
-      { error: "Payload Must Not Exceed 1MB" },
-      { status: 413 }
-    );
+  const userId = authResult.userId!; // ใช้ ! เพราะผ่าน valid แล้วแน่นอน
+
+  // 📦 ตรวจขนาด payload
+  const contentLength = req.headers.get("content-length");
+  if (contentLength && parseInt(contentLength) > MAX_BODY_SIZE) {
+    return Response.json({ error: "Payload Must Not Exceed 1MB" }, { status: 413 });
   }
 
-  // Apply rate limiting
+  // 🚦 Rate limit
   const rateLimitResult = await limiter(req);
   if (!rateLimitResult.success) {
     return Response.json({ error: "Too many requests" }, { status: 429 });
   }
 
   try {
-    // Parse and validate request body
+    // 🧩 Parse + validate body
     const body = await req.json();
     const parseResult = dataCategorySchema.safeParse(body);
-
     if (!parseResult.success) {
       return Response.json(
-        { error: "Validation failed", details: parseResult.error.format() },
+        {
+          error: "Validation failed",
+          details: parseResult.error.format(),
+        },
         { status: 400 }
       );
     }
 
-    const { name, description, displayNameTh, displayNameEn, createBy } =
-      parseResult.data;
+    const { name, categoryNameTh, categoryNameEn, embedCode } = parseResult.data;
 
-    const newCategory = await prisma.dataCategory.create({
+    // 🧠 Save to DB
+    const newCategory = await prisma.dataPage.create({
       data: {
         name,
-        description,
-        displayNameTh,
-        displayNameEn,
-        createBy,
+        categoryNameTh,
+        categoryNameEn,
+        embedCode,
+        createBy: userId,
       },
     });
 
-    return Response.json(newCategory);
+    // 🎉 Success
+    return Response.json(
+      {
+        status: "success",
+        message: "Category created successfully",
+        data: newCategory,
+      },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Failed to create data category:", error);
     return Response.json(
       {
-        error: "Error occurred",
+        status: "error",
+        message: "Failed to create data category",
         details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 // Edit Category
 export async function PUT(req: Request) {
-  if (!(await isBasicAuthValid(req))) return unauthorizedResponse();
+  const authResult = await isBasicAuthValid(req);
+  if (!authResult.valid) return unauthorizedResponse();
 
-  // Check payload size
-  if (
-    req.headers.get("content-length") &&
-    parseInt(req.headers.get("content-length")!) > MAX_BODY_SIZE
-  ) {
+  const userId = authResult.userId!; // ดึงจาก auth
+  const contentLength = req.headers.get("content-length");
+  
+  // 📦 Check payload size
+  if (contentLength && parseInt(contentLength) > MAX_BODY_SIZE) {
     return Response.json(
       { error: "Payload Must Not Exceed 1MB" },
       { status: 413 }
     );
   }
 
-  // Apply rate limiting
+  // 🚦 Rate limit
   const rateLimitResult = await limiter(req);
   if (!rateLimitResult.success) {
     return Response.json({ error: "Too many requests" }, { status: 429 });
   }
 
   try {
-    // Parse and validate request body
+    // 🧩 Parse + Validate
     const body = await req.json();
     const parseResult = dataCategoryUpdateSchema.safeParse(body);
 
@@ -181,11 +196,10 @@ export async function PUT(req: Request) {
       );
     }
 
-    const { id, name, description, displayNameTh, displayNameEn, editBy } =
-      parseResult.data;
+    const { id, name, categoryNameTh, categoryNameEn, embedCode } = parseResult.data;
 
-    // Check if category exists
-    const categoryExists = await prisma.dataCategory.findUnique({
+    // 🔍 Check if record exists
+    const categoryExists = await prisma.dataPage.findUnique({
       where: { id },
     });
 
@@ -196,18 +210,23 @@ export async function PUT(req: Request) {
       );
     }
 
-    const updatedCategory = await prisma.dataCategory.update({
+    // 🧠 Update record
+    const updatedCategory = await prisma.dataPage.update({
       where: { id },
       data: {
         name,
-        description,
-        displayNameTh,
-        displayNameEn,
-        editBy,
+        categoryNameTh,
+        categoryNameEn,
+        embedCode,
+        updateBy: userId, // ✅ override จาก auth
+        updateAt: new Date(),
       },
     });
 
-    return Response.json(updatedCategory);
+    return Response.json(
+      { message: "Data category updated successfully", data: updatedCategory },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("Failed to update data category:", error);
     return Response.json(
@@ -217,14 +236,16 @@ export async function PUT(req: Request) {
       },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 // Delete Category
 export async function DELETE(req: Request) {
-  if (!(await isBasicAuthValid(req))) return unauthorizedResponse();
+  const authResult = await isBasicAuthValid(req);
+
+  if (!authResult.valid) return unauthorizedResponse();
+  
+  const userId = authResult.userId!; // ดึงจาก auth
 
   // Check payload size
   if (
@@ -258,7 +279,7 @@ export async function DELETE(req: Request) {
     const { id } = parseResult.data;
 
     // Check if category exists
-    const categoryExists = await prisma.dataCategory.findUnique({
+    const categoryExists = await prisma.dataPage.findUnique({
       where: { id },
     });
 
@@ -269,8 +290,14 @@ export async function DELETE(req: Request) {
       );
     }
 
-    const deletedCategory = await prisma.dataCategory.delete({
+    // Soft Delete
+    const deletedCategory = await prisma.dataPage.update({
       where: { id },
+      data: {
+        isActive: false,
+        deleteBy: userId,
+        deleteAt: new Date(),
+      }
     });
 
     return Response.json(deletedCategory);

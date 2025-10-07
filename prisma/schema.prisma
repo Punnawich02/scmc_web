@@ -7,77 +7,93 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model TransitCategory {
-  id              Int              @id @default(autoincrement())
-  name            String           @unique
-  displayNameTh   String?          @map("display_name_th")
-  displayNameEn   String?          @map("display_name_en")
-  createdAt       DateTime         @default(now()) @map("created_at")
-  updatedAt       DateTime         @updatedAt @map("updated_at")
-  createBy        String           @map("create_by")
-  editBy          String?          @map("edit_by")
-  transitServices TransitService[]
+model User {
+  id            String         @id @default(uuid())
+  fname         String
+  lname         String
+  
+  username      String      @unique
+  password      String
+  
+  isActive      Boolean     @default(true) @map("is_active")
+  
+  // Relations - แก้ไข relation names และ model names
+  createdDataPages      DataPage[]     @relation("DataPageCreatedBy")
+  updatedDataPages      DataPage[]     @relation("DataPageUpdatedBy")
+  deletedDataPages      DataPage[]     @relation("DataPageDeletedBy")
+  
+  createdPublications   Publications[] @relation("PublicationCreatedBy")
+  updatedPublications   Publications[] @relation("PublicationUpdatedBy")
+  DeletedPublications   Publications[] @relation("PublicationDeletedBy")
 
-  @@map("transit_category")
+  @@map("user")
 }
 
-model TransitService {
-  id         Int             @id @default(autoincrement())
-  categoryId Int             @map("category_id")
-  imageUrl   String          @map("image_url")
-  title      String?
-  uploadAt   DateTime        @default(now()) @map("upload_at")
-  isActive   Boolean         @default(true) @map("is_active")
-  category   TransitCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  createBy   String?         @map("create_by")
-  editBy     String?         @map("edit_by")
+model DataPage {
+  id              Int       @id @default(autoincrement())
+  
+  name            String
+  categoryNameTh  String    @map("category_name_th")
+  categoryNameEn  String    @map("category_name_en")
+  
+  embedCode       String    @map("embed_code")
+  
+  createBy        String       @map("create_by")
+  createAt        DateTime  @default(now()) @map("create_at")
+  
+  updateBy        String?      @map("update_by")
+  updateAt        DateTime? @updatedAt @map("update_at")
 
-  @@index([isActive], map: "idx_transit_service_active")
-  @@map("transit_service")
+  deleteBy        String?       @map("delete_by")
+  deleteAt        DateTime?     @map("delete_at")
+  
+  isActive        Boolean   @default(true) @map("is_active")
+  
+  // Relations
+  createdByUser   User      @relation("DataPageCreatedBy", fields: [createBy], references: [id], onDelete: Restrict)
+  updatedByUser   User?     @relation("DataPageUpdatedBy", fields: [updateBy], references: [id], onDelete: SetNull)
+  deletedByUser   User?     @relation("DataPageDeletedBy", fields: [deleteBy], references: [id], onDelete: SetNull)
+
+
+  // Indexes
+  @@index([createBy])
+  @@index([updateBy])
+  @@index([isActive])
+  
+  @@map("data_page")
 }
 
-model DataCategory {
-  id            Int         @id @default(autoincrement())
-  name          String      @unique
-  description   String?
-  createdAt     DateTime    @default(now()) @map("created_at")
-  displayNameEn String?     @map("display_name_en")
-  displayNameTh String?     @map("display_name_th")
-  createBy      String      @map("create_by")
-  editBy        String?     @map("edit_by")
-  embeds        DataEmbed[]
-  web_url       String?
+model Publications {
+  id              Int       @id @default(autoincrement())
 
-  @@map("data_category")
-}
+  titleTh         String    @map("title_th")
+  titleEn         String    @map("title_en")
+  
+  descriptionTh   String?   @map("description_th")
+  descriptionEn   String?   @map("description_en")
+  
+  linkUrl         String    @map("link_url")
+  
+  createBy        String       @map("create_by")
+  createAt        DateTime  @default(now()) @map("create_at")
+  
+  updateBy        String?      @map("update_by")
+  updateAt        DateTime? @updatedAt @map("update_at")
+  
+  deleteBy        String?      @map("delete_by")
+  deleteAt        DateTime?   @map("delete_at")
 
-model DataEmbed {
-  id         Int          @id @default(autoincrement())
-  categoryId Int          @map("category_id")
-  title      String
-  embedCode  String       @map("embed_code")
-  createdAt  DateTime     @default(now()) @map("created_at")
-  isActive   Boolean      @default(true) @map("is_active")
-  createBy   String       @map("create_by")
-  editBy     String?      @map("edit_by")
-  category   DataCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  isActive        Boolean   @default(true) @map("is_active")
+  
+  // Relations - แก้ไข relation names
+  createdByUser   User      @relation("PublicationCreatedBy", fields: [createBy], references: [id], onDelete: Restrict)
+  updatedByUser   User?     @relation("PublicationUpdatedBy", fields: [updateBy], references: [id], onDelete: SetNull)
+  deletedByUser   User?     @relation("PublicationDeletedBy", fields: [deleteBy], references: [id], onDelete: SetNull)
 
-  @@index([isActive], map: "idx_data_embed_active")
-  @@map("data_embed")
-}
-
-model Publication {
-  id            Int       @id @default(autoincrement())
-  linkUrl       String    @map("link_url")
-  publishedAt   DateTime  @default(now()) @map("published_at")
-  isActive      Boolean   @default(true) @map("is_active")
-  descriptionEn String?
-  descriptionTh String?
-  titleEn       String
-  titleTh       String
-  createBy      String    @map("create_by")
-  editBy        String?   @map("edit_by")
-
-  @@index([isActive], map: "idx_publication_active")
-  @@map("publication")
+  // Indexes
+  @@index([createBy])
+  @@index([updateBy])
+  @@index([isActive])
+  
+  @@map("publications")
 }

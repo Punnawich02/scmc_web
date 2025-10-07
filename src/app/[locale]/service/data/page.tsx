@@ -7,36 +7,24 @@ import { useTranslations, useLocale } from "next-intl";
 import { ChevronDown, Database } from "lucide-react";
 
 // Type สำหรับข้อมูล Category
-interface DataCategory {
+interface DataPage {
   id: number;
   name: string;
-  description: string;
-  displayNameTh: string;
-  displayNameEn: string;
-  createdAt: string;
-}
-
-// Type สำหรับข้อมูล Dashboard
-interface DashboardData {
-  id: number;
-  categoryId: number;
-  title: string;
-  embedCode?: string;
-  web_url?: string;
-  createdAt: string;
+  categoryNameTh: string;
+  categoryNameEn: string;
+  embedCode: string;
+  createAt: string;
   isActive: boolean;
 }
 
 const DataPage: React.FC = () => {
   const t = useTranslations("DataPage");
   const locale = useLocale();
-  const [categories, setCategories] = useState<DataCategory[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<DataCategory | null>(
+  const [categories, setCategories] = useState<DataPage[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<DataPage | null>(
     null
   );
-  const [dashboardData, setDashboardData] = useState<DashboardData[]>([]);
   const [loading, setLoading] = useState(true);
-  const [dashboardLoading, setDashboardLoading] = useState(false);
 
   // เรียกใช้ API สำหรับ Categories
   useEffect(() => {
@@ -46,7 +34,7 @@ const DataPage: React.FC = () => {
         if (!response.ok) {
           throw new Error("Failed to fetch categories");
         }
-        const data: DataCategory[] = await response.json();
+        const data: DataPage[] = await response.json();
         setCategories(data);
         // ตั้งค่าเป็นรายการแรกโดยอัตโนมัติ
         if (data.length > 0) {
@@ -61,36 +49,12 @@ const DataPage: React.FC = () => {
     fetchCategories();
   }, []);
 
-  // เรียกใช้ API สำหรับ Dashboard Data เมื่อเลือก Category
-  useEffect(() => {
-    const fetchDashboardData = async (categoryName: string) => {
-      setDashboardLoading(true);
-      try {
-        const response = await fetch(`/api/data_page/${categoryName}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch dashboard data");
-        }
-        const data: DashboardData[] = await response.json();
-        setDashboardData(data.filter((item) => item.isActive));
-      } catch (err) {
-        console.error("Error fetching dashboard data:", err);
-        setDashboardData([]);
-      } finally {
-        setDashboardLoading(false);
-      }
-    };
-
-    if (selectedCategory) {
-      fetchDashboardData(selectedCategory.name);
-    }
-  }, [selectedCategory]);
-
   // ฟังก์ชันสำหรับแสดงชื่อตาม locale
-  const getDisplayName = (category: DataCategory): string => {
-    return locale === "th" ? category.displayNameTh : category.displayNameEn;
+  const getDisplayName = (category: DataPage): string => {
+    return locale === "th" ? category.categoryNameTh : category.categoryNameEn;
   };
 
-  // Component สำหรับแสดง Embed Code - ปรับปรุงแล้ว
+  // Component สำหรับแสดง Embed Code
   const EmbedCodeRenderer: React.FC<{
     embedCode: string;
     dashboardId: number;
@@ -110,8 +74,8 @@ const DataPage: React.FC = () => {
       // สร้าง wrapper div
       const wrapper = document.createElement("div");
       wrapper.style.width = "100%";
-      wrapper.style.minHeight = "400px"; // กำหนดความสูงขั้นต่ำ
-      wrapper.style.overflow = "visible"; // ให้แสดงเนื้อหาที่เกิน
+      wrapper.style.minHeight = "400px";
+      wrapper.style.overflow = "visible";
 
       // แทรก embed code
       wrapper.innerHTML = embedCode;
@@ -156,13 +120,13 @@ const DataPage: React.FC = () => {
               const height = Math.max(
                 iframeDoc.documentElement.scrollHeight,
                 iframeDoc.body.scrollHeight,
-                400 // ความสูงขั้นต่ำ
+                400
               );
               iframe.style.height = `${height}px`;
             }
           } catch {
             // หากไม่สามารถเข้าถึง iframe content ได้ (CORS)
-            iframe.style.height = "500px"; // ใช้ความสูงเริ่มต้น
+            iframe.style.height = "500px";
           }
           setIsLoaded(true);
         };
@@ -238,7 +202,7 @@ const DataPage: React.FC = () => {
             {/* overlay มืดๆ ให้อ่าน text ชัดขึ้น */}
             <div className="absolute inset-0 bg-[#111243]/60 rounded-2xl" />
 
-            <div className="relative flex  h-full items-center justify-start">
+            <div className="relative flex h-full items-center justify-start">
               {/* กล่องรวม icon + text */}
               <div className="flex items-center gap-4">
                 {/* Icon */}
@@ -287,59 +251,19 @@ const DataPage: React.FC = () => {
 
               {/* Dashboard Content */}
               <div className="mt-6 w-full">
-                {dashboardLoading ? (
-                  <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6366F1]"></div>
-                  </div>
-                ) : dashboardData.length > 0 ? (
+                {selectedCategory && (
                   <div className="space-y-8">
-                    {dashboardData.map((dashboard) => (
-                      <div
-                        key={dashboard.id}
-                        className="bg-white rounded-2xl shadow-lg overflow-hidden"
-                      >
-                        <div className="p-6 border-b border-gray-100">
-                          <h3 className="text-lg font-semibold text-[#22223b] mb-2">
-                            {dashboard.title}
-                          </h3>
-                          <p className="text-xs text-gray-500">
-                            {locale === "th" ? "อัปเดตล่าสุด" : "Last updated"}:{" "}
-                            {new Date(dashboard.createdAt).toLocaleDateString(
-                              locale === "th" ? "th-TH" : "en-US",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
-                        </div>
-
-                        {/* Embed Code Container - ปรับปรุงแล้ว */}
-                        <div className="w-full">
-                          {dashboard.embedCode && (
-                            <EmbedCodeRenderer
-                              embedCode={dashboard.embedCode}
-                              dashboardId={dashboard.id}
-                            />
-                          )}
-                          {dashboard.web_url && (
-                            <iframe
-                              src={dashboard.web_url}
-                              width="100%"
-                              height="600"
-                              title={`Dashboard ${dashboard.id}`}
-                            />
-                          )}
-                        </div>
+                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                      {/* Embed Code Container */}
+                      <div className="w-full p-4">
+                        {selectedCategory.embedCode && (
+                          <EmbedCodeRenderer
+                            embedCode={selectedCategory.embedCode}
+                            dashboardId={selectedCategory.id}
+                          />
+                        )}
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <p className="text-gray-500 text-lg">
-                      {t("no_items")}
-                    </p>
+                    </div>
                   </div>
                 )}
               </div>

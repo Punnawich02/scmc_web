@@ -9,45 +9,52 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // จำกัด 100 requests ต่อ 15 นาที
 });
+
 const publicationSchema = z.object({
   titleTh: z.string().min(1, "titleTh ต้องไม่ว่าง"),
   titleEn: z.string().min(1, "titleEn ต้องไม่ว่าง"),
+
   descriptionTh: z.string().optional(),
   descriptionEn: z.string().optional(),
-  link_url: z.string().url("link_url ต้องเป็น URL"),
-  createBy: z.string().min(1),
+  
+  linkUrl: z.string().url("linkUrl ต้องเป็น URL"),
 });
+
 const publicationUpdateSchema = z.object({
-  id: z.number(),
-  titleTh: z.string().min(1),
-  titleEn: z.string().min(1),
+  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก"),
+  
+  titleTh: z.string().min(1, "title ต้องเป็นข้อความเท่านั้น"),
+  titleEn: z.string().min(1, "title ต้องเป็นข้อความเท่านั้น"),
+  
   descriptionTh: z.string().optional(),
   descriptionEn: z.string().optional(),
-  link_url: z.string().url(),
-  editBy: z.string().min(1),
+  
+  linkUrl: z.string().url("linkUrl ต้องเป็นข้อความ ที่เป็นลิงค์เท่านั้น"),
 });
 
-async function isBasicAuthValid(req: Request): Promise<boolean> {
+const publicationDeleteSchema = z.object({
+  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก")
+});
+
+async function isBasicAuthValid(req: Request): Promise<{ valid: boolean; userId?: string }> {
   const auth = req.headers.get("authorization");
-  if (!auth || !auth.startsWith("Basic ")) return false;
+  if (!auth || !auth.startsWith("Basic ")) return { valid: false };
 
-  const encoded = auth.split(" ")[1];
-  const decoded = Buffer.from(encoded, "base64").toString("utf-8");
-  const [username, password] = decoded.split(":");
+  const [username, password] = Buffer.from(auth.split(" ")[1], "base64")
+    .toString("utf-8")
+    .split(":");
 
-  const validUsername = process.env.AUTH_USERNAME;
-  const validPasswordHash = process.env.AUTH_PASSWORD_BCRYPT;
+  const foundUser = await prisma.user.findFirst({
+    where: { username, isActive: true },
+  });
 
-  if (!validUsername || !validPasswordHash || !password) return false;
+  if (!foundUser || !foundUser.isActive) return { valid: false };
 
-  try {
-    const isUsernameValid = (await username) === validUsername;
-    const isPasswordValid = await bcrypt.compare(password, validPasswordHash);
-    return isUsernameValid && isPasswordValid;
-  } catch (error) {
-    console.error("Error comparing password:", error);
-    return false;
-  }
+  const isPasswordValid = await bcrypt.compare(password, foundUser.password);
+
+  if (!isPasswordValid) return { valid: false };
+
+  return { valid: true, userId: foundUser.id }; // ✅ ส่ง uid กลับ
 }
 
 function unauthorizedResponse(): Response {
@@ -62,9 +69,13 @@ function unauthorizedResponse(): Response {
 // Get all Public Doc
 export async function GET() {
   try {
-    const routes = await prisma.publication.findMany({
-      where: { isActive: true },
-      orderBy: { publishedAt: "desc" },
+    const routes = await prisma.publications.findMany({
+      where: { 
+        isActive: true 
+      },
+      orderBy: { 
+        createAt: "desc" 
+      },
     });
     return Response.json(routes);
   } catch {
@@ -73,77 +84,93 @@ export async function GET() {
       { error: "Failed to fetch publication Doc" },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 // Post new Public Doc
 export async function POST(req: Request) {
-  if (!isBasicAuthValid(req)) return unauthorizedResponse();
+  // 🔐 Basic Auth
+  const authResult = await isBasicAuthValid(req);
+  if (!authResult.valid) return unauthorizedResponse();
 
-  if (
-    req.headers.get("content-length") &&
-    parseInt(req.headers.get("content-length")!) > MAX_BODY_SIZE
-  ) {
-    return Response.json(
-      { error: "Payload Must Not Exceed 1MB" },
-      { status: 413 }
-    );
+  const userId = authResult.userId!; // ใช้ ! เพราะผ่าน valid แล้วแน่นอน
+
+  // 📦 ตรวจขนาด payload
+  const contentLength = req.headers.get("content-length");
+  if (contentLength && parseInt(contentLength) > MAX_BODY_SIZE) {
+    return Response.json({ error: "Payload Must Not Exceed 1MB" }, { status: 413 });
   }
 
+  // 🚦 Rate limit
   const rateLimitResult = await limiter(req);
   if (!rateLimitResult.success) {
     return Response.json({ error: "Too many requests" }, { status: 429 });
   }
 
-  const parseResult = publicationSchema.safeParse(await req.json());
-
-  if (!parseResult.success) {
-    return Response.json(
-      { error: "Validation failed", details: parseResult.error.format() },
-      { status: 400 }
-    );
-  }
-
   try {
-    const {
-      titleTh,
-      titleEn,
+    // 🧩 Parse + validate body
+    const body = await req.json();
+    const parseResult = publicationSchema.safeParse(body);
+    if (!parseResult.success) {
+      return Response.json(
+        {
+          error: "Validation failed",
+          details: parseResult.error.format(),
+        },
+        { status: 400 }
+      );
+    }
+
+    const { 
+      titleTh, 
+      titleEn, 
       descriptionTh,
-      descriptionEn,
-      link_url,
-      createBy,
+      descriptionEn, 
+      linkUrl,
     } = parseResult.data;
-    const newDoc = await prisma.publication.create({
+
+    // 🧠 Save to DB
+    const newPublication = await prisma.publications.create({
       data: {
         titleTh,
         titleEn,
         descriptionTh,
         descriptionEn,
-        linkUrl: link_url,
-        createBy,
+        linkUrl,
+        createBy: userId,
+        createAt: new Date()
       },
     });
-    return Response.json(newDoc);
-  } catch (error) {
-    console.error("Failed to create new Public Document:", error);
 
+    // 🎉 Success
     return Response.json(
       {
-        error: "Error occurred",
-        details: error,
+        status: "success",
+        message: "Publication created successfully",
+        data: newPublication,
+      },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Failed to create Publication:", error);
+    return Response.json(
+      {
+        status: "error",
+        message: "Failed to create Publcation",
+        details: error instanceof Error ? error.message : String(error),
       },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
 // Update new public doc
 export async function PUT(req: Request) {
-  if (!isBasicAuthValid(req)) return unauthorizedResponse();
+  // 🔐 Basic Auth
+  const authResult = await isBasicAuthValid(req);
+  if (!authResult.valid) return unauthorizedResponse();
+
+  const userId = authResult.userId!; // ใช้ ! เพราะผ่าน valid แล้วแน่นอน
 
   if (
     req.headers.get("content-length") &&
@@ -175,15 +202,14 @@ export async function PUT(req: Request) {
       titleEn,
       descriptionTh,
       descriptionEn,
-      link_url,
-      editBy,
+      linkUrl,
     } = await parseResult.data;
 
-    const docExists = await prisma.publication.findUnique({ where: { id } });
+    const docExists = await prisma.publications.findUnique({ where: { id } });
     if (!docExists)
       return Response.json({ error: "Document not found" }, { status: 404 });
 
-    const updatedDoc = await prisma.publication.update({
+    const updatedDoc = await prisma.publications.update({
       where: {
         id: id,
       },
@@ -192,8 +218,9 @@ export async function PUT(req: Request) {
         titleEn,
         descriptionTh,
         descriptionEn,
-        linkUrl: link_url,
-        editBy,
+        linkUrl,
+        updateBy: userId,
+        updateAt: new Date(),
       },
     });
 
@@ -213,7 +240,11 @@ export async function PUT(req: Request) {
 
 // Delete public doc
 export async function DELETE(req: Request) {
-  if (!isBasicAuthValid(req)) return unauthorizedResponse();
+  // 🔐 Basic Auth
+  const authResult = await isBasicAuthValid(req);
+  if (!authResult.valid) return unauthorizedResponse();
+
+  const userId = authResult.userId!; // ใช้ ! เพราะผ่าน valid แล้วแน่นอน
 
   if (
     req.headers.get("content-length") &&
@@ -230,19 +261,29 @@ export async function DELETE(req: Request) {
     return Response.json({ error: "Too many requests" }, { status: 429 });
   }
 
+  const parseResult = publicationDeleteSchema.safeParse(await req.json());
+  if (!parseResult.success) {
+    return Response.json(
+      { error: "Validation failed", details: parseResult.error.format() },
+      { status: 400 }
+    );
+  }
+
   try {
     const { id } = await req.json();
 
-    const docExists = await prisma.publication.findUnique({ where: { id } });
+    const docExists = await prisma.publications.findUnique({ where: { id } });
     if (!docExists)
       return Response.json({ error: "Document not found" }, { status: 404 });
 
-    const deletedDoc = await prisma.publication.update({
+    const deletedDoc = await prisma.publications.update({
       where: {
         id: id,
       },
       data: {
         isActive: false,
+        deleteBy: userId,
+        deleteAt: new Date()
       },
     });
 
