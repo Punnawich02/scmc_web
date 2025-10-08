@@ -29,6 +29,7 @@ const dataCategoryUpdateSchema = z.object({
   categoryNameEn: z.string().optional(),
 
   embedCode: z.string().optional(), // ✅ optional สำหรับ update
+  isActive: z.boolean().optional(),
   linkUrl: z.string().optional()
 });
 
@@ -200,7 +201,7 @@ export async function PUT(req: Request) {
       );
     }
 
-    const { id, name, categoryNameTh, categoryNameEn, embedCode, linkUrl } = parseResult.data;
+    const { id, name, categoryNameTh, categoryNameEn, embedCode, linkUrl, isActive } = parseResult.data;
 
     // 🔍 Check if record exists
     const categoryExists = await prisma.dataPage.findUnique({
@@ -223,6 +224,7 @@ export async function PUT(req: Request) {
         categoryNameEn,
         embedCode,
         linkUrl,
+        isActive,
         updateBy: userId, // ✅ override จาก auth
         updateAt: new Date(new Date().getTime() + 7 * 60 * 60 * 1000),
       },

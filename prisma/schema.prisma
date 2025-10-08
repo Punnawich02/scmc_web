@@ -7,6 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// datasource db {
+//   provider = "sqlite"
+//   url      = "file:./dev.db"
+// }
+
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
 model User {
   id        String   @id @default(uuid())
   fname     String
