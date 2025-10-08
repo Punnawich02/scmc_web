@@ -11,10 +11,10 @@ const Footer: React.FC = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
   return (
-      <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto font-[Prompt] mx-auto text-center justify-center xl:rounded-tl-xl xl:rounded-tr-xl w-screen">
+      <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto font-[Prompt] mx-auto text-center justify-center xl:rounded-tl-xl xl:rounded-tr-xl w-full">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start mx-auto max-w-7xl">
           {/* Contact information section */}
-          <div className="text-center sm:text-left text-xs sm:text-sm sm:ms-10">
+          <div className="text-center sm:text-left text-xs sm:text-sm sm:ms-8">
             <h1 className="font-bold mb-2">{t("topic")}</h1>
             <p>{t("map1")}</p>
             <p>{t("map2")}</p>
@@ -51,28 +51,38 @@ const Footer: React.FC = () => {
               <p>ขส.มช. (@korsormorchor)</p>
             </a>
           </div>
-          <div>
-            <Link href={`/${locale}/home/contact_us`}>
-                <Image
-                  src= {locale === "th" ? "/footer/contact_us_th.svg" : "/footer/contact_us_en.svg"}
-                  alt="contact_us"
-                  width={200}
-                  height={100}
-                  className="mx-auto hover:scale-105 transition-transform"
-                />
+          <div className="flex flex-col items-center text-center pr-0 lg:items-end lg:text-right lg:pr-8">
+            <Link href={`/${locale}/home/contact_us`} className="block">
+              <Image
+                src={
+                  locale === "th"
+                    ? "/footer/contact_us_th.svg"
+                    : "/footer/contact_us_en.svg"
+                }
+                alt="contact_us"
+                width={250}
+                height={100}
+                className="h-auto hover:scale-105 transition-transform"
+              />
             </Link>
+
             <a
-              href={"https://voc.cmu.ac.th/Choose.aspx"}
+              href="https://voc.cmu.ac.th/Choose.aspx"
               target="_blank"
               rel="noopener noreferrer"
+              className="block mt-3"
             >
-                <Image
-                  src={locale === "th" ? "/footer/voc_th.svg" : "/footer/voc_en.svg"}
-                  alt="voc"
-                  width={200}
-                  height={100}
-                  className="mx-auto hover:scale-105 transition-transform mt-3"
-                />
+              <Image
+                src={
+                  locale === "th"
+                    ? "/footer/voc_th.svg"
+                    : "/footer/voc_en.svg"
+                }
+                alt="voc"
+                width={250}
+                height={100}
+                className="h-auto hover:scale-105 transition-transform"
+              />
             </a>
           </div>
         </div>

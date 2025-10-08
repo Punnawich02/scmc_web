@@ -16,7 +16,7 @@ export default function AboutPage() {
       <Header title={t("page_title")} />
       <main className="flex flex-col gap-8 px-4 sm:px-8 py-6 w-full text-black max-w-7xl mx-auto mb-10">
         {/* Page title Section */}
-        <div>
+        <div className="w-full">
           {/* Animate when loaded */}
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -34,10 +34,10 @@ export default function AboutPage() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true, amount: 0.1 }}
-          className="flex-1"
+          className="flex-1 w-full"
         >
-          <div className="prose prose-lg max-w-none text-justify">
-            <div className="relative w-full overflow-hidden">
+          <div className="w-full max-w-full">
+            <div className="relative w-full">
               <Image
                 src={
                   locale === "th"
@@ -48,10 +48,7 @@ export default function AboutPage() {
                 width={0}
                 height={0}
                 className="w-full h-auto object-contain"
-                sizes="(max-width: 640px) 100vw,
-                      (max-width: 1024px) 90vw,
-                      (max-width: 1280px) 80vw,
-                      70vw"
+                sizes="100vw"
                 priority
               />
             </div>

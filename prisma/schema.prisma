@@ -36,7 +36,8 @@ model DataPage {
   categoryNameTh  String    @map("category_name_th")
   categoryNameEn  String    @map("category_name_en")
   
-  embedCode       String    @map("embed_code")
+  embedCode       String?    @map("embed_code")
+  linkUrl         String?    @map("link_url")
   
   createBy        String       @map("create_by")
   createAt        DateTime  @default(now()) @map("create_at")

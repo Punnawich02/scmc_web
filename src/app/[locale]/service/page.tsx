@@ -33,7 +33,7 @@ export default function ServicePage() {
     },
     {
       title: t("security"),
-      link: "#",
+      link: "/cctv",
       icon: <Cctv />,
     },
     {
@@ -48,7 +48,7 @@ export default function ServicePage() {
     },
     {
       title: t("published"),
-      link: "#published",
+      link: "/home#publication",
       icon: <File />,
     },
   ];
@@ -105,7 +105,7 @@ export default function ServicePage() {
                 </motion.div>
               );
 
-              return isExternal ? (
+               return isExternal ? (
                 <a
                   key={index}
                   href={card.link}
@@ -114,6 +114,10 @@ export default function ServicePage() {
                 >
                   {content}
                 </a>
+              ) : card.link.includes("#") ? (
+                <Link key={index} href={card.link}>
+                  {content}
+                </Link>
               ) : (
                 <Link key={index} href={`/${locale}/service${card.link}`}>
                   {content}

@@ -13,6 +13,9 @@
     "deploy:migrate": "prisma migrate deploy",
     "push:db": "prisma db push"
   },
+   "prisma": {
+      "seed": "ts-node --transpile-only prisma/seed.ts"
+  },
   "dependencies": {
     "@heroui/card": "^2.2.16",
     "@heroui/system": "^2.4.13",

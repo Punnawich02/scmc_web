@@ -17,7 +17,8 @@ const dataCategorySchema = z.object({
   categoryNameTh: z.string().min(1, "categoryNameTh ต้องไม่ว่าง"),
   categoryNameEn: z.string().min(1, "categoryNameEn ต้องไม่ว่าง"),
 
-  embedCode: z.string(),
+  embedCode: z.string().optional(),
+  linkUrl: z.string().optional(),
 });
 
 const dataCategoryUpdateSchema = z.object({
@@ -28,6 +29,7 @@ const dataCategoryUpdateSchema = z.object({
   categoryNameEn: z.string().optional(),
 
   embedCode: z.string().optional(), // ✅ optional สำหรับ update
+  linkUrl: z.string().optional()
 });
 
 const dataCategoryDeleteSchema = z.object({
@@ -127,7 +129,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, categoryNameTh, categoryNameEn, embedCode } = parseResult.data;
+    const { name, categoryNameTh, categoryNameEn, embedCode, linkUrl } = parseResult.data;
 
     // 🧠 Save to DB
     const newCategory = await prisma.dataPage.create({
@@ -136,6 +138,7 @@ export async function POST(req: Request) {
         categoryNameTh,
         categoryNameEn,
         embedCode,
+        linkUrl,
         createBy: userId,
       },
     });
@@ -196,7 +199,7 @@ export async function PUT(req: Request) {
       );
     }
 
-    const { id, name, categoryNameTh, categoryNameEn, embedCode } = parseResult.data;
+    const { id, name, categoryNameTh, categoryNameEn, embedCode, linkUrl } = parseResult.data;
 
     // 🔍 Check if record exists
     const categoryExists = await prisma.dataPage.findUnique({
@@ -218,6 +221,7 @@ export async function PUT(req: Request) {
         categoryNameTh,
         categoryNameEn,
         embedCode,
+        linkUrl,
         updateBy: userId, // ✅ override จาก auth
         updateAt: new Date(),
       },
