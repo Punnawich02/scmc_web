@@ -243,7 +243,7 @@ export async function DELETE(req: Request) {
   // 🔐 Basic Auth
   const authResult = await isBasicAuthValid(req);
   if (!authResult.valid) return unauthorizedResponse();
-
+  
   const userId = authResult.userId!; // ใช้ ! เพราะผ่าน valid แล้วแน่นอน
 
   if (
@@ -261,21 +261,23 @@ export async function DELETE(req: Request) {
     return Response.json({ error: "Too many requests" }, { status: 429 });
   }
 
-  const parseResult = publicationDeleteSchema.safeParse(await req.json());
-  if (!parseResult.success) {
-    return Response.json(
-      { error: "Validation failed", details: parseResult.error.format() },
-      { status: 400 }
-    );
-  }
 
   try {
-    const { id } = await req.json();
+    const body = await req.json();
+
+    const parseResult = publicationDeleteSchema.safeParse(body);
+    if (!parseResult.success) {
+      return Response.json(
+        { error: "Validation failed", details: parseResult.error.format() },
+        { status: 400 }
+      );
+    }
+
+    const { id } = body;
 
     const docExists = await prisma.publications.findUnique({ where: { id } });
     if (!docExists)
       return Response.json({ error: "Document not found" }, { status: 404 });
-
     const deletedDoc = await prisma.publications.update({
       where: {
         id: id,
@@ -288,14 +290,12 @@ export async function DELETE(req: Request) {
     });
 
     return Response.json(deletedDoc);
-  } catch {
+  } catch (err) {
     console.error("Failed to delete Public Document:");
     return Response.json(
-      {
-        error: "Error occurred",
-      },
-      { status: 500 }
-    );
+    { error: "Error occurred", details: String(err) },
+    { status: 500 }
+  );
   } finally {
     await prisma.$disconnect();
   }
