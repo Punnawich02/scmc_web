@@ -13,8 +13,8 @@
     "deploy:migrate": "prisma migrate deploy",
     "push:db": "prisma db push"
   },
-   "prisma": {
-      "seed": "ts-node --transpile-only prisma/seed.ts"
+  "prisma": {
+    "seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "dependencies": {
     "@heroui/card": "^2.2.16",
@@ -31,6 +31,7 @@
     "react-dom": "^19.1.0",
     "recharts": "^2.15.3",
     "session": "^0.1.0",
+    "sqlite3": "^5.1.7",
     "zod": "^4.1.8"
   },
   "devDependencies": {
