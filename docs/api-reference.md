@@ -1,729 +1,489 @@
-# API Reference
+# API Documentation
 
-เอกสารนี้รวบรวมข้อมูลเกี่ยวกับ API endpoints ที่มีอยู่ในโปรเจกต์นี้
+## 🔗 Postman Collection
+[View Postman Workspace](https://punnawich02-1308399.postman.co/workspace/836ed485-0dba-40be-a951-4c41f2c5895e)
 
-[ไปส่วน API หมวดหมู่ข้อมูล](#api-หมวดหมู่ข้อมูล)
+## Table of Contents
+1. [Data Category API](#data-category-api)
+2. [Publications API](#publications-api)
 
-[ไปส่วน API เนื้อหาข้อมูล](#api-เนื้อหาข้อมูล)
+---
 
-[ไปส่วน API ข่าว](#api-ข่าว)
+## Data Category API
 
-[ไปส่วน API ไฟล์เอกสาร](#api-ไฟล์เอกสาร)
+### Overview
+API สำหรับจัดการหมวดหมู่ข้อมูล (Data Categories) รองรับการสร้าง, อ่าน, แก้ไข และลบข้อมูล
 
-[ไปส่วน API หมวดหมู่ตารางรถ](#api-หมวดหมู่ตารางรถ)
+### Base URL
+```
+/api/data-category
+```
 
-[ไปส่วน API รูปภาพตารางรถ](#api-รูปภาพตารางรถ)
+### Authentication
+ใช้ **Basic Authentication** สำหรับ POST, PUT, DELETE methods
 
-## API หมวดหมู่ข้อมูล
+**Header:**
+```
+Authorization: Basic <base64(username:password)>
+```
 
-### Endpoint: /api/data_page
+### Rate Limiting
+- **Limit:** 100 requests ต่อ 15 นาที
+- **Response (เมื่อเกิน limit):** HTTP 429 - Too many requests
 
-### [ไปที่ File API นี้](/src/app/api/data_page/route.ts)
+### Payload Size Limit
+- **Maximum:** 1 MB
+- **Response (เมื่อเกินขนาด):** HTTP 413 - Payload Must Not Exceed 1MB
 
-#### Method GET
+---
 
-**รายละเอียด:** ใช้สำหรับการแสดงผลหมวดหมู่ทั้งหมดในหน้า บริการข้อมูล
-**Response Body:**
+## 1. GET - ดึงรายการหมวดหมู่ทั้งหมด
 
+### Endpoint
+```
+GET /api/data-category
+```
+
+### Headers
+ไม่ต้องการ Authentication
+
+### Response Success (200)
 ```json
 [
   {
-    "id": 0,
-    "name": "",
-    "description": "",
-    "createdAt": "",
-    "displayNameEn": "",
-    "displayNameTh": "",
-    "createBy": "",
-    "editBy": "",
-    "web_url": ""
+    "id": 1,
+    "name": "category-name",
+    "categoryNameTh": "ชื่อหมวดหมู่ไทย",
+    "categoryNameEn": "Category Name EN",
+    "embedCode": "<iframe>...</iframe>",
+    "linkUrl": "https://example.com",
+    "isActive": true,
+    "createAt": "2025-01-15T10:30:00.000Z",
+    "createBy": "user-id",
+    "updateAt": null,
+    "updateBy": null,
+    "deleteAt": null,
+    "deleteBy": null
   }
 ]
 ```
 
-#### Method POST
+### Response Error
+- **429:** Too many requests
+- **500:** Failed to fetch data categories
 
-**รายละเอียด:** ใช้สำหรับการเพิ่มหมวดหมู่ในหน้า บริการข้อมูล
-**Authenticator:** ใช้ Basic Auth
+---
 
-```text
-	username:password
+## 2. POST - สร้างหมวดหมู่ใหม่
+
+### Endpoint
+```
+POST /api/data-category
 ```
 
-- Request Body:
+### Headers
+```
+Authorization: Basic <credentials>
+Content-Type: application/json
+```
 
+### Request Body
 ```json
 {
-  "name": "",
-  "description": "",
-  "displayNameTh": "",
-  "displayNameEn": "",
-  "createBy": ""
+  "name": "category-name",
+  "categoryNameTh": "ชื่อหมวดหมู่ไทย",
+  "categoryNameEn": "Category Name EN",
+  "embedCode": "<iframe>...</iframe>",
+  "linkUrl": "https://example.com"
 }
 ```
 
-- Response Body:
+### Field Validations
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| name | string | ✅ | ชื่อหมวดหมู่ (ต้องไม่ว่าง) |
+| categoryNameTh | string | ✅ | ชื่อหมวดหมู่ภาษาไทย (ต้องไม่ว่าง) |
+| categoryNameEn | string | ✅ | ชื่อหมวดหมู่ภาษาอังกฤษ (ต้องไม่ว่าง) |
+| embedCode | string | ❌ | โค้ด embed (optional) |
+| linkUrl | string | ❌ | URL ลิงก์ (optional) |
 
+### Response Success (201)
 ```json
 {
-  "id": 0,
-  "name": "",
-  "description": "",
-  "createdAt": "",
-  "displayNameEn": "",
-  "displayNameTh": "",
-  "createBy": "",
-  "editBy": "",
-  "embeds": "",
-  "web_url": ""
+  "status": "success",
+  "message": "Category created successfully",
+  "data": {
+    "id": 1,
+    "name": "category-name",
+    "categoryNameTh": "ชื่อหมวดหมู่ไทย",
+    "categoryNameEn": "Category Name EN",
+    "embedCode": "<iframe>...</iframe>",
+    "linkUrl": "https://example.com",
+    "createBy": "user-id",
+    "createAt": "2025-01-15T10:30:00.000Z"
+  }
 }
 ```
 
-#### Method PUT
+### Response Error
+- **400:** Validation failed
+- **401:** Unauthorized
+- **413:** Payload Must Not Exceed 1MB
+- **429:** Too many requests
+- **500:** Failed to create data category
 
-**รายละเอียด:** ใช้สำหรับการแก้ไขหมวดหมู่ในหน้า บริการข้อมูล
-**Authenticator:** ใช้ Basic Auth
+---
 
-```text
-	username:password
+## 3. PUT - แก้ไขหมวดหมู่
+
+### Endpoint
+```
+PUT /api/data-category
 ```
 
-- Request Body:
+### Headers
+```
+Authorization: Basic <credentials>
+Content-Type: application/json
+```
 
+### Request Body
 ```json
 {
-  "id": 0,
-  "name": "",
-  "description": "",
-  "displayNameTh": "",
-  "displayNameEn": "",
-  "editBy": ""
+  "id": 1,
+  "name": "updated-category-name",
+  "categoryNameTh": "ชื่อหมวดหมู่ไทยใหม่",
+  "categoryNameEn": "Updated Category Name",
+  "embedCode": "<iframe>...</iframe>",
+  "linkUrl": "https://example.com/updated"
 }
 ```
 
-- Response Body:
+### Field Validations
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | number | ✅ | ID ของหมวดหมู่ (ต้องเป็นจำนวนเต็มบวก) |
+| name | string | ❌ | ชื่อหมวดหมู่ (optional) |
+| categoryNameTh | string | ❌ | ชื่อหมวดหมู่ภาษาไทย (optional) |
+| categoryNameEn | string | ❌ | ชื่อหมวดหมู่ภาษาอังกฤษ (optional) |
+| embedCode | string | ❌ | โค้ด embed (optional) |
+| linkUrl | string | ❌ | URL ลิงก์ (optional) |
 
+### Response Success (200)
 ```json
 {
-  "id": 0,
-  "name": "",
-  "description": "",
-  "createdAt": "",
-  "displayNameEn": "",
-  "displayNameTh": "",
-  "createBy": "",
-  "editBy": "",
-  "embeds": "",
-  "web_url": ""
+  "message": "Data category updated successfully",
+  "data": {
+    "id": 1,
+    "name": "updated-category-name",
+    "categoryNameTh": "ชื่อหมวดหมู่ไทยใหม่",
+    "categoryNameEn": "Updated Category Name",
+    "updateBy": "user-id",
+    "updateAt": "2025-01-15T11:00:00.000Z"
+  }
 }
 ```
 
-#### Method DELETE
+### Response Error
+- **400:** Validation failed
+- **401:** Unauthorized
+- **404:** Data category not found
+- **413:** Payload Must Not Exceed 1MB
+- **429:** Too many requests
+- **500:** Error occurred
 
-- **รายละเอียด:** ใช้สำหรับการลบหมวดหมู่ในหน้า บริการข้อมูล
-- **Authenticator:** ใช้ Basic Auth
+---
 
-```text
-	username:password
+## 4. DELETE - ลบหมวดหมู่ (Soft Delete)
+
+### Endpoint
+```
+DELETE /api/data-category
 ```
 
-- Request Body:
+### Headers
+```
+Authorization: Basic <credentials>
+Content-Type: application/json
+```
 
+### Request Body
 ```json
 {
-  "id": 0
+  "id": 1
 }
 ```
 
-- Response Body:
+### Field Validations
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | number | ✅ | ID ของหมวดหมู่ (ต้องเป็นจำนวนเต็มบวก) |
 
+### Response Success (200)
 ```json
 {
-  "id": 0,
-  "name": "",
-  "description": "",
-  "createdAt": "",
-  "displayNameEn": "",
-  "displayNameTh": "",
-  "createBy": "",
-  "editBy": "",
-  "embeds": "",
-  "web_url": ""
+  "id": 1,
+  "isActive": false,
+  "deleteBy": "user-id",
+  "deleteAt": "2025-01-15T12:00:00.000Z"
 }
 ```
 
-## API เนื้อหาข้อมูล
+### Response Error
+- **400:** Validation failed
+- **401:** Unauthorized
+- **404:** Data category not found
+- **413:** Payload Must Not Exceed 1MB
+- **429:** Too many requests
+- **500:** Error occurred
 
-### Endpoint: /api/data_page/[category]
+---
 
-โดยที่ [category] คือ ชื่อของหมวดหมู่นั้นๆ
+## Publications API
 
-### [ไปที่ File API นี้](/src/app/api/data_page/[category]/route.ts)
+### Overview
+API สำหรับจัดการเอกสารเผยแพร่ (Publications) รองรับการสร้าง, อ่าน, แก้ไข และลบข้อมูล
 
-#### Method GET
+### Base URL
+```
+/api/publications
+```
 
-**รายละเอียด:** ใช้สำหรับการแสดงผลข้อมูล(Data)ในหน้า บริการข้อมูล
-**Response Body:**
+### Authentication
+ใช้ **Basic Authentication** สำหรับ POST, PUT, DELETE methods
 
+**Header:**
+```
+Authorization: Basic <base64(username:password)>
+```
+
+### Rate Limiting
+- **Limit:** 100 requests ต่อ 15 นาที
+- **Response (เมื่อเกิน limit):** HTTP 429 - Too many requests
+
+### Payload Size Limit
+- **Maximum:** 1 MB
+- **Response (เมื่อเกินขนาด):** HTTP 413 - Payload Must Not Exceed 1MB
+
+---
+
+## 1. GET - ดึงรายการเอกสารทั้งหมด
+
+### Endpoint
+```
+GET /api/publications
+```
+
+### Headers
+ไม่ต้องการ Authentication
+
+### Response Success (200)
 ```json
 [
   {
-    "id": int,
-    "categoryId": int,
-    "title": string,
-    "embedCode": string,
-    "createdAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
+    "id": 1,
+    "titleTh": "ชื่อเอกสารภาษาไทย",
+    "titleEn": "Document Title EN",
+    "descriptionTh": "คำอธิบายภาษาไทย",
+    "descriptionEn": "Description in English",
+    "linkUrl": "https://example.com/document.pdf",
+    "isActive": true,
+    "createAt": "2025-01-15T10:30:00.000Z",
+    "createBy": "user-id",
+    "updateAt": null,
+    "updateBy": null,
+    "deleteAt": null,
+    "deleteBy": null
   }
 ]
 ```
 
-#### Method POST
+### Response Error
+- **500:** Failed to fetch publication Doc
 
-**รายละเอียด:** ใช้สำหรับการเพิ่มข้อมูล(Data)ในหน้า บริการข้อมูล
-**Authenticator:** ใช้ Basic Auth
+---
 
-```text
-	username:password
+## 2. POST - สร้างเอกสารใหม่
+
+### Endpoint
+```
+POST /api/publications
 ```
 
-**Resquest Body:**
+### Headers
+```
+Authorization: Basic <credentials>
+Content-Type: application/json
+```
 
+### Request Body
 ```json
-  {
-    "categoryId": int,
-    "title": string,
-    "embedCode": string,
-    "createBy": string,
-  }
+{
+  "titleTh": "ชื่อเอกสารภาษาไทย",
+  "titleEn": "Document Title EN",
+  "descriptionTh": "คำอธิบายภาษาไทย",
+  "descriptionEn": "Description in English",
+  "linkUrl": "https://example.com/document.pdf"
+}
 ```
 
-**Response Body:**
+### Field Validations
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| titleTh | string | ✅ | ชื่อเอกสารภาษาไทย (ต้องไม่ว่าง) |
+| titleEn | string | ✅ | ชื่อเอกสารภาษาอังกฤษ (ต้องไม่ว่าง) |
+| descriptionTh | string | ❌ | คำอธิบายภาษาไทย (optional) |
+| descriptionEn | string | ❌ | คำอธิบายภาษาอังกฤษ (optional) |
+| linkUrl | string (URL) | ✅ | URL ของเอกสาร (ต้องเป็น URL ที่ถูกต้อง) |
 
+### Response Success (201)
 ```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "title": string,
-    "embedCode": string,
-    "createdAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
+{
+  "status": "success",
+  "message": "Publication created successfully",
+  "data": {
+    "id": 1,
+    "titleTh": "ชื่อเอกสารภาษาไทย",
+    "titleEn": "Document Title EN",
+    "descriptionTh": "คำอธิบายภาษาไทย",
+    "descriptionEn": "Description in English",
+    "linkUrl": "https://example.com/document.pdf",
+    "createBy": "user-id",
+    "createAt": "2025-01-15T10:30:00.000Z"
   }
-]
+}
 ```
 
-#### Method PUT
+### Response Error
+- **400:** Validation failed
+- **401:** Unauthorized
+- **413:** Payload Must Not Exceed 1MB
+- **429:** Too many requests
+- **500:** Failed to create Publication
 
-**รายละเอียด:** ใช้สำหรับการแก้ไขข้อมูล(Data)ในหน้า บริการข้อมูล
-**Authenticator:** ใช้ Basic Auth
+---
 
-```text
-	username:password
+## 3. PUT - แก้ไขเอกสาร
+
+### Endpoint
+```
+PUT /api/publications
 ```
 
-**Resquest Body:**
+### Headers
+```
+Authorization: Basic <credentials>
+Content-Type: application/json
+```
 
+### Request Body
 ```json
-  {
-	  "id": int,
-    "title": string,
-    "embedCode": string,
-    "editBy": string,
-  }
+{
+  "id": 1,
+  "titleTh": "ชื่อเอกสารใหม่ภาษาไทย",
+  "titleEn": "Updated Document Title",
+  "descriptionTh": "คำอธิบายใหม่ภาษาไทย",
+  "descriptionEn": "Updated description",
+  "linkUrl": "https://example.com/updated-document.pdf"
+}
 ```
 
-**Response Body:**
+### Field Validations
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | number | ✅ | ID ของเอกสาร (ต้องเป็นจำนวนเต็มบวก) |
+| titleTh | string | ✅ | ชื่อเอกสารภาษาไทย (ต้องไม่ว่าง) |
+| titleEn | string | ✅ | ชื่อเอกสารภาษาอังกฤษ (ต้องไม่ว่าง) |
+| descriptionTh | string | ❌ | คำอธิบายภาษาไทย (optional) |
+| descriptionEn | string | ❌ | คำอธิบายภาษาอังกฤษ (optional) |
+| linkUrl | string (URL) | ✅ | URL ของเอกสาร (ต้องเป็น URL ที่ถูกต้อง) |
 
+### Response Success (200)
 ```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "title": string,
-    "embedCode": string,
-    "createdAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
-  }
-]
+{
+  "id": 1,
+  "titleTh": "ชื่อเอกสารใหม่ภาษาไทย",
+  "titleEn": "Updated Document Title",
+  "descriptionTh": "คำอธิบายใหม่ภาษาไทย",
+  "descriptionEn": "Updated description",
+  "linkUrl": "https://example.com/updated-document.pdf",
+  "updateBy": "user-id",
+  "updateAt": "2025-01-15T11:00:00.000Z"
+}
 ```
 
-#### Method DELETE
+### Response Error
+- **400:** Validation failed
+- **401:** Unauthorized
+- **404:** Document not found
+- **413:** Payload Must Not Exceed 1MB
+- **429:** Too many requests
+- **500:** Error occurred
 
-**รายละเอียด:** ใช้สำหรับการลบข้อมูล(Data)ในหน้า บริการข้อมูล
-**Authenticator:** ใช้ Basic Auth
+---
 
-```text
-	username:password
+## 4. DELETE - ลบเอกสาร (Soft Delete)
+
+### Endpoint
+```
+DELETE /api/publications
 ```
 
-**Resquest Body:**
+### Headers
+```
+Authorization: Basic <credentials>
+Content-Type: application/json
+```
 
+### Request Body
 ```json
-  {
-	  "id": int,
-  }
+{
+  "id": 1
+}
 ```
 
-**Response Body:**
+### Field Validations
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | number | ✅ | ID ของเอกสาร (ต้องเป็นจำนวนเต็มบวก) |
 
+### Response Success (200)
 ```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "title": string,
-    "embedCode": string,
-    "createdAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
-  }
-]
+{
+  "id": 1,
+  "isActive": false,
+  "deleteBy": "user-id",
+  "deleteAt": "2025-01-15T12:00:00.000Z"
+}
 ```
 
-## API ข่าว
-
-### Endpoint: /api/news
-
-### [ไปที่ File API นี้](/src/app/api/news/route.ts)
-
-API นี้มีไว้จัดการ CORS ของ API ข่าวเท่านั้น
-
-## API ไฟล์เอกสาร
-
-### Endpoint: /api/public_doc
-
-### [ไปที่ File API นี้](/src/app/api/public_doc/route.ts)
-
-#### Method GET
-
-**รายละเอียด:** ใช้สำหรับการแสดงไฟล์เอกสาร
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "linkUrl": string,
-    "publishedAt": string,
-    "isActive": boolean,
-    "descriptionEn": string,
-    "descriptionTh": string,
-    "titleEn": string,
-    "titleTh": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method POST
-
-**รายละเอียด:** ใช้สำหรับการเพิ่มลิงค์ไฟล์เอกสาร
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Resquest Body:**
-
-```json
-  {
-    "titleTh": string,
-    "titleEn": string,
-    "descriptionTh": string,
-    "descriptionEn": string,
-    "link_url": string,
-    "createBy": string,
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "linkUrl": string,
-    "publishedAt": string,
-    "isActive": boolean,
-    "descriptionEn": string,
-    "descriptionTh": string,
-    "titleEn": string,
-    "titleTh": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method PUT
-
-**รายละเอียด:** ใช้สำหรับการแก้ไขลิงค์ไฟล์เอกสาร
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Resquest Body:**
-
-```json
-  {
-	  "id": int
-    "titleTh": string,
-    "titleEn": string,
-    "descriptionTh": string,
-    "descriptionEn": string,
-    "link_url": string,
-    "editBy": string,
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "linkUrl": string,
-    "publishedAt": string,
-    "isActive": boolean,
-    "descriptionEn": string,
-    "descriptionTh": string,
-    "titleEn": string,
-    "titleTh": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method PUT
-
-**รายละเอียด:** ใช้สำหรับการแก้ไขลิงค์ไฟล์เอกสาร
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Resquest Body:**
-
-```json
-  {
-	  "id": int
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "linkUrl": string,
-    "publishedAt": string,
-    "isActive": boolean,
-    "descriptionEn": string,
-    "descriptionTh": string,
-    "titleEn": string,
-    "titleTh": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-## API หมวดหมู่ตารางรถ
-
-### Endpoint: /api/transit_page
-
-### [ไปที่ File API นี้](/src/app/api/transit_page/route.ts)
-
-#### Method GET
-
-**รายละเอียด:** ใช้สำหรับการแสดงหมวดหมู่ของตารางเดินรถ
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "name": string,
-    "displayNameTh": string,
-    "displayNameEn": string,
-    "createdAt": string,
-    "updatedAt": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method POST
-
-**รายละเอียด:** ใช้สำหรับการสร้างหมวดหมู่ของตารางเดินรถ
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Request Body:**
-
-```json
-  {
-    "name": string,
-    "displayNameTh": string,
-    "displayNameEn": string,
-    "createBy": string,
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "name": string,
-    "displayNameTh": string,
-    "displayNameEn": string,
-    "createdAt": string,
-    "updatedAt": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method PUT
-
-**รายละเอียด:** ใช้สำหรับการแก้ไขหมวดหมู่ของตารางเดินรถ
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Request Body:**
-
-```json
-  {
-    "id": int,
-    "name": string,
-    "displayNameTh": string,
-    "displayNameEn": string,
-    "editBy": string
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "name": string,
-    "displayNameTh": string,
-    "displayNameEn": string,
-    "createdAt": string,
-    "updatedAt": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method DELETE
-
-**รายละเอียด:** ใช้สำหรับการลบหมวดหมู่ของตารางเดินรถ
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Request Body:**
-
-```json
-  {
-    "id": int
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "name": string,
-    "displayNameTh": string,
-    "displayNameEn": string,
-    "createdAt": string,
-    "updatedAt": string,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-## API รูปภาพตารางรถ
-
-### Endpoint: /api/transit_page/[category]/route.ts
-
-โดยที่ [category] คือ ชื่อของหมวดหมู่นั้นๆ
-
-### [ไปที่ File API นี้](/src/app/api/transit_page/[category]/route.ts)
-
-#### Method GET
-
-**รายละเอียด:** ใช้สำหรับการแสดงหมวดหมู่ของตารางเดินรถ
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "imageUrl": string,
-    "title": string,
-    "uploadAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method POST
-
-**รายละเอียด:** ใช้สำหรับการแสดงหมวดหมู่ของตารางเดินรถ
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Request Body:**
-
-```json
-  {
-    "imageUrl": string,
-    "title": string,
-    "createBy": string,
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "imageUrl": string,
-    "title": string,
-    "uploadAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method PUT
-
-**รายละเอียด:** ใช้สำหรับการแสดงหมวดหมู่ของตารางเดินรถ
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Request Body:**
-
-```json
-  {
-    "id": int,
-    "imageUrl": string,
-    "title": string,
-    "editBy": string
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "imageUrl": string,
-    "title": string,
-    "uploadAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-#### Method DELETE
-
-**รายละเอียด:** ใช้สำหรับการแสดงหมวดหมู่ของตารางเดินรถ
-**Authenticator:** ใช้ Basic Auth
-
-```text
-	username:password
-```
-
-**Request Body:**
-
-```json
-  {
-    "id": int
-  }
-```
-
-**Response Body:**
-
-```json
-[
-  {
-    "id": int,
-    "categoryId": int,
-    "imageUrl": string,
-    "title": string,
-    "uploadAt": string,
-    "isActive": boolean,
-    "createBy": string,
-    "editBy": string
-  }
-]
-```
-
-## MinIO
-
-สำหรับ upload ไฟล์ หรือรูปที่จะเก็บไว้ เข้าผ่าน **http://your-domain:9001**
-และเข้าถึงไฟล์ได้ผ่าน **http://your-domain:9000/your-bucket-name/file-name**
-
-- โดยเข้าไปที่ **http://your-domain:9001** หลังจากนั้นให้กดสร้าง bucket ขึ้นมา
-- หลังจากนั้นให้ไปที่ server แล้วรันคำสั่ง
-
-```bash
-	mc alias set name MinIO_API_URL Access_Key Secret_Key
-	mc policy set readonly myminio/<bucket-name> # ตั้ง access ให้เป็น read only
-```
-
-จะทำการปรับให้ทุกคนสามารถเห็นไฟล์ใน bucket นี้ได้ และสามารถโหลดได้อย่างเดียว
+### Response Error
+- **400:** Validation failed
+- **401:** Unauthorized
+- **404:** Document not found
+- **413:** Payload Must Not Exceed 1MB
+- **429:** Too many requests
+- **500:** Error occurred
+
+---
+
+## Common HTTP Status Codes
+
+| Code | Description |
+|------|-------------|
+| 200 | OK - Request สำเร็จ |
+| 201 | Created - สร้างข้อมูลสำเร็จ |
+| 400 | Bad Request - ข้อมูล validation ไม่ผ่าน |
+| 401 | Unauthorized - ไม่มีสิทธิ์เข้าถึง (Authentication ล้มเหลว) |
+| 404 | Not Found - ไม่พบข้อมูลที่ต้องการ |
+| 413 | Payload Too Large - ข้อมูลเกิน 1 MB |
+| 429 | Too Many Requests - เกิน rate limit |
+| 500 | Internal Server Error - เกิดข้อผิดพลาดในระบบ |
+
+---
+
+## Notes
+- ทั้งสอง APIs ใช้ระบบ **Soft Delete** (ไม่ลบข้อมูลจริง แต่เปลี่ยน `isActive` เป็น `false`)
+- การ GET จะดึงเฉพาะข้อมูลที่ `isActive = true` เท่านั้น
+- ข้อมูลจะถูกเรียงตาม `createAt` จากใหม่ไปเก่า (descending)
+- ทุก operation ที่ต้อง authentication จะบันทึก user ที่ทำการเปลี่ยนแปลงใน fields: `createBy`, `updateBy`, `deleteBy`
