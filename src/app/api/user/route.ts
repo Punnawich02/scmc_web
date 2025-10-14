@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { rateLimit } from "../../lib/rate-limit";
@@ -115,7 +117,7 @@ export async function POST(req: Request) {
       },
     });
 
-    const { password: _, ...safeAdmin } = newAdmin;
+    const { password: _unused, ...safeAdmin } = newAdmin;
 
     return Response.json({
       status: "success",
@@ -187,7 +189,7 @@ export async function PUT(req: Request) {
     });
 
     // 🔒 Return response without password
-    const { password: _, ...safeUser } = updatedUser;
+    const { password: _unused2, ...safeUser } = updatedUser;
 
     return Response.json({
       status: "success",

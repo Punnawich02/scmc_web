@@ -1,54 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { rateLimit } from "../../lib/rate-limit";
-import { z } from "zod";
+import { publicationSchema, publicationUpdateSchema, publicationDeleteSchema } from "../../lib/schema/publication";
 
 const prisma = new PrismaClient();
 const MAX_BODY_SIZE = 1 * 1024 * 1024; // 1 MB
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // จำกัด 100 requests ต่อ 15 นาที
-});
-
-const urlValidator = z.string().refine(val => {
-  try {
-    // ถ้าไม่มี protocol ให้เติม http:// ชั่วคราว
-    new URL(val.startsWith("http") ? val : "http://" + val);
-    return true;
-  } catch {
-    return false;
-  }
-}, {
-  message: "linkUrl ต้องเป็น URL ที่ถูกต้อง",
-});
-
-// 📌 สร้าง publication ใหม่
-export const publicationSchema = z.object({
-  titleTh: z.string().min(1, "titleTh ต้องไม่ว่าง"),
-  titleEn: z.string().min(1, "titleEn ต้องไม่ว่าง"),
-
-  descriptionTh: z.string().optional(),
-  descriptionEn: z.string().optional(),
-  
-  linkUrl: urlValidator,
-});
-
-// 📌 อัปเดต publication
-export const publicationUpdateSchema = z.object({
-  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก"),
-  
-  titleTh: z.string().optional(),
-  titleEn: z.string().optional(),
-  
-  descriptionTh: z.string().optional(),
-  descriptionEn: z.string().optional(),
-  
-  linkUrl: urlValidator.optional(),
-});
-
-// 📌 ลบ publication
-export const publicationDeleteSchema = z.object({
-  id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก")
 });
 
 async function isBasicAuthValid(req: Request): Promise<{ valid: boolean; userId?: string }> {
