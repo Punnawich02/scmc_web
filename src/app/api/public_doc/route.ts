@@ -10,29 +10,44 @@ const limiter = rateLimit({
   max: 100, // จำกัด 100 requests ต่อ 15 นาที
 });
 
-const publicationSchema = z.object({
+const urlValidator = z.string().refine(val => {
+  try {
+    // ถ้าไม่มี protocol ให้เติม http:// ชั่วคราว
+    new URL(val.startsWith("http") ? val : "http://" + val);
+    return true;
+  } catch {
+    return false;
+  }
+}, {
+  message: "linkUrl ต้องเป็น URL ที่ถูกต้อง",
+});
+
+// 📌 สร้าง publication ใหม่
+export const publicationSchema = z.object({
   titleTh: z.string().min(1, "titleTh ต้องไม่ว่าง"),
   titleEn: z.string().min(1, "titleEn ต้องไม่ว่าง"),
 
   descriptionTh: z.string().optional(),
   descriptionEn: z.string().optional(),
   
-  linkUrl: z.string().url("linkUrl ต้องเป็น URL"),
+  linkUrl: urlValidator,
 });
 
-const publicationUpdateSchema = z.object({
+// 📌 อัปเดต publication
+export const publicationUpdateSchema = z.object({
   id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก"),
   
-  titleTh: z.string().min(1, "title ต้องเป็นข้อความเท่านั้น"),
-  titleEn: z.string().min(1, "title ต้องเป็นข้อความเท่านั้น"),
+  titleTh: z.string().optional(),
+  titleEn: z.string().optional(),
   
   descriptionTh: z.string().optional(),
   descriptionEn: z.string().optional(),
   
-  linkUrl: z.string().url("linkUrl ต้องเป็นข้อความ ที่เป็นลิงค์เท่านั้น"),
+  linkUrl: urlValidator.optional(),
 });
 
-const publicationDeleteSchema = z.object({
+// 📌 ลบ publication
+export const publicationDeleteSchema = z.object({
   id: z.number().int().positive("id ต้องเป็นจำนวนเต็มบวก")
 });
 

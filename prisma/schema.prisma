@@ -8,26 +8,42 @@ datasource db {
 }
 
 model User {
-  id            String         @id @default(uuid())
-  fname         String
-  lname         String
+  id        String   @id @default(uuid())
+  fname     String
+  lname     String
+  username  String   @unique
+  password  String
+
+  createBy  String?
+  createAt  DateTime?
+  updateBy  String?
+  updateAt  DateTime?
+  deleteBy  String?
+  deleteAt  DateTime?
   
-  username      String      @unique
-  password      String
-  
-  isActive      Boolean     @default(true) @map("is_active")
-  
-  // Relations - แก้ไข relation names และ model names
+  isActive  Boolean  @default(true) @map("is_active")
+
+  // Self-relations (User ←→ User)
+  createdByUser  User? @relation("UserCreatedBy", fields: [createBy], references: [id])
+  updatedByUser  User? @relation("UserUpdatedBy", fields: [updateBy], references: [id])
+  deletedByUser  User? @relation("UserDeletedBy", fields: [deleteBy], references: [id])
+
+  createdUsers   User[] @relation("UserCreatedBy")
+  updatedUsers   User[] @relation("UserUpdatedBy")
+  deletedUsers   User[] @relation("UserDeletedBy")
+
+  // Relations กับตารางอื่น
   createdDataPages      DataPage[]     @relation("DataPageCreatedBy")
   updatedDataPages      DataPage[]     @relation("DataPageUpdatedBy")
   deletedDataPages      DataPage[]     @relation("DataPageDeletedBy")
   
   createdPublications   Publications[] @relation("PublicationCreatedBy")
   updatedPublications   Publications[] @relation("PublicationUpdatedBy")
-  DeletedPublications   Publications[] @relation("PublicationDeletedBy")
+  deletedPublications   Publications[] @relation("PublicationDeletedBy")
 
   @@map("user")
 }
+
 
 model DataPage {
   id              Int       @id @default(autoincrement())

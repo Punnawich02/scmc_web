@@ -115,6 +115,8 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
     }
   };
 
+  console.log("Development by SCMC Intern Student");
+
   return (
     <>
       <title>{title}</title>

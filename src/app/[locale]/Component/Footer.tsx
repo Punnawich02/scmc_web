@@ -10,6 +10,9 @@ import { Clock, Facebook, Mail } from "lucide-react";
 const Footer: React.FC = () => {
   const t = useTranslations("Footer");
   const locale = useLocale();
+
+  console.log("Development by SCMC Intern Student");
+  
   return (
       <footer className="shadow-xl bg-[#6869AA] text-white py-8 mt-auto font-[Prompt] mx-auto text-center justify-center xl:rounded-tl-xl xl:rounded-tr-xl w-full">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 items-start mx-auto max-w-7xl">
