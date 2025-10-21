@@ -337,6 +337,7 @@ const LoadingSkeleton = () => (
 
 const NewsCard = ({ item, index, loadingNews }: { item: NewsItem; index: number; loadingNews: boolean }) => {
   const isExternal = /^https?:\/\//.test(item.link);
+  const locale = useLocale();
   
   const cardContent = (
     <div className="bg-white rounded-lg xs:rounded-xl overflow-hidden shadow-sm hover:shadow-md
@@ -352,7 +353,7 @@ const NewsCard = ({ item, index, loadingNews }: { item: NewsItem; index: number;
         />
       ) : (
         <div className="w-full h-12 xs:h-14 sm:h-16 bg-gray-100 flex items-center justify-center">
-          <span className="text-gray-500 text-xs xs:text-sm">เอกสาร</span>
+          <span className="text-gray-500 text-xs xs:text-sm">{locale == 'th' ? 'เอกสาร' : 'Document'}</span>
         </div>
       )}
       <div className="p-2 xs:p-3 sm:p-4 flex flex-col flex-grow">

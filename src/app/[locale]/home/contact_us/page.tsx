@@ -39,7 +39,7 @@ const ContactPage: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col font-[Prompt] text-gray-800 bg-white">
       <Header title={t("page_title")} />
-      <main className="flex-1 flex flex-col justify-center px-4 py-8 md:py-12">
+      <main className="flex-1 flex flex-col justify-start px-4 py-8 md:py-12">
         <div className="w-full mx-auto max-w-6xl">
           <motion.div
             initial={{ opacity: 0, y: 50 }}

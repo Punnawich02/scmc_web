@@ -41,7 +41,7 @@ const MapPage: React.FC = () => {
             <div className="flex justify-center w-full">
               <iframe
                 src="https://www.openstreetmap.org/export/embed.html?bbox=98.94857,18.79758,98.95803,18.80656&layer=mapnik"
-                className="w-full h-[500px] rounded-xl shadow-lg"
+                className="w-full h-[800px] rounded-xl shadow-lg"
               />
             </div>
           </motion.div>

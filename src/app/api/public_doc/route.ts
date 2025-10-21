@@ -112,7 +112,7 @@ export async function POST(req: Request) {
         descriptionEn,
         linkUrl,
         createBy: userId,
-        createAt: new Date()
+        createAt: new Date(new Date().getTime() + 7 * 60 * 60 * 1000)
       },
     });
 
@@ -194,7 +194,7 @@ export async function PUT(req: Request) {
         descriptionEn,
         linkUrl,
         updateBy: userId,
-        updateAt: new Date(),
+        updateAt: new Date(new Date().getTime() + 7 * 60 * 60 * 1000),
       },
     });
 
@@ -259,7 +259,7 @@ export async function DELETE(req: Request) {
       data: {
         isActive: false,
         deleteBy: userId,
-        deleteAt: new Date()
+        deleteAt: new Date(new Date().getTime() + 7 * 60 * 60 * 1000)
       },
     });
 
